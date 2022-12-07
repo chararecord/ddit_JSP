@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <style>
 	@font-face {
 	    font-family: 'Pretendard-Regular';
@@ -17,7 +16,7 @@
 	    font-weight: Thin;
 	}
 
-	.cal-tbl {
+	#calendar {
 		font-family: 'Pretendard-Regular';
 		font-size: 15px;
 		width: 300px;
@@ -30,7 +29,7 @@
 		border-top: 1px solid #B6B6B6;
 	}
 	
-	.cal-tbl td {
+	#calendar td {
 		padding-top: 10px;
 		padding-bottom: 10px;
 		padding-left: 15px;
@@ -51,10 +50,79 @@
 		font-size:15px;
 	}
 </style>
+<script type="text/javascript">
+var today = new Date();
+function buildCalendar(){
+  var row = null
+  var cnt = 0;
+  var calendarTable = document.getElementById("calendar");
+  var calendarTableTitle = document.getElementById("calendarTitle");
+  calendarTableTitle.innerHTML = today.getFullYear()+"년"+(today.getMonth()+1)+"월";
+  
+  var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0);
+  while(calendarTable.rows.length > 4){
+  	calendarTable.deleteRow(calendarTable.rows.length -1);
+  }
+
+  row = calendarTable.insertRow();
+  for(i = 0; i < firstDate.getDay(); i++){
+  	cell = row.insertCell();
+  	cnt += 1;
+  }
+  	
+  for(i = 1; i <= lastDate.getDate(); i++){
+  	cell = row.insertCell();
+  	cnt += 1;
+
+    cell.setAttribute('id', i);
+  	cell.innerHTML = i;
+  	cell.align = "center";
+
+    cell.onclick = function(){
+    	clickedYear = today.getFullYear();
+    	clickedMonth = ( 1 + today.getMonth() );
+    	clickedDate = this.getAttribute('id');
+
+    	clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
+    	clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
+    	clickedYMD = clickedYear + "-" + clickedMonth + "-" + clickedDate;
+
+    	opener.document.getElementById("date").value = clickedYMD;
+    	self.close();
+    }
+
+    if (cnt % 7 == 1) {
+    	cell.innerHTML = "<font color=#F79DC2>" + i + "</font>";
+    }
+
+    if (cnt % 7 == 0){
+    	cell.innerHTML = "<font color=skyblue>" + i + "</font>";
+    	row = calendar.insertRow();
+    }
+  }
+
+  if(cnt % 7 != 0){
+  	for(i = 0; i < 7 - (cnt % 7); i++){
+  		cell = row.insertCell();
+  	}
+  }
+}
+
+function prevCalendar(){
+	today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
+	buildCalendar();
+}
+
+function nextCalendar(){
+	today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
+	buildCalendar();
+}
+</script>
 </head>
 <body>
 	<div class='cal-wrapper'>
-		<table class='cal-tbl'>
+		<table id='calendar'>
 			<tr>
 				<td colspan='7'><h1 id='h1TimeArea'><span id='timeArea' /></h1></td>
 			</tr>
@@ -62,43 +130,40 @@
 				<td colspan='7'><span id='dateArea' /></td>
 			</tr>
 			<tr class='tr-border'>
-				<td colspan='5'>2022년 12월</td>
-				<td><span class="material-symbols-outlined">keyboard_arrow_up</span></td>
-				<td><span class="material-symbols-outlined">keyboard_arrow_down</span></td>
+				<td colspan='5' id='calendarTitle'>yyyy년  m월</td>
+				<td><label onclick="prevCalendar()" />∧</td>
+				<td><label onclick="nextCalendar()" />∨</td>
 			</tr>
 			<tr>
-				<td>일</td>
-				<td>월</td>
-				<td>화</td>
-				<td>수</td>
-				<td>목</td>
-				<td>금</td>
-				<td>토</td>
+				<td align="center"><font color ="#F79DC2">일</td>
+				<td align="center">월</td>
+				<td align="center">화</td>
+				<td align="center">수</td>
+				<td align="center">목</td>
+				<td align="center">금</td>
+				<td align="center"><font color ="skyblue">토</td>
 			</tr>
-			<tr class='tr-border'>
-				<td colspan='6'>오늘</td>
-				<td>+</td>
-			</tr>
+			<script type="text/javascript">buildCalendar();</script>
 		</table>
 	</div>
 <script type="text/javascript">
 
-	/* timeArea 시간 넣고 1초마다 움직이게 하기 */
-	function f_clock() {
-		let now = new Date().toLocaleTimeString();
-		let time = document.getElementById('timeArea');
-		timeArea.innerHTML=now;
-		setTimeout('f_clock()', 1000);
-	}
-	f_clock();
-	/* dateArea 날짜 출력 */
-	function f_date() {
-		let today = new Date();
-		let option = {year:"numeric", month:"long", day:"numeric", weekday:"long"};
-		let day = today.toLocaleDateString('ko-KR', option);
-		dateArea.innerHTML=day;
-	}
-	f_date()
+/* timeArea 시간 넣고 1초마다 움직이게 하기 */
+function f_clock() {
+	let now = new Date().toLocaleTimeString();
+	let time = document.getElementById('timeArea');
+	timeArea.innerHTML=now;
+	setTimeout('f_clock()', 1000);
+}
+f_clock();
+
+/* dateArea 날짜 출력 */
+function f_date() {
+	let option = {year:"numeric", month:"long", day:"numeric", weekday:"long"};
+	let day = today.toLocaleDateString('ko-KR', option);
+	dateArea.innerHTML=day;
+}
+f_date();
 </script>
 </body>
 </html>
