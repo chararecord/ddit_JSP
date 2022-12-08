@@ -4,10 +4,10 @@
 <%@page import="java.util.Enumeration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%--
+<%
 	/* 입력했던 방식에 맞춰서, 항상 데이터를 꺼내기 전에 먼저 작성하기 */
 	request.setCharacterEncoding("EUC-KR");
---%>
+%>
 <!DOCTYPE html>
 <html>
 <head>

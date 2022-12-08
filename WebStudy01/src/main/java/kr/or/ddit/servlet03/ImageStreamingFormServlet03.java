@@ -38,7 +38,7 @@ public class ImageStreamingFormServlet03 extends HttpServlet {
 		if(accept.contains("json")) {
 			// 2. 데이터를 제공해야되는 요청
 			// Marshalling (중프때는 gson을 사용했지만 우리는 직접 해볼거에요)
-			String json = marshaliing(imageFiles);
+			String json = marshalling(imageFiles);
 			resp.setContentType("application/json");
 			try(
 				PrintWriter out = resp.getWriter();
@@ -56,7 +56,7 @@ public class ImageStreamingFormServlet03 extends HttpServlet {
 	}
 
 	// 파일 이름과 MIMEType 포함시킬것
-	private String marshaliing(File[] imageFiles) {
+	private String marshalling(File[] imageFiles) {
 		StringBuffer json = new StringBuffer();
 		json.append("[");
 		String ptrn = "\"%s\":\"%s\"";
