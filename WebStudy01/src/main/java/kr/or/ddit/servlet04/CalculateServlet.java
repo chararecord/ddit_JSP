@@ -8,8 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.or.ddit.servlet04.service.CalculateService;
+import kr.or.ddit.servlet04.service.CalculateServiceImpl;
+
 @WebServlet("/04/calculate")
 public class CalculateServlet extends HttpServlet{
+	private CalculateService service = new CalculateServiceImpl();
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = "/WEB-INF/views/03/calculateForm.jsp";
@@ -22,12 +27,31 @@ public class CalculateServlet extends HttpServlet{
 		String accept = req.getHeader("Accept");
 		
 		// 2. 모델 확보
-		String leftOp = req.getParameter("leftOp");		
-		String operator = req.getParameter("operator");		
-		String rightOp = req.getParameter("rightOp");
-		System.out.println(leftOp + "/////////" + operator + "/////////" + rightOp);
+		int x = Integer.parseInt(req.getParameter("leftOp")) ;		
+		String oper = req.getParameter("operator");		
+		int y = Integer.parseInt(req.getParameter("rightOp"));
+		System.out.println(x + "------" + oper + "------" + y);
+		
+		Object target = null;
+		
+		if(oper.equals("PLUS")) {
+			target = service.plus(x, y);
+			System.out.println("++++++++/" + target);
+		} else if (oper.equals("MINUS")) {
+			target = service.minus(x, y);
+			System.out.println("--------/" + target);
+		} else if (oper.equals("MULTIPLY")) {
+			target = service.multiply(x, y);
+			System.out.println("********/" + target);
+		} else if (oper.equals("DIVIDE")) {
+			target = service.divide(x, y);
+			System.out.println("////////:" + target);
+		} else {
+			return;
+		}
 		
 		// 3. 모델 공유
+		req.setAttribute("target", target);
 		
 		String path = null;
 		

@@ -21,7 +21,7 @@
 <input type="radio" name="dataType" value="xml" />XML
 <form method="post">
 	<input type="number" name="leftOp" placeholder="좌측피연산자" />
-	<select name="operator">
+	<select name="operator" id="target">
 		<option value="PLUS">+</option>
 		<option value="MINUS">-</option>
 		<option value="MULTIPLY">*</option>
@@ -31,18 +31,38 @@
 	<button type="submit">=</button>
 </form>
 <div id="resultArea">
-	2 + 2 = 4 (이런 형태의 연산식을 만들어서 가져오자)
+<p></p>
 </div>
 </body>
 <script type="text/javascript">
 	let resultArea = $("#resultArea"); // 			div 공간
 	let dataTypes = $("input[name=dataType]"); // 	dataTypes
+	let select = document.querySelector("#target");
+	let html = "";
+	
+	
 	let sucesses = {
 		json:function(resp){
-			console.log(resp);
+			console.log("resp : " + resp);
+			resultArea.empty();
+			resultArea.append(html.replace("%r",resp));
 		},
 		xml:function(domResp){
-			console.log(domResp);
+			console.log("domResp : " + domResp);
+			let root = $(domResp).find("Integer");
+			let name = "";
+			let value = "";
+			let set = [];
+			root.children().each(function(idx, child){
+				name = child.tagName;
+				value = child.innerHTML;
+				set.push(name, value);
+			});
+			console.log("name : "+ name)
+			console.log("value : "+ value)
+			console.log("set : "+ set)
+			resultArea.empty();
+			resultArea.append(html.replace("%r",set));
 		}
 	}
 	$("form").on("submit", function(event){
@@ -50,14 +70,22 @@
 		let method = this.method;
 		let data = $(this).serialize();
 		let dataType = dataTypes.filter(":checked").val();
+		let x = $("input[name=leftOp]").val();
+		let y = $("input[name=rightOp]").val();
+		let oper = select.options[select.selectedIndex].text;
+		html = "%x%o%y=%r".replace("%x", x).replace("%o", oper).replace("%y", y);
+		
+		console.log("x" + x)
+		console.log("oper" + oper)
+		console.log("y" + y)
+		console.log("method : " + method)
+		console.log("data : " + data)
 		console.log("dataType : " + dataType);
 		$.ajax({
 			method : method,
 			data : data,
 			dataType : dataType,
-			success : function(resp) {
-				console.log(resp);
-			},
+			success : sucesses[dataType],
 			error : function(jqXHR, status, error) {
 				console.log(jqXHR);
 				console.log(status);
