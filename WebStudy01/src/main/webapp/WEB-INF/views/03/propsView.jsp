@@ -44,14 +44,16 @@
 	let sucesses = {
 		json:function(resp){
 			let trTags = [];
-			$.each(resp, function(name, value) {
+			$.each(resp.target, function(name, value) {
+				console.log(name, value)
 				trTags.push(makeTrTag(name,value));
 			});
 			listBody.empty(); // 자식들을 지우는 함수
 			listBody.append(trTags);
 		},
 		xml:function(domResp){
-			let root = $(domResp).find("Properties");
+			let root = $(domResp).find("target");
+			console.log(root.children())
 			let trTags = [];
 			root.children().each(function(idx, child){
 				let name = child.tagName;
