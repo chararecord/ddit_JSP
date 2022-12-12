@@ -45,24 +45,19 @@
 		json:function(resp){
 			console.log("resp : " + resp);
 			resultArea.empty();
-			resultArea.append(html.replace("%r",resp));
+			resultArea.append(html.replace("%r",resp.target));
 		},
 		xml:function(domResp){
-			console.log("domResp : " + domResp);
-			let root = $(domResp).find("Integer");
-			let name = "";
-			let value = "";
-			let set = [];
-			root.children().each(function(idx, child){
-				name = child.tagName;
-				value = child.innerHTML;
-				set.push(name, value);
-			});
-			console.log("name : "+ name)
-			console.log("value : "+ value)
-			console.log("set : "+ set)
-			resultArea.empty();
-			resultArea.append(html.replace("%r",set));
+			let root = $(domResp).find("target");
+			console.log(root)
+			let text = root.text();
+			console.log(text)
+				resultArea.empty();
+				resultArea.append(html.replace("%r",text));
+// 			root.children().each(function(idx, child){
+// 				resultArea.empty();
+// 				resultArea.append(html.replace("%r",child.innerHTML));
+// 			});
 		}
 	}
 	$("form").on("submit", function(event){
