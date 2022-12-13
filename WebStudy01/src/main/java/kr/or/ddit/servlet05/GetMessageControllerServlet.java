@@ -55,9 +55,7 @@ public class GetMessageControllerServlet extends HttpServlet {
 //		{"message":"HELLO"}
 //		Map<String, Object> target = Collections.singletonMap("message", message);
 		req.setAttribute("message", message);
-		System.out.println("message"+message);
 		req.setAttribute("keyList", keyList);
-		System.out.println("keyList"+keyList);
 		
 //		4. 뷰 선택
 		String viewName = null;
