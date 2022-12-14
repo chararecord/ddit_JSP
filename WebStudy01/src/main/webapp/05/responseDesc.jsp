@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" buffer="8kb"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,10 +31,10 @@
 			404 : <%=HttpServletResponse.SC_NOT_FOUND %> <!-- URI, MESSAGE 자원이 잘못됬거나 존재하지 않을 때 -->
 			405 : <%=HttpServletResponse.SC_METHOD_NOT_ALLOWED %>, 현재 요청의 메소드에 대한 콜백 메소드가 재정의되지 않았을 때 <!-- do계열 method 오류일 때 -->
 			406 / 415 : content-type(MIME)과 관련된 상태 코드
-				<%=HttpServletResponse.SC_NOT_ACCEPTABLE %>, Accpet request header에 설정된 MIME 데이터를 만들어 낼 수 없을 때
+				<%=HttpServletResponse.SC_NOT_ACCEPTABLE %>, Accpet request header에 설정된 MIME 데이터를 만들어 낼 수 없을 때 406
 					ex) accpet : application/json
 						content-type : application/json(XXX)
-				<%=HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE %>, Content-Type request header를 해석할 수 없을 때
+				<%=HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE %>, Content-Type request header를 해석할 수 없을 때 415
 					ex) accpet : application/json --> unmarshalling(XXX)
 		500 ~ : server side error -> Fail
 	2. Response Header : meta data
