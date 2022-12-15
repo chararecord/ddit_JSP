@@ -60,6 +60,15 @@ public class FileSystemMemoDAOImpl implements MemoDAO {
 		memo.setCode(maxCode+1);
 		memoTable.put(memo.getCode(), memo);
 		serializeMemoTable();
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		return 1;
 	}
 	
