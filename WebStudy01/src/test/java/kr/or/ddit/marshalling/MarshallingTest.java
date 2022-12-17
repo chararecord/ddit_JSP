@@ -43,7 +43,7 @@ public class MarshallingTest {
 		System.out.println("after");
 	}
 
-	@Test
+	@Test /*(expected) 에러 테스트 시*/
 	public void test1() throws JsonProcessingException {
 //		1. native -> json : marshalling - writeXXX
 		String json = mapper.writeValueAsString(target);

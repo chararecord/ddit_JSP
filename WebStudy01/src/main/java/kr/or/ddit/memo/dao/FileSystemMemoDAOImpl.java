@@ -60,15 +60,6 @@ public class FileSystemMemoDAOImpl implements MemoDAO {
 		memo.setCode(maxCode+1);
 		memoTable.put(memo.getCode(), memo);
 		serializeMemoTable();
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		return 1;
 	}
 	
@@ -83,5 +74,15 @@ public class FileSystemMemoDAOImpl implements MemoDAO {
 			// 상태코드 발생시 500번대 될건데 그걸 runtimeException으로 변경
 			throw new RuntimeException(e);
 		}
+	}
+	
+	@Override
+	public int updateMemo(MemoVO memo) {
+		return 0;
+	}
+
+	@Override
+	public int deleteMemo(int code) {
+		return 0;
 	}
 }

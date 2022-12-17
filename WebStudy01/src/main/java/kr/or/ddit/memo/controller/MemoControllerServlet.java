@@ -1,5 +1,6 @@
 package kr.or.ddit.memo.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import kr.or.ddit.memo.dao.FileSystemMemoDAOImpl;
 import kr.or.ddit.memo.dao.MemoDAO;
@@ -56,10 +60,10 @@ public class MemoControllerServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		Post-Redirect-Get : PRG parttern
+//		Post(비동기)-(SC_300)Redirect-Get : PRG pattern (accept 헤더는 유지된다)
 		
-		String accept = req.getHeader("Accept");
 		MemoVO memo = getMemoFromRequest(req); // 메모 객체 만들어서 가져와야함
+		String accept = req.getHeader("Accept");
 		int tmp = dao.insertMemo(memo);
 		// req에 대한 정보를 남겨놓을 필요가 없음 -> redirect 어때? req 관련된 정보는 남겨놓을 필요가 없으니까
 		
@@ -74,19 +78,49 @@ public class MemoControllerServlet extends HttpServlet{
 		resp.sendRedirect(req.getContextPath() + "/memo");
 	}
 	
-	private MemoVO getMemoFromRequest(HttpServletRequest req) {
+	private MemoVO getMemoFromRequest(HttpServletRequest req) throws IOException {
 		/*
 		req로 인서트 값의 목록을 받았다. 그 값을 어떻게 해줘야 하는가?
 		getParameter로 꺼낸 걸 또 담아서 return? 메모 객체를 만드는 법..
 		*/
-		String writer = req.getParameter("writer");
-		String date = req.getParameter("date");
-		String content = req.getParameter("content");
-		MemoVO mv = new MemoVO();
-		mv.setWriter(writer);
-		mv.setDate(date);
-		mv.setContent(content);
-		return mv;
+		String contentType = req.getContentType();
+		MemoVO memo = null;
+		if(contentType.contains("json")) {
+			try(
+				BufferedReader br = req.getReader();	// body content read 용 입력 스트림
+			){
+				memo = new ObjectMapper().readValue(br, MemoVO.class); // 역직렬화 + unmarshalling
+			}
+		} else if (contentType.contains("xml")) {
+			try(
+				BufferedReader br = req.getReader();	// body content read 용 입력 스트림
+			){
+				memo = new XmlMapper().readValue(br, MemoVO.class); // 역직렬화 + unmarshalling
+			}
+		} else { // parameter로 온 경우
+			memo = new MemoVO();
+			memo.setWriter(req.getParameter("writer"));
+			memo.setContent(req.getParameter("content"));
+			memo.setDate(req.getParameter("date"));
+		}
+		return memo;
+		// 역직렬화 -> unmarshalling
+//		try(
+//			BufferedReader br = req.getReader(); // reader로 읽어들이겠다
+		
+// 		){
+//			MemoVO memo = new MemoVO();		
+//			String tmp = null;
+//			StringBuffer strJson = new StringBuffer();
+//			while((tmp = br.readLine()) != null) {
+//				strJson.append(tmp+"\n");
+//			}
+//			ObjectMapper mapper = new ObjectMapper();			
+//			memo = mapper.readValue(strJson.toString(), MemoVO.class);	
+//					
+//			System.out.println(memo);
+//			return memo;
+//		} 
 	}
 
 	// 수정

@@ -1,11 +1,13 @@
+<%@page import="kr.or.ddit.enumpkg.OperatorType"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사칙연산계</title>
 <script src="<%=request.getContextPath() %>/resources/js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/custom.js"></script>
 </head>
 <body>
 <!--
@@ -19,74 +21,50 @@
 -->
 <input type="radio" name="dataType" value="json" />JSON
 <input type="radio" name="dataType" value="xml" />XML
-<form method="post">
+<form method="post" id="calForm">
 	<input type="number" name="leftOp" placeholder="좌측피연산자" />
-	<select name="operator" id="target">
-		<option value="PLUS">+</option>
-		<option value="MINUS">-</option>
-		<option value="MULTIPLY">*</option>
-		<option value="DIVIDE">/</option>
+	<select name="operator">
+		<%
+			OperatorType[] operators = OperatorType.values();
+			for(OperatorType tmp  : operators){
+				%>
+				<option value="<%=tmp.name()%>"><%=tmp.getSign() %></option>
+				<%
+			}
+		%>
 	</select>
 	<input type="number" name="rightOp" placeholder="우측피연산자" />
 	<button type="submit">=</button>
 </form>
 <div id="resultArea">
-<p></p>
 </div>
 </body>
 <script type="text/javascript">
-	let resultArea = $("#resultArea"); // 			div 공간
-	let dataTypes = $("input[name=dataType]"); // 	dataTypes
-	let select = document.querySelector("#target");
-	let html = "";
-	
-	
-	let sucesses = {
-		json:function(resp){
-			console.log("resp : " + resp);
-			resultArea.empty();
-			resultArea.append(html.replace("%r",resp.target));
+let resultArea = $("#resultArea");
+$("#calForm").on("submit", function(event){
+	event.preventDefault();
+	let url = this.action;
+	let method = this.method;
+	let data = $(this).serializeObject();
+	data.leftOp = parseInt( data.leftOp );
+	data.rightOp = parseInt( data.rightOp );
+	$.ajax({
+		url : url,
+		method : method,
+		contentType:"application/json",
+		data : JSON.stringify(data),
+		dataType : "json",
+		success : function(resp) {
+			resultArea.html( resp.expression );
 		},
-		xml:function(domResp){
-			let root = $(domResp).find("target");
-			console.log(root)
-			let text = root.text();
-			console.log(text)
-				resultArea.empty();
-				resultArea.append(html.replace("%r",text));
-// 			root.children().each(function(idx, child){
-// 				resultArea.empty();
-// 				resultArea.append(html.replace("%r",child.innerHTML));
-// 			});
+		error : function(jqXHR, status, error) {
+			console.log(jqXHR);
+			console.log(status);
+			console.log(error);
 		}
-	}
-	$("form").on("submit", function(event){
-		event.preventDefault();
-		let method = this.method;
-		let data = $(this).serialize();
-		let dataType = dataTypes.filter(":checked").val();
-		let x = $("input[name=leftOp]").val();
-		let y = $("input[name=rightOp]").val();
-		let oper = select.options[select.selectedIndex].text;
-		html = "%x%o%y=%r".replace("%x", x).replace("%o", oper).replace("%y", y);
-		
-		console.log("x" + x)
-		console.log("oper" + oper)
-		console.log("y" + y)
-		console.log("method : " + method)
-		console.log("data : " + data)
-		console.log("dataType : " + dataType);
-		$.ajax({
-			method : method,
-			data : data,
-			dataType : dataType,
-			success : sucesses[dataType],
-			error : function(jqXHR, status, error) {
-				console.log(jqXHR);
-				console.log(status);
-				console.log(error);
-			}
-		});
 	});
+	return false;
+});
 </script>
+</body>
 </html>
