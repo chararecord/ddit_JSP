@@ -30,7 +30,7 @@
 	ex) ${pageContext.request.contextPath} : el에서 제일 많이 사용, 유일하게 el에서 지원
 	
 	<!-- page isErrorPage="true" 적용하면 exception 생김 -->
-	exception : 발생한 에러(예외)에 대한 정보를 캡슐화한 객체, page 지시자의 isErrorpage가 활성화된 경우에만 사용 가능, 모든 error와 exception의 최상위 객체
+	exception : 발생한 에러(예외)에 대한 정보를 캡슐화한 객체, page 지시자의 isErrorPage가 활성화된 경우에만 사용 가능, 모든 error와 exception의 최상위 객체
 </pre>
 </body>
 </html>

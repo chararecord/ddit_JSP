@@ -8,12 +8,11 @@
 <title>08/sessionDesc.jsp</title>
 <jsp:include page="/includee/preScript.jsp" />
 <script src="<%=request.getContextPath() %>/resources/js/custom.js"></script>
+<%-- <script src="<%=request.getContextPath() %>/resources/js/custom.js" /> -> 태그에 바디가 없으면 script 넣는 공간 X --%>
 </head>
 <body>
 <h4>session(HttpSession)</h4>
 <h4 id="timerArea"></h4>
-<p id="pp"></p>
-<p id="pp2"></p>
 <pre>
 	(웹)세션이란?
 		: 어플리케이션 서버를 사용하기 시작한 순간부터 사용 종료까지의 기한
@@ -37,27 +36,23 @@
 		3) session timeout 이내에 새로운 요청을 통해 아이디가 재전송되지 않을 때
 		4) session invalidation(명시적인 로그아웃)
 </pre>
+<div id="msgArea"> 
+	세션을 연장하겠습니까?
+	<input type="button" value="예" class="controlBtn" id="YES" />
+	<input type="button" value="아니오" class="controlBtn" id="NO" />
+</div>
 <script type="text/javascript">
-	let timeout = <%=session.getMaxInactiveInterval() %>
-	let area = $("#timerArea")
-	let to = 63
-	let sTime = area.sessionTimer(timeout);
-	
-	/* sessionTimer 만드는 게 오늘 미션 지금은 120 하드코딩 했지만 timeout 설정에 따라 달라지도록 하기 */
-// 	let tt = setInterval(function(){
-// 		to--;
-// 		console.log(to)
-// 		area.html(to);
-// 		if(to==60){
-// 			if(confirm("연장?")){
-// 				location.reload();
-// 			}
-// 		}
-// 		if(to==0){
-// 			clearInterval(tt);
-// 		}
-// 	}, 1000);
-	
+// 	이벤트 전파구조 (Event propagation) : bubbling 방식
+// 	$(document).on("click", ".controlBtn", function(){});
+	$("#timerArea").sessionTimer(${pageContext.session.maxInactiveInterval}, {
+		msgAreaSelectoer : "#msgArea",
+		btnSelector : ".controlBtn"
+	});
+
+<%-- 	let timeout = <%=session.getMaxInactiveInterval() %> --%>
+// 	let area = $("#timerArea")
+// 	area.sessionTimer(timeout);
 	</script>
+<jsp:include page="/includee/postScript.jsp" />
 </body>
 </html>

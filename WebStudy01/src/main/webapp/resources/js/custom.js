@@ -43,24 +43,86 @@ $.fn.log = function(){
 	return this; // return this -> 체인구조로 사용 가능
 }
 
-$.fn.sessionTimer = function(sec){
-//	parameter로 초를 받는다. 그 초를 60으로 나누고 그 나눈 몫은 분 / 나머지는 초로 환산한다.
-//	초가 0이 되는 순간 분을 -- 한다. 분도 0, 초도 0이 되면 session 만료.
-//	but 1분이 되는 순간 session을 연장하겠냐는 알림을 띄워야 한다.
-//	연장을 하면 다시 리셋, 연장하지 않으면 계속 시간이 간다.
-	let area = this;
-	setInterval(function(){
-		sec--;
-		console.log(sec)
-		area.html(sec);
-		if(sec==60){
-			if(confirm("연장ㄱㄱ?")){
+$.fn.sessionTimer = function(timeout, msgObj){
+	if(!timeout)
+		throw Error("세션 타임아웃 값이 없습니다.");
+		
+	const SPEED = 100;
+	const TIMEOUT = timeout;
+	const timerArea = this;
+	let msgArea = null;
+	if(msgObj){
+		msgArea = $(msgObj.msgAreaSelectoer).on("click",msgObj.btnSelector,function(event){
+			/* 여기서 this는 .controlBtn */
+			//		console.log( this.id + ", " + $(this).prop("id") );
+			if(this.id=="YES"){
+				jobClear();
+				timerInit();
+				$.ajax({
+					method : "head" // 요청이 넘어가는데 필요한 구성요소는 다 포함되어있음
+				});
+			}
+			msgArea.hide();
+		}).hide();
+	}
+	
+	let jobClear = function(){
+		let timerJob = timerArea.data("timerJob");
+		if(timerJob)
+			clearInterval(timerJob); // setInterval -> clearInterval
+		let msgJob = msgArea.data('msgJob');
+		if(msgJob)
+			clearTimeout(msgJob); // setTimeout -> clearTimeout
+	}
+	
+	let timerInit = function(){
+		if(msgObj){
+			let msgJob = setTimeout(() => {
+				msgArea.show();
+			}, (TIMEOUT-60)*SPEED);
+			msgArea.data('msgJob', msgJob); // 데이터 속성은 문자열밖에 못 넣지만 데이터 함수는 원래 타입을 유지함
+		}
+		
+		let timer = TIMEOUT;
+		let timerJob = setInterval(() => {
+			if(timer==1){
+				clearInterval(timerJob);
 				location.reload();
 			}
-		}
-		if(sec==0){
-			clearInterval(sessionTimer);
-		}
-	}, 1000);
+			else 
+				timerArea.html( timeFormat(--timer) );
+		},SPEED);
+		timerArea.data("timerJob", timerJob);
+	}
+	
+	timerInit();
+	
+	let timeFormat = function(time){
+		let min = Math.trunc( time / 60 ); // 소수점 이하 자리는 버리고 정수만 취함
+		let sec = time % 60;
+		return min + " : " + sec
+	}
 	return this;
 }
+
+//$.fn.sessionTimer = function(sec){
+////	parameter로 초를 받는다. 그 초를 60으로 나누고 그 나눈 몫은 분 / 나머지는 초로 환산한다.
+////	초가 0이 되는 순간 분을 -- 한다. 분도 0, 초도 0이 되면 session 만료.
+////	but 1분이 되는 순간 session을 연장하겠냐는 알림을 띄워야 한다.
+////	연장을 하면 다시 리셋, 연장하지 않으면 계속 시간이 간다.
+//	let area = this;
+//	setInterval(function(){
+//		sec--;
+//		console.log(sec)
+//		area.html(sec);
+//		if(sec==60){
+//			if(confirm("연장ㄱㄱ?")){
+//				location.reload();
+//			}
+//		}
+//		if(sec==0){
+//			clearInterval(sessionTimer);
+//		}
+//	}, 1000);
+//	return this;
+//}
