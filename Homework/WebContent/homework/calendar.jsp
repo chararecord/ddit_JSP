@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- 최소한의 스크립틀릿, el과 jstl만 가지고 캘린더 짜봐라 -->
 <!DOCTYPE html>
 <html>
 <head>
