@@ -24,8 +24,8 @@
 			<%=((HttpServletRequest)pageContext.getRequest()).getContextPath() %>
 			${pageContext.request.contextPath}
 	2. 에러 데이터 확보
-	3. 흐름 제어(requestDespatcher, 요청 분기) : forward/include
-	<!-- requestDespatcher로 이동하는 게 정석 구조, servlet은 pageContext를 가지고있지 않다 -->
+	3. 흐름 제어(requestDispatcher, 요청 분기) : forward/include
+	<!-- requestDispatcher로 이동하는 게 정석 구조, servlet은 pageContext를 가지고있지 않다 -->
 	💜4💜. 영역 제어
 		
 </pre>
