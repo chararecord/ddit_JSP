@@ -60,6 +60,8 @@
 				ex) -1, 브라우저 종료시 바로 삭제
 					 0, longLiveCookie.setMaxAge(0) => 기존에 있던 쿠키를 삭제 (name, value.. 등 모든 속성이 동일한 쿠키인 경우 삭제 가능)
 		secure...
+		
+		name, domain, path가 동일해야 같은 쿠키로 판단, name이 식별자 역할을 하지 않음
 </pre>
 </body>
 </html>

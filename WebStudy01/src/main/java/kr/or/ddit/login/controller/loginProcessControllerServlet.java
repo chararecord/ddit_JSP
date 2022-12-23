@@ -54,13 +54,15 @@ public class loginProcessControllerServlet extends HttpServlet {
 		if(valid) {
 //			2.4.
 			if(authenticate(member)) {
-				if(StringUtils.isBlank(saveId)) {
-					session.setAttribute("authMember", member); // authMember O -> 로그인한 사람
-					viewName = "redirect:/";
+				Cookie saveIdCookie = new Cookie("savedId", member.getMemId());
+				saveIdCookie.setDomain("localhost");
+				saveIdCookie.setPath(req.getContextPath());
+				int maxAge = 0;
+				if(StringUtils.isNotBlank(saveId)) {
+					maxAge = 60*60*24*5;
 				}
-				Cookie validId = new Cookie("validId", member.getMemId());
-				validId.setMaxAge(60*60*24*5);
-				resp.addCookie(validId);
+				saveIdCookie.setMaxAge(maxAge);
+				resp.addCookie(saveIdCookie);
 				session.setAttribute("authMember", member); // authMember O -> 로그인한 사람
 				viewName = "redirect:/";
 			} else {
@@ -78,7 +80,7 @@ public class loginProcessControllerServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + viewName);
 		} else {
 			req.getRequestDispatcher(viewName).forward(req, resp);
-		}
+		}		
 	}
 
 	private boolean validate(MemberVO member) {

@@ -36,6 +36,12 @@ public class ImageStreamingServlet extends HttpServlet{
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
+		
+		Cookie imageCookie = new Cookie("imageCookie", imageName);
+		imageCookie.setPath(req.getContextPath()); // 어플리케이션 내 어디서든 사용 가능
+		imageCookie.setMaxAge(60*60*24*3);
+		resp.addCookie(imageCookie);
+		
 		FileInputStream fis = null;
 		OutputStream os = null;
 		

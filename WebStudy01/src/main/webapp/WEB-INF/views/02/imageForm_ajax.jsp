@@ -2,6 +2,7 @@
 <%@page import="java.io.File"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,6 +94,11 @@
 				options.push(option);
 			});
 			SELECTTAG.append(options);
+			/* el 태그는 back-end 코드기 때문에 사용 가능하다. 자동완성만 안될뿐.. */
+			<c:if test="${not empty cookie['imageCookie']}">
+				SELECTTAG.val("${cookie['imageCookie']['value']}");
+				SELECTTAG.trigger('change');
+			</c:if>
 		},
 		error : function(jqXHR, status, error) {
 			console.log(jqXHR);
