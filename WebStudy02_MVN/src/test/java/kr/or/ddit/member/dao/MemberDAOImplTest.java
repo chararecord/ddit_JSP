@@ -48,7 +48,7 @@ public class MemberDAOImplTest {
 
 	@Test
 	public void testUpdateMember() {
-		fail("Not yet implemented");
+		dao.updateMember(member);
 	}
 
 	@Test

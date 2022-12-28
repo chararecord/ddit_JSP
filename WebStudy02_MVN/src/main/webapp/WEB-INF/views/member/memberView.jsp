@@ -13,7 +13,7 @@
 <table>
 		<tr>
 			<th>회원아이디</th>
-			<td>${member.memId}</td>
+			<td >${member.memId}</td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
@@ -87,6 +87,25 @@
 			<th>탈퇴여부</th>
 			<td>${member.memDelete}</td>
 		</tr>
+		<c:if test="${sessionScope.authMember eq member }">
+			<tr>
+				<td colspan="2">
+					<a href="<c:url value='/member/memberUpdate.do' />" class="btn btn-primary">수정</a>
+					<a name="deleteBtn" href="#" class="btn btn-danger">탈퇴</a>
+					<form name="deleteForm" method="post" action="<c:url value='/member/memberDelete.do' />">
+						<input type="password" name="memPass" />
+					</form>
+					<span class="text-danger">${errors.memPass}</span>
+					<script>
+						$('[name="deleteBtn"]').on('click', function(event){
+							event.preventDefault();
+							document.deleteForm.submit();
+							return false;
+						});
+					</script>
+				</td>
+			</tr>
+		</c:if>
 	</table>
 <jsp:include page="/includee/postScript.jsp" />
 </body>

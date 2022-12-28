@@ -4,6 +4,8 @@ import java.util.List;
 
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.exception.UserNotFoundException;
+import kr.or.ddit.login.service.AuthenticateService;
+import kr.or.ddit.login.service.AuthenticateServiceImpl;
 import kr.or.ddit.member.dao.MemberDAO;
 import kr.or.ddit.member.dao.MemberDAOImpl;
 import kr.or.ddit.vo.MemberVO;
@@ -12,6 +14,7 @@ public class MemberServiceImpl implements MemberService {
 	// 싱글톤 안 쓰고 진행할 예정, 차후에 singleton을 spring framework 사용해 대신 구현할 예정
 	// 결합력 최상
 	private MemberDAO memberDAO = new MemberDAOImpl();
+	private AuthenticateService authService = new AuthenticateServiceImpl(); // 인증과 관련된 모든 로직
 
 	@Override
 	public ServiceResult createMember(MemberVO member) {
@@ -56,14 +59,29 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public ServiceResult modifyMember(MemberVO member) {
-		// TODO Auto-generated method stub
-		return null;
+		MemberVO inputData = new MemberVO();
+		inputData.setMemId(member.getMemId());
+		inputData.setMemPass(member.getMemPass());
+		
+		ServiceResult result = authService.authenticate(inputData); // 인증과 관련된 모든 책임은 authenticate가 가짐
+		if(ServiceResult.OK.equals(result)) {
+			int rowcnt = memberDAO.updateMember(member);
+			result = rowcnt > 0 ? ServiceResult.OK : ServiceResult.FAIL;
+		}
+		return result;
 	}
 
 	@Override
 	public ServiceResult removeMember(MemberVO member) {
-		// TODO Auto-generated method stub
-		return null;
+		MemberVO inputData = new MemberVO();
+		inputData.setMemId(member.getMemId());
+		inputData.setMemPass(member.getMemPass());
+		
+		ServiceResult result = authService.authenticate(inputData);
+		if(ServiceResult.OK.equals(result)) {
+			int rowcnt = memberDAO.deleteMember(member.getMemId());
+			result = rowcnt > 0 ? ServiceResult.OK : ServiceResult.FAIL;
+		}
+		return result;
 	}
-
 }

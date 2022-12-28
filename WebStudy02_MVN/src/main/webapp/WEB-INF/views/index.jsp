@@ -4,6 +4,7 @@
 <h4>WELCOME</h4>
 <c:choose>
 	<c:when test="${not empty sessionScope.authMember }">
+		<a href="<c:url value='/mypage.do' />">${authMember.memName }</a>
 		<form name="logoutForm" action="<c:url value='/login/logout.do' />" method="post"></form>
 		<a href='#' class="logoutBtn">${authMember.memName } 님 로그아웃</a>
 		<script>
