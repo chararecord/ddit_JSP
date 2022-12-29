@@ -16,7 +16,7 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 	@Override
 	public ServiceResult authenticate(MemberVO member) {
 		MemberVO savedMember = memberDAO.selectMember(member.getMemId());
-		if(savedMember==null) {
+		if(savedMember==null || savedMember.isMemDelete()) { // null 이거나 true면, mybatis가 숫자 1을 true로 바꿔서 넣어줌 - 소문자 boolean으로 바꿔면 isMemDelete
 			throw new UserNotFoundException(String.format("%s 사용자 없습니다.",  member.getMemId()));
 		}
 		String inputPass = member.getMemPass();

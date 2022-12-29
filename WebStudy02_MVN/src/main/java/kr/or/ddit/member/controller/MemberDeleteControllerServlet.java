@@ -22,6 +22,7 @@ import kr.or.ddit.member.dao.MemberDAOImpl;
 import kr.or.ddit.member.service.MemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.view.InternalResourceViewResolver;
+import kr.or.ddit.validate.DeleteGroup;
 import kr.or.ddit.validate.UpdateGroup;
 import kr.or.ddit.validate.ValidationUtils;
 import kr.or.ddit.vo.MemberVO;
@@ -35,38 +36,39 @@ public class MemberDeleteControllerServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("authMember");
-		member.setMemPass(req.getParameter("memPass"));
+		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
+		String memId = authMember.getMemId();
+		String memPass = req.getParameter("memPass");
 		
-		String viewName = null;
+		MemberVO inputData = new MemberVO();
+		inputData.setMemId(memId);
+		inputData.setMemPass(memPass);
 		
 		Map<String, List<String>> errors = new LinkedHashMap<>();
-		req.setAttribute("errors", errors);
-		boolean valid = ValidationUtils.validate(member, errors, UpdateGroup.class);
+		boolean valid = ValidationUtils.validate(inputData, errors, DeleteGroup.class);
+		
+		String viewName = null;
 		if(valid) {
-			ServiceResult result = service.removeMember(member);
-			log.info("탔다ㅋ -----> {} ", result);
+			ServiceResult result = service.removeMember(inputData);
 			switch (result) {
 			case INVALIDPASSWORD:
-				req.setAttribute("message", "비밀번호 오류");
-				viewName = "member/memberView";
+				session.setAttribute("message", "비밀번호 오류");
+				viewName = "redirect:/mypage.do";
 				break;
 			case FAIL:
-				req.setAttribute("message", "서버에 문제 있음. 다시 수정ㄱㄱ");
-				viewName = "member/memberView";
+				session.setAttribute("message", "걍 실패함");
+				viewName = "redirect:/mypage.do";
 				break;
 			default:
+				session.invalidate(); // 로그아웃시키기
 				viewName = "redirect:/";
-				session.invalidate();
 				break;
 			}
 		} else {
-			viewName = "member/memberView";
-			log.info("엘스 -----> {} ", errors);
-			errors.forEach((k,v)->{
-				log.error("{} : {}", k, v);
-			});
+			session.setAttribute("message", "아이디/비밀번호 누락");
+			viewName = "redirect:/mypage.do";
 		}
-		new InternalResourceViewResolver("/WEB-INF/views/", ".jsp").resolveView(viewName, req, resp);
+		
+		new InternalResourceViewResolver().resolveView(viewName, req, resp);
 	}
 }

@@ -74,7 +74,6 @@ public class MemberDAOImpl implements MemberDAO{
 			SqlSession sqlSession = sqlSessionFactory.openSession();
 		){
 			MemberDAO mapperProxy = sqlSession.getMapper(MemberDAO.class);
-			log.info(memId);
 			int rowcnt = mapperProxy.deleteMember(memId);
 			sqlSession.commit();
 			return rowcnt;

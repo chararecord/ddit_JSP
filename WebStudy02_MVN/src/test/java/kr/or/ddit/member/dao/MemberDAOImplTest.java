@@ -42,8 +42,10 @@ public class MemberDAOImplTest {
 	public void testSelectMember() {
 		MemberVO member = dao.selectMember("a001");
 		System.out.println(member);
-		member = dao.selectMember("12134a");
-		assertNull(member);
+		member.getProdList().stream()
+							.forEach(System.out::println);
+//		member = dao.selectMember("12134a");
+//		assertNull(member);
 	}
 
 	@Test
@@ -53,7 +55,7 @@ public class MemberDAOImplTest {
 
 	@Test
 	public void testDeleteMember() {
-		fail("Not yet implemented");
+		int rowcnt = dao.deleteMember("b001");
+		assertEquals(1, rowcnt);
 	}
-
 }

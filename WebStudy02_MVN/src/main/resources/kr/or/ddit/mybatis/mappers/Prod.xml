@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prod.dao.ProdDAO">
+
+	<resultMap type="ProdVO" id="prodMap" autoMapping="true">
+		<id property="prodId" column="PROD_ID" />
+		<association property="buyer" javaType="BuyerVO" autoMapping="true" />
+		<collection property="memberSet" ofType="MemberVO" autoMapping="true">
+			<id property="memId" column="MEM_ID" />
+		</collection>
+	</resultMap>
+	
+	<select id="selectProd" parameterType="String" resultMap="prodMap">
+<!-- 		WITH MEMCART AS ( -->
+<!-- 		    SELECT DISTINCT MEM_ID, MEM_NAME, MEM_HP, MEM_MAIL, MEM_MILEAGE, CART_PROD -->
+<!-- 		    FROM MEMBER INNER JOIN CART ON (MEM_ID = CART_MEMBER) -->
+<!-- 		) -->
+<!-- 		SELECT -->
+<!-- 		PROD_ID -->
+<!-- 		, PROD_NAME -->
+<!-- 		, PROD_LGU -->
+<!-- 		, PROD_BUYER -->
+<!-- 		, PROD_COST -->
+<!-- 		, PROD_PRICE -->
+<!-- 		, PROD_SALE -->
+<!-- 		, PROD_OUTLINE -->
+<!-- 		, PROD_DETAIL -->
+<!-- 		, PROD_IMG -->
+<!-- 		, PROD_TOTALSTOCK -->
+<!-- 		, PROD_INSDATE -->
+<!-- 		, PROD_PROPERSTOCK -->
+<!-- 		, PROD_SIZE -->
+<!-- 		, PROD_COLOR -->
+<!-- 		, PROD_DELIVERY -->
+<!-- 		, PROD_UNIT -->
+<!-- 		, PROD_QTYIN -->
+<!-- 		, PROD_QTYSALE -->
+<!-- 		, PROD_MILEAGE -->
+<!-- 		, MEM_ID, MEM_NAME, MEM_HP, MEM_MAIL, MEM_MILEAGE, CART_PROD -->
+<!-- 		, LPROD_NM -->
+<!-- 		, BUYER_ID, BUYER_NAME, BUYER_LGU, BUYER_BANK, BUYER_BANKNO, BUYER_BANKNAME, BUYER_ZIP, BUYER_ADD1, BUYER_ADD2, BUYER_COMTEL, BUYER_FAX, BUYER_MAIL, BUYER_CHARGER, BUYER_TELEXT -->
+<!-- 		FROM PROD LEFT OUTER JOIN MEMCART ON (PROD_ID = CART_PROD) -->
+<!-- 		          INNER JOIN LPROD ON (PROD_LGU = LPROD_GU) -->
+<!-- 		          INNER JOIN BUYER ON (PROD_BUYER = BUYER_ID) -->
+<!-- 		WHERE PROD_ID = #{prodId} -->
+
+		WITH CARTVIEW AS (
+		    SELECT CART_PROD
+		        , MEM_ID, MEM_NAME, MEM_HP, MEM_MAIL, MEM_MILEAGE
+		    FROM CART INNER JOIN MEMBER ON (CART_MEMBER = MEM_ID)
+		)
+		SELECT
+		PROD_ID
+		, PROD_NAME
+		, PROD_LGU
+		, PROD_BUYER
+		, PROD_COST
+		, PROD_PRICE
+		, PROD_SALE
+		, PROD_OUTLINE
+		, PROD_DETAIL
+		, PROD_IMG
+		, PROD_TOTALSTOCK
+		, PROD_INSDATE
+		, PROD_PROPERSTOCK
+		, PROD_SIZE
+		, PROD_COLOR
+		, PROD_DELIVERY
+		, PROD_UNIT
+		, PROD_QTYIN
+		, PROD_QTYSALE
+		, PROD_MILEAGE
+		, LPROD_NM
+		, BUYER_NAME, BUYER_ADD1, BUYER_CHARGER
+		, CARTVIEW.*
+		FROM PRODVIEW LEFT OUTER JOIN CARTVIEW ON (PROD_ID = CART_PROD)
+		WHERE PROD_ID = #{prodId}
+	</select>
+</mapper>
