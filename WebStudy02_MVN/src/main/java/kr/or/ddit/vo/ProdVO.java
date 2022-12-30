@@ -15,6 +15,10 @@ import lombok.ToString;
 @EqualsAndHashCode(of="prodId")
 @ToString(exclude="prodDetail") // 부하 걸리는 항목 제외
 public class ProdVO implements Serializable {
+	
+	private int rnum;
+	private int cartCount; // null을 알아서 0으로 바꿔줌
+	
 	private String prodId;
 	private String prodName;
 	

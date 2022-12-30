@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import kr.or.ddit.member.controller.MemberListControllerServlet;
 import kr.or.ddit.mybatis.MybatisUtils;
 import kr.or.ddit.vo.MemberVO;
+import kr.or.ddit.vo.PagingVO;
 
 public class MemberDAOImpl implements MemberDAO{
 	private static final Logger log = LoggerFactory.getLogger(MemberDAOImpl.class);
@@ -34,15 +35,27 @@ public class MemberDAOImpl implements MemberDAO{
 		}
 	}
 	
+	/////////////////////////////////////////////////////////////// 페이징처리 한세트
 	@Override
-	public List<MemberVO> selectMemberList() {
+	public int selectTotalRecord(PagingVO<MemberVO> pagingVO) {
 		try(
 			SqlSession sqlSession = sqlSessionFactory.openSession();
 		){
 			MemberDAO mapperProxy = sqlSession.getMapper(MemberDAO.class);
-			return mapperProxy.selectMemberList();
+			return mapperProxy.selectTotalRecord(pagingVO);
 		}
 	}
+	
+	@Override
+	public List<MemberVO> selectMemberList(PagingVO<MemberVO> pagingVO) {
+		try(
+			SqlSession sqlSession = sqlSessionFactory.openSession();
+		){
+			MemberDAO mapperProxy = sqlSession.getMapper(MemberDAO.class);
+			return mapperProxy.selectMemberList(pagingVO);
+		}
+	}
+/////////////////////////////////////////////////////////////// 페이징처리 한세트
 	
 	@Override
 	public MemberVO selectMember(String memId) {

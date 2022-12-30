@@ -2,9 +2,12 @@ package kr.or.ddit.prod.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,4 +28,8 @@ public class ProdDAOImplTest {
 				});
 	}
 
+	public void testSelectProdList(PagingVO<ProdVO> pagingVO) {
+		List<ProdVO> prodList = dao.selectProdList(pagingVO);
+		log.info("prodList : {}", prodList);
+	}
 }
