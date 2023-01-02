@@ -1,31 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.ddit.prod.dao.ProdDAO">
-	<!-- 코드프레그먼트 -->
 	<sql id="searchFrag">
-		 <where>
-		 	 <if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
-		 	 	<choose>
-		 	 		<when test="simpleCondition.searchType eq 'lprodNm'">
-				 	 	INSTR(LPROD_NM, #{simpleCondition.searchWord}) > 0
-		 	 		</when>
-		 	 		<when test="simpleCondition.searchType eq 'buyerName'">
-				 	 	INSTR(BUYER_NAME, #{simpleCondition.searchWord}) > 0
-		 	 		</when>
-		 	 		<when test="simpleCondition.searchType eq 'prodName'">
-				 	 	INSTR(PROD_NAME, #{simpleCondition.searchWord}) > 0
-		 	 		</when>
-		 	 		<otherwise>
-				 	 	INSTR(LPROD_NM, #{simpleCondition.searchWord}) > 0
-				 	 	OR
-				 	 	INSTR(BUYER_NAME, #{simpleCondition.searchWord}) > 0
-				 	 	OR
-				 	 	INSTR(PROD_NAME, #{simpleCondition.searchWord}) > 0
-		 	 		</otherwise>
-		 	 	</choose>
-		 	 </if>
-	 	 </where>
+		<trim prefix=" WHERE " prefixOverrides="AND">
+			<if test="detailCondition neq null">
+				<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.prodLgu)">
+					AND PROD_LGU = #{detailCondition.prodLgu}
+				</if>
+				<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.prodBuyer)">
+					AND PROD_BUYER = #{detailCondition.prodBuyer}
+				</if>
+				<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.prodName)">
+					AND INSTR(PROD_NAME, #{detailCondition.prodName}) > 0
+				</if>
+			</if>
+		</trim>
 	</sql>
+	
+	<select id="selectTotalRecord" resultType="int" parameterType="PagingVO">
+		SELECT COUNT(*)
+		FROM PRODVIEW
+		<include refid="searchFrag" />
+	</select>
+	
+<!-- 	<resultMap type="ProdVO" id="listMap" autoMapping="true"> -->
+<!-- 		<association property="buyer" javaType="BuyerVO"> -->
+<!-- 			<result property="buyerName" column="BUYER_NAME" /> -->
+<!-- 		</association> -->
+<!-- 	</resultMap> -->
+<!-- 	<select id="selectProdList" resultMap="listMap"> -->
+	<select id="selectProdList" parameterType="PagingVO" resultType="prodVO">
+		WITH ORDEREDPROD AS (
+			SELECT PROD_ID, PROD_NAME, PROD_COST, PROD_PRICE
+	        , LPROD_NM
+	        , BUYER_NAME "buyer.buyerName"
+	        , (
+	            SELECT COUNT(DISTINCT CART_MEMBER)
+	            FROM CART
+	            WHERE CART_PROD = PROD_ID
+	        ) MEM_COUNT
+			FROM PRODVIEW
+			<include refid="searchFrag" />
+			ORDER BY PROD_LGU, ROWID DESC
+		)
+		SELECT A.*
+		FROM (
+		    SELECT ROWNUM RNUM, ORDEREDPROD.*
+		    FROM ORDEREDPROD
+		) A
+		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
 	
 	<resultMap type="ProdVO" id="prodMap" autoMapping="true">
 		<id property="prodId" column="PROD_ID" />
@@ -34,38 +59,6 @@
 			<id property="memId" column="MEM_ID" />
 		</collection>
 	</resultMap>
-	
-	<select id="selectTotalRecord" resultType="int" parameterType="PagingVO">
-		SELECT COUNT(*)
-		FROM PRODVIEW
-		<include refid="searchFrag" />
-	</select>
-	
-	<select id="selectProdList" resultMap="prodMap" parameterType="PagingVO">
-		SELECT B.*
-		FROM (
-		        SELECT ROWNUM RNUM, A.*
-		        FROM (
-		            SELECT
-		            PROD_ID
-		            , LPROD_NM
-		            , PROD_NAME
-		            , BUYER_NAME
-		            , PROD_COST
-		            , PROD_PRICE
-		            , (SELECT COUNT(DISTINCT CART_MEMBER)
-		                FROM CART
-		                WHERE CART_PROD = PROD_ID
-		            ) CART_COUNT
-		            FROM PRODVIEW
-		            <include refid="searchFrag" />
-		            ORDER BY ROWID
-		        ) A
-		)B 
-		<![CDATA[
-		WHERE RNUM >= #{startRow} AND RNUM <= #{endRow}
-		]]>
-	</select>
 	
 	<select id="selectProd" parameterType="String" resultMap="prodMap">
 		WITH CARTVIEW AS (
