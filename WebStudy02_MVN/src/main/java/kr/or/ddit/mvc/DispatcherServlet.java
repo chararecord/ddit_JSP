@@ -16,6 +16,7 @@ import kr.or.ddit.member.controller.MemberListController;
 import kr.or.ddit.member.controller.MemberViewController;
 import kr.or.ddit.mvc.view.InternalResourceViewResolver;
 import kr.or.ddit.mvc.view.ViewResolver;
+import kr.or.ddit.prod.controller.ProdInsertController;
 import kr.or.ddit.prod.controller.ProdListCondtroller;
 
 public class DispatcherServlet extends HttpServlet {
@@ -52,6 +53,8 @@ public class DispatcherServlet extends HttpServlet {
 			controller = new LoginProcessController();
 		} else if ("/login/logout.do".equals(requestURI)){
 			controller = new LogoutController();
+		} else if ("/prod/prodInsert.do".equals(requestURI)) {
+			controller = new ProdInsertController();
 		}
 	
 		if(controller==null) {
