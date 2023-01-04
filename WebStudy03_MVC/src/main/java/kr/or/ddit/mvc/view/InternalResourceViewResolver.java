@@ -32,6 +32,6 @@ public class InternalResourceViewResolver implements ViewResolver {
 			req.getRequestDispatcher(viewName).forward(req, resp);
 		} else {
 			req.getRequestDispatcher(prefix + viewName + suffix).forward(req, resp);
-		}`
+		}
 	}
 }

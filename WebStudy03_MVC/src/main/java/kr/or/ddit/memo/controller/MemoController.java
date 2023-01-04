@@ -18,19 +18,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import kr.or.ddit.memo.dao.MemoDAOImpl;
+import kr.or.ddit.mvc.annotation.RequestMethod;
+import kr.or.ddit.mvc.annotation.resolvers.RequestParam;
+import kr.or.ddit.mvc.annotation.stereotype.Controller;
+import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.memo.dao.MemoDAO;
 import kr.or.ddit.vo.MemoVO;
+import lombok.extern.slf4j.Slf4j;
 
-@WebServlet("/memo")
-public class MemoControllerServlet extends HttpServlet{
-	private static final Logger log = LoggerFactory.getLogger(MemoControllerServlet.class); // 클래스를 사용하면 계층 구조가 반영된다
+@Slf4j
+@Controller
+public class MemoController {
 	
 //	private MemoDAO dao = FileSystemMemoDAOImpl.getInstance();
 //	private MemoDAO dao = DataBaseMemoDAOImpl.getInstance();
 	private MemoDAO dao = new MemoDAOImpl(); // 결합력
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping("/memo")
+	public String memoList(
+			//TODO 이것도.. 함 해봐.. 츄라이 츄라이..
+//			@RequestHeader("Accept") String accept
+			HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		/*
 		우선 ajax로 비동기 요청을 보낸다. 왜? 메모 리스트를 가져오기 위해서
 		1.요청분석을 한다. 가져온 req 헤더 안에 accept 부분에서 원하는 data resp 타입이 뭔지
@@ -43,46 +51,27 @@ public class MemoControllerServlet extends HttpServlet{
 //		1. 요청분석 - 
 		String accept = req.getHeader("Accept");
 		log.info("accept header : {}", accept);
+		if(accept.contains("xml")) {
+			resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+			return null;
+		}
 		
 //		2. 모델확보
 		List<MemoVO> memoList = dao.selectMemoList();
-		System.out.println(memoList);
-		
 //		3. 모델공유
 		req.setAttribute("memoList", memoList);
-		
 //		4. 뷰선택
-		String viewName = null;
-		if(accept.contains("json")) {
-			viewName = "/jsonView.do";
-		} else if(accept.contains("xml")) {
-			resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
-			return;
-		}
-		
-//		5. 뷰이동
-		req.getRequestDispatcher(viewName).forward(req, resp);
-		
+		return "forward:/jsonView.do";
 	}
 	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping(value="/memo", method=RequestMethod.POST)
+	public String memoInsert(HttpServletRequest req) throws ServletException, IOException {
 //		Post(비동기)-(SC_300)Redirect-Get : PRG pattern (accept 헤더는 유지된다)
 		
 		MemoVO memo = getMemoFromRequest(req); // 메모 객체 만들어서 가져와야함
-		String accept = req.getHeader("Accept");
-		int tmp = dao.insertMemo(memo);
+		dao.insertMemo(memo);
 		// req에 대한 정보를 남겨놓을 필요가 없음 -> redirect 어때? req 관련된 정보는 남겨놓을 필요가 없으니까
-		
-//		String viewName = null;
-//		if(accept.contains("json")) {
-//			viewName = "/jsonView.do";
-//		} else if(accept.contains("xml")) {
-//			resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
-//			return;
-//		}
-		// redirect
-		resp.sendRedirect(req.getContextPath() + "/memo");
+		return "redirect:/memo";
 	}
 	
 	private MemoVO getMemoFromRequest(HttpServletRequest req) throws IOException {
@@ -131,12 +120,14 @@ public class MemoControllerServlet extends HttpServlet{
 	}
 
 	// 수정
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping(value="/memo", method=RequestMethod.PUT)
+	public String doPut(HttpServletRequest req) throws ServletException, IOException {
+		return "";
 	}
 	
 	// 삭제
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping(value="/memo", method=RequestMethod.DELETE)
+	public String doDelete(HttpServletRequest req) throws ServletException, IOException {
+		return "";
 	}
 }

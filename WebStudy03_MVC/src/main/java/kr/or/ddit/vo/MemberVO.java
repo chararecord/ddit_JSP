@@ -103,8 +103,10 @@ public class MemberVO implements Serializable{
 	@Min(0)
 	private Integer memMileage;
 	private boolean memDelete; // Boolean -> boolean으로 바꾸면 DB에 null -> false로 알아서 바꿔줌
-	
+
 	private int cartCount; // null을 알아서 0으로 바꿔줌
 	
 	private List<ProdVO> prodList; // has many 관계(1:N)
+	
+	private String memRole; // 멤버 역할
 }

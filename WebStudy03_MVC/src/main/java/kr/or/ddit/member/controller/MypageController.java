@@ -11,24 +11,24 @@ import javax.servlet.http.HttpSession;
 
 import kr.or.ddit.member.service.MemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.mvc.annotation.stereotype.Controller;
+import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.mvc.view.InternalResourceViewResolver;
 import kr.or.ddit.vo.MemberVO;
 
-@WebServlet("/mypage.do")
-public class MypageControllerServlet extends HttpServlet {
+@Controller
+public class MypageController extends HttpServlet {
 	
 	private MemberService service = new MemberServiceImpl(); // 서비스와의 의존관계
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
+	@RequestMapping("/mypage.do")
+	public String mypage(HttpServletRequest req, HttpSession session) throws ServletException, IOException {
 		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
 		
 		MemberVO member = service.retrieveMember(authMember.getMemId());
 		
 		req.setAttribute("member", member);
 		String viewName = "member/memberView"; // logical view name
-		
-		new InternalResourceViewResolver("/WEB-INF/views/", ".jsp").resolveView(viewName, req, resp);
+		return viewName;
 	}
 }

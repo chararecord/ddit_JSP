@@ -21,21 +21,23 @@ import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.dao.MemberDAOImpl;
 import kr.or.ddit.member.service.MemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.mvc.annotation.RequestMethod;
+import kr.or.ddit.mvc.annotation.stereotype.Controller;
+import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.mvc.view.InternalResourceViewResolver;
 import kr.or.ddit.validate.DeleteGroup;
 import kr.or.ddit.validate.UpdateGroup;
 import kr.or.ddit.validate.ValidationUtils;
 import kr.or.ddit.vo.MemberVO;
 
-@WebServlet("/member/memberDelete.do")
-public class MemberDeleteControllerServlet extends HttpServlet {
-	private static final Logger log = LoggerFactory.getLogger(MemberDeleteControllerServlet.class);
+@Controller
+public class MemberDeleteController {
+	private static final Logger log = LoggerFactory.getLogger(MemberDeleteController.class);
 	private MemberService service = new MemberServiceImpl();
 
 	// 아이디와 비밀번호의 인증 시스템에서는 dispatcher를 사용하지 안흔ㄴ다
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
+	@RequestMapping(value="/member/memberDelete.do", method=RequestMethod.POST)
+	public String memberDelete(HttpServletRequest req, HttpSession session, HttpServletResponse resp) throws ServletException, IOException {
 		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
 		String memId = authMember.getMemId();
 		String memPass = req.getParameter("memPass");
@@ -68,7 +70,6 @@ public class MemberDeleteControllerServlet extends HttpServlet {
 			session.setAttribute("message", "아이디/비밀번호 누락");
 			viewName = "redirect:/mypage.do";
 		}
-		
-		new InternalResourceViewResolver().resolveView(viewName, req, resp);
+		return viewName;
 	}
 }

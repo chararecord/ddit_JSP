@@ -2,6 +2,7 @@ package kr.or.ddit.prod.service;
 
 import java.util.List;
 
+import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
 
@@ -18,4 +19,18 @@ public interface ProdService {
 	 * @return 
 	 */
 	public void retrieveProdList(PagingVO<ProdVO> pagingVO);
+	
+	/**
+	 * 상품 등록
+	 * @param prod
+	 * @return OK, FAIL
+	 */
+	public ServiceResult createProd(ProdVO prod);
+	
+	/**
+	 * 상품 수정
+	 * @param prod
+	 * @return 존재하지 않는 경우, RuntimeException 발생, OK, FAIL
+	 */
+	public ServiceResult modifyProd(ProdVO prod);
 }

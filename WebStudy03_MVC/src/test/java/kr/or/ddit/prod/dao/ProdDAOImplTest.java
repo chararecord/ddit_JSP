@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProdDAOImplTest {
 	
-	private ProdVO prod;
+	private ProdVO prod = new ProdVO();
 	private ProdDAO dao = new ProdDAOImpl();
 	private PagingVO<ProdVO> pagingVO;
 	
@@ -23,6 +23,17 @@ public class ProdDAOImplTest {
 	public void setUp() {
 		pagingVO = new PagingVO<>();
 		pagingVO.setCurrentPage(1);
+		prod.setProdId("P101");
+		prod.setProdName("야매제품");
+		prod.setProdLgu("P101");
+		prod.setProdBuyer("P10101");
+		prod.setProdCost(3000);
+		prod.setProdPrice(3000);
+		prod.setProdSale(3000);
+		prod.setProdOutline("테스트로 만든 제품");
+		prod.setProdImg("이미지경로");
+		prod.setProdTotalstock(1);
+		prod.setProdProperstock(1);
 	}
 	
 	@Test
@@ -36,6 +47,14 @@ public class ProdDAOImplTest {
 		List<ProdVO> prodList = dao.selectProdList(pagingVO);
 		assertEquals(10, prodList.size());
 		log.info("prodList : {}", prodList);
+	}
+	
+	@Test
+	public void testInsertProd() {
+		int insertProd = dao.insertProd(prod);
+		log.info("insertProd : {}", insertProd);
+		log.info("prod : {}", prod);
+		System.out.println(prod.getProdId());
 	}
 
 //	@Test

@@ -2,6 +2,7 @@ package kr.or.ddit.prod.service;
 
 import java.util.List;
 
+import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.prod.dao.ProdDAO;
 import kr.or.ddit.prod.dao.ProdDAOImpl;
 import kr.or.ddit.vo.PagingVO;
@@ -26,5 +27,18 @@ public class ProdServiceImpl implements ProdService {
 		pagingVO.setTotalRecord(totalRecord);
 		List<ProdVO> dataList = prodDAO.selectProdList(pagingVO);
 		pagingVO.setDataList(dataList);
+	}
+
+	@Override
+	public ServiceResult createProd(ProdVO prod) {
+		ServiceResult result = null;
+		int rowcnt = prodDAO.insertProd(prod);
+		return rowcnt > 0 ? ServiceResult.OK : ServiceResult.FAIL;
+	}
+
+	@Override
+	public ServiceResult modifyProd(ProdVO prod) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
