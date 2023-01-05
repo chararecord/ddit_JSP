@@ -1,13 +1,16 @@
 package kr.or.ddit.member.controller;
 
 import java.beans.PropertyDescriptor;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,16 +27,21 @@ import kr.or.ddit.member.service.MemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.annotation.RequestMethod;
 import kr.or.ddit.mvc.annotation.resolvers.ModelAttribute;
+import kr.or.ddit.mvc.annotation.resolvers.RequestPart;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
+import kr.or.ddit.mvc.multipart.MultipartFile;
+import kr.or.ddit.mvc.multipart.MultipartHttpServletRequest;
 import kr.or.ddit.mvc.view.InternalResourceViewResolver;
 import kr.or.ddit.validate.InsertGroup;
 import kr.or.ddit.validate.ValidationUtils;
 import kr.or.ddit.vo.MemberVO;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Backend Controller(command handler) --> POJO (Plain Old Java Object)
  */
+@Slf4j
 @Controller
 public class MemberInsertController {
 	private MemberService memSerivce = new MemberServiceImpl();
@@ -48,7 +56,10 @@ public class MemberInsertController {
 	public String memberInsert(
 			HttpServletRequest req
 			, @ModelAttribute("member") MemberVO member
-	) throws ServletException {
+			//TODO 이것도...짜보렴...annotation...
+			, @RequestPart(value="memImage", required=false) MultipartFile memImage
+	) throws ServletException, IOException {
+		member.setMemImage(memImage);
 		
 		// 여기에 검증 검증 결과는 error라는 맵이 가지고 있을거고, 잘못됬다면 client에게 알려조야함
 		Map<String, List<String>> errors = new LinkedHashMap<>();

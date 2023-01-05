@@ -20,13 +20,18 @@ import kr.or.ddit.member.service.MemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.annotation.RequestMethod;
 import kr.or.ddit.mvc.annotation.resolvers.ModelAttribute;
+import kr.or.ddit.mvc.annotation.resolvers.RequestPart;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
+import kr.or.ddit.mvc.multipart.MultipartFile;
+import kr.or.ddit.mvc.multipart.MultipartHttpServletRequest;
 import kr.or.ddit.mvc.view.InternalResourceViewResolver;
 import kr.or.ddit.validate.UpdateGroup;
 import kr.or.ddit.validate.ValidationUtils;
 import kr.or.ddit.vo.MemberVO;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class MemberUpdateController {
 
@@ -47,9 +52,13 @@ public class MemberUpdateController {
 	@RequestMapping(value="/member/memberUpdate.do", method=RequestMethod.POST)
 	public String updateProcess(
 			@ModelAttribute("member") MemberVO member
-			, HttpServletRequest req) {
+			, @RequestPart(value="memImage", required=false) MultipartFile memImage
+			, HttpSession session
+			, HttpServletRequest req) throws IOException {
 		// 수정 작업
-				
+		
+		member.setMemImage(memImage);
+		
 		String viewName = null;
 		
 		Map<String, List<String>> errors = new LinkedHashMap<>();
@@ -68,6 +77,9 @@ public class MemberUpdateController {
 				viewName = "member/memberForm";
 				break;
 			default:
+				// 로그인 했을 때 만들었던 authMember도 바꿔야함 -> 어떻게?
+				MemberVO modifiedMember = service.retrieveMember(member.getMemId());
+				session.setAttribute("authMember", modifiedMember);
 				viewName = "redirect:/mypage.do";
 				break;
 			}

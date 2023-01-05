@@ -1,56 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-  <display-name>WebStudy02_MVN</display-name>
+  <display-name>WebStudy03_MVC</display-name>
   <welcome-file-list>
     <welcome-file>index.do</welcome-file>
   </welcome-file-list>
   
-  <!-- 필터 등록 순서(blind->dummy)를 따라간다 -->
+  <!-- 필터 등록 순서를 따라간다 -->
+  
+  <filter>
+  	<filter-name>CharacterEncodingFilter</filter-name>
+  	<filter-class>kr.or.ddit.mvc.CharacterEncodingFilter</filter-class>
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>forced</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>CharacterEncodingFilter</filter-name>
+	<url-pattern>/*</url-pattern>  
+  </filter-mapping>
+  
+  <filter>
+  	<filter-name>GeneratePrincipalFilter</filter-name>
+  	<filter-class>kr.or.ddit.auth.GeneratePrincipalFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>GeneratePrincipalFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 <!--   <filter> -->
-<!--   	<filter-name>BlindFilter</filter-name> -->
-<!--   	<filter-class>kr.or.ddit.filter.BlindFilter</filter-class> -->
+<!--   	<filter-name>AuthenticationFilter</filter-name> -->
+<!--   	<filter-class>kr.or.ddit.auth.AuthenticationFilter</filter-class> -->
+<!--   	<init-param> -->
+<!--   		<param-name>filePath</param-name> -->
+<!--   		<param-value>/kr/or/ddit/SecuredResources.properties</param-value> -->
+<!--   	</init-param> -->
 <!--   </filter> -->
 <!--   <filter-mapping> -->
-<!--   	<filter-name>BlindFilter</filter-name> -->
+<!--   	<filter-name>AuthenticationFilter</filter-name> -->
 <!--   	<url-pattern>/*</url-pattern> -->
 <!--   </filter-mapping> -->
   
 <!--   <filter> -->
-<!--   	<filter-name>DummyFilter</filter-name> -->
-<!--   	<filter-class>kr.or.ddit.filter.DummyFilter</filter-class> -->
+<!--   	<filter-name>AuthorizationFilter</filter-name> -->
+<!--   	<filter-class>kr.or.ddit.auth.AuthorizationFilter</filter-class> -->
 <!--   </filter> -->
 <!--   <filter-mapping> -->
-<!--   	<filter-name>DummyFilter</filter-name> -->
-<!--   	<url-pattern>*.do</url-pattern> -->
+<!--   	<filter-name>AuthorizationFilter</filter-name> -->
+<!--   	<url-pattern>/*</url-pattern> -->
 <!--   </filter-mapping> -->
-  
+    
   <filter>
-  	<filter-name>AuthenticationFilter</filter-name>
-  	<filter-class>kr.or.ddit.auth.AuthenticationFilter</filter-class>
-  	<init-param>
-  		<param-name>filePath</param-name>
-  		<param-value>/kr/or/ddit/SecuredResources.properties</param-value>
-  	</init-param>
+  	<filter-name>MultipartFilter</filter-name>
+  	<filter-class>kr.or.ddit.mvc.multipart.MultipartFilter</filter-class>
   </filter>
   <filter-mapping>
-  	<filter-name>AuthenticationFilter</filter-name>
-  	<url-pattern>/*</url-pattern>
+  	<filter-name>MultipartFilter</filter-name>
+	<url-pattern>*.do</url-pattern>
   </filter-mapping>
   
-  <filter>
-  	<filter-name>AuthorizationFilter</filter-name>
-  	<filter-class>kr.or.ddit.auth.AuthorizationFilter</filter-class>
-  </filter>
-  <filter-mapping>
-  	<filter-name>AuthorizationFilter</filter-name>
-  	<url-pattern>/*</url-pattern>
-  </filter-mapping>
 
-  
+
   <servlet>
   	<servlet-name>frontController</servlet-name>
   	<servlet-class>kr.or.ddit.mvc.DispatcherServlet</servlet-class>
   	<load-on-startup>1</load-on-startup>
+  	<multipart-config>
+  		<location>D:/filetemp</location> <!-- 임시저장소의 위치를 결정 -->
+<!--   		<max-file-size>max 파일 크기 결정</max-file-size> -->
+<!-- 		<max-request-size>총 파일의 크기 결정</max-request-size> -->
+<!-- 		<file-size-threshold>임계치, 10kb로 되어있으면 그 미만의 파일은 임시 저장소 안쓰고 메모리에 저장, 10kb 이상이면 임시저장소에 저장하고 사용</file-size-threshold> -->
+  	</multipart-config>
   </servlet>
   <servlet-mapping>
   	<servlet-name>frontController</servlet-name>

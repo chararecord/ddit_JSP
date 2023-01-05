@@ -91,6 +91,7 @@
 	    , MEM_MILEAGE
 	    , MEM_DELETE
 	    , MEM_ROLE
+	    , MEM_IMG
 	    , PROD_ID, PROD_NAME, PROD_COST, PROD_PRICE, PROD_MILEAGE
 	    , LPROD_NM
 	    , BUYER_NAME, BUYER_ADD1, BUYER_CHARGER
@@ -116,45 +117,51 @@
 		, MEM_LIKE
 		, MEM_MEMORIAL
 		, MEM_MEMORIALDAY
-		, MEM_MILEAGE
-		, MEM_DELETE
+		<if test="memImg neq null and memImg.length gt 0">
+		, MEM_IMG
+		</if>
 		) VALUES (
-		#{memId, jdbcType=VARCHAR}
-		, #{memPass, jdbcType=VARCHAR}
-		, #{memName, jdbcType=VARCHAR}
-		, #{memRegno1, jdbcType=CHAR}
-		, #{memRegno2, jdbcType=CHAR}
-		, TO_DATE(#{memBir, jdbcType=DATE}, 'YYYY-MM-DD')
-		, #{memZip, jdbcType=CHAR}
-		, #{memAdd1, jdbcType=VARCHAR}
-		, #{memAdd2, jdbcType=VARCHAR}
-		, #{memHometel, jdbcType=VARCHAR}
-		, #{memComtel, jdbcType=VARCHAR}
-		, #{memHp, jdbcType=VARCHAR}
-		, #{memMail, jdbcType=VARCHAR}
-		, #{memJob, jdbcType=VARCHAR}
-		, #{memLike, jdbcType=VARCHAR}
-		, #{memMemorial, jdbcType=VARCHAR}
+		#{memId,jdbcType=VARCHAR}
+		, #{memPass,jdbcType=VARCHAR}
+		, #{memName,jdbcType=VARCHAR}
+		, #{memRegno1,jdbcType=CHAR}
+		, #{memRegno2,jdbcType=CHAR}
+		, TO_DATE(#{memBir,jdbcType=DATE}, 'YYYY-MM-DD')
+		, #{memZip,jdbcType=CHAR}
+		, #{memAdd1,jdbcType=VARCHAR}
+		, #{memAdd2,jdbcType=VARCHAR}
+		, #{memHometel,jdbcType=VARCHAR}
+		, #{memComtel,jdbcType=VARCHAR}
+		, #{memHp,jdbcType=VARCHAR}
+		, #{memMail,jdbcType=VARCHAR}
+		, #{memJob,jdbcType=VARCHAR}
+		, #{memLike,jdbcType=VARCHAR}
+		, #{memMemorial,jdbcType=VARCHAR}
 		, TO_DATE(#{memMemorialday, jdbcType=DATE}, 'YYYY-MM-DD')
-		, #{memMileage, jdbcType=NUMERIC}
-		, #{memDelete, jdbcType=VARCHAR})
+		<if test="memImg neq null and memImg.length gt 0">
+		, #{memImg,jdbcType=BLOB} <!-- 인라인파라미터 -->
+		</if>
+		)
 	</insert>
 	<update id="updateMember" parameterType="MemberVO">
 		UPDATE member
 	    SET
-	    MEM_REGNO1 = #{memRegno1, jdbcType=CHAR}
-	    , MEM_REGNO2 = #{memRegno2, jdbcType=CHAR}
-	    , MEM_ZIP = #{memZip, jdbcType=CHAR}
-	    , MEM_ADD1 = #{memAdd1, jdbcType=VARCHAR}
-	    , MEM_ADD2 = #{memAdd2, jdbcType=VARCHAR}
-	    , MEM_HOMETEL = #{memHometel, jdbcType=VARCHAR}
-	    , MEM_COMTEL = #{memComtel, jdbcType=VARCHAR}
-	    , MEM_HP = #{memHp, jdbcType=VARCHAR}
-	    , MEM_MAIL = #{memMail, jdbcType=VARCHAR}
-	    , MEM_JOB = #{memJob, jdbcType=VARCHAR}
-	    , MEM_LIKE = #{memLike, jdbcType=VARCHAR}
-	    , MEM_MEMORIAL = #{memMemorial, jdbcType=VARCHAR}
-	    , MEM_MEMORIALDAY = TO_DATE(#{memMemorialday, jdbcType=DATE}, 'YYYY-MM-DD')
+	    MEM_REGNO1 = #{memRegno1,jdbcType=CHAR}
+	    , MEM_REGNO2 = #{memRegno2,jdbcType=CHAR}
+	    , MEM_ZIP = #{memZip,jdbcType=CHAR}
+	    , MEM_ADD1 = #{memAdd1,jdbcType=VARCHAR}
+	    , MEM_ADD2 = #{memAdd2,jdbcType=VARCHAR}
+	    , MEM_HOMETEL = #{memHometel,jdbcType=VARCHAR}
+	    , MEM_COMTEL = #{memComtel,jdbcType=VARCHAR}
+	    , MEM_HP = #{memHp,jdbcType=VARCHAR}
+	    , MEM_MAIL = #{memMail,jdbcType=VARCHAR}
+	    , MEM_JOB = #{memJob,jdbcType=VARCHAR}
+	    , MEM_LIKE = #{memLike,jdbcType=VARCHAR}
+	    , MEM_MEMORIAL = #{memMemorial,jdbcType=VARCHAR}
+	    , MEM_MEMORIALDAY = TO_DATE(#{memMemorialday,jdbcType=DATE}, 'YYYY-MM-DD')
+	    <if test="memImg neq null and memImg.length gt 0">
+		, MEM_IMG = #{memImg,jdbcType=BLOB} <!-- 인라인파라미터 -->
+		</if>
 		WHERE
 	    MEM_ID = #{memId}
 	</update>
