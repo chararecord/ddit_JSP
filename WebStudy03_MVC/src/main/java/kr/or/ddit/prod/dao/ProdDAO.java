@@ -39,7 +39,7 @@ public interface ProdDAO {
 	 * @param prod
 	 * @return 수정된 상품 수
 	 */
-//	public int updateProd(ProdVO prod);
+	public int updateProd(ProdVO prod);
 	
 //	public int deleteProd(String prodId); 지금은 처리 X
 }

@@ -58,4 +58,16 @@ public class ProdDAOImpl implements ProdDAO {
 			return rowcnt;
 		}
 	}
+
+	@Override
+	public int updateProd(ProdVO prod) {
+		try(
+			SqlSession sqlSession = sqlSessionFactory.openSession();
+		){
+			ProdDAO mapperProxy = sqlSession.getMapper(ProdDAO.class);
+			int rowcnt = mapperProxy.updateProd(prod);
+			sqlSession.commit();
+			return rowcnt;
+		}
+	}
 }

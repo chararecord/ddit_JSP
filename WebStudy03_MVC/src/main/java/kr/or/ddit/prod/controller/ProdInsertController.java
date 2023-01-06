@@ -57,29 +57,24 @@ public class ProdInsertController {
 		, @RequestPart("prodImage") MultipartFile prodImage) throws IOException, ServletException {
 		
 		addAttribute(req);
+		prod.setProdImage(prodImage);
 		
 		// MEMBERVO 어떻게 수정했는지 생각하고.. 이걸 줄일 수 있는 방법을 생각해봐..
 //		if(req instanceof MultipartHttpServletRequest) {
 //			// 들어갔으면 이미 변경이 된 wrapper
 //			MultipartHttpServletRequest wrapperReq = (MultipartHttpServletRequest) req;
 //			// prodImage -> (DB에 저장하려면) prodImg
-//			MultipartFile prodImage = wrapperReq.getFile("prodImage");
-			if(prodImage!=null && !prodImage.isEmpty()) {
-//				1. 저장
-				String saveFolderURL = "/resources/prodImages"; // 저장경로와 관련된 건 properties 파일로 빼놓고 관리하는 게 좋음
-				ServletContext application = req.getServletContext();
-				String saveFolderPath = application.getRealPath(saveFolderURL);
-				File saveFolder = new File(saveFolderPath);
-				if(!saveFolder.exists()) {
-					saveFolder.mkdirs();
-				}
-//				2. metadata 추출 - 있으면
-				String saveFilename = UUID.randomUUID().toString();
-				prodImage.transferTo(new File(saveFolder, saveFilename));
-//				3. DB 저장 : prodImg
-				prod.setProdImg(saveFilename);
-				
-			}
+//			MultipartFile prodImage = wrapperReq.getFile("p
+		
+//		1. 저장
+		String saveFolderURL = "/resources/prodImages"; // 저장경로와 관련된 건 properties 파일로 빼놓고 관리하는 게 좋음
+		ServletContext application = req.getServletContext();
+		String saveFolderPath = application.getRealPath(saveFolderURL);
+		File saveFolder = new File(saveFolderPath);
+		if(!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+		prod.saveTo(saveFolder);
 			
 		Map<String, List<String>> errors = new HashMap<>();
 		req.setAttribute("errors", errors);
