@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- SampleDAOImple_Oracle sampleDAOImple_Oracle = new SampleDAOImpl_Oracle(); -->
+	<bean id="sampleDAOImpl_Oracle" class="kr.or.ddit.sample.dao.SampleDAOImpl_Oracle"
+		c:dummyDB-ref="oracleDB"
+	/> <!-- 기본생성자유 -->
+	<bean id="sampleDAOImpl_Postgre" class="kr.or.ddit.sample.dao.SampleDAOImpl_Postgre"
+		p:dummyDB-ref="postgreDB"
+	/>
+	<bean id="service" class="kr.or.ddit.sample.service.SampleServiceImpl">
+		<constructor-arg name="dao" ref="sampleDAOImpl_Postgre" /> <!-- 생성자를 통해 객체 주입 -->
+	</bean>
+</beans>
+
+<!-- 2개의 맵이 등록되어 이써야 하고 2개의 맵을 각기 다른 방식으로 주입 받아야 함 -->
