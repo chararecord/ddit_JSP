@@ -3,10 +3,12 @@ package kr.or.ddit.sample.service;
 import java.util.Calendar;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 import kr.or.ddit.sample.dao.SampleDAO;
 import kr.or.ddit.sample.dao.SampleDAOFactory;
@@ -15,6 +17,7 @@ import kr.or.ddit.sample.dao.SampleDAOImpl_Postgre;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 public class SampleServiceImpl implements SampleService, ApplicationContextAware {
 	private ConfigurableApplicationContext context;
 	private Resource log4j2xml;
@@ -41,7 +44,9 @@ public class SampleServiceImpl implements SampleService, ApplicationContextAware
 	// case2 : Factory Ojbect[Method] pattern
 //	private SampleDAO dao = SampleDAOFactory.getSampleDAO();
 	// case3 : Strategy Pattern - 전략 주입자가 필요
+	@javax.annotation.Resource(name="daoOracle")
 	private SampleDAO dao;
+//	@Autowired()
 	public SampleServiceImpl(SampleDAO dao) {
 		super();
 		this.dao = dao;

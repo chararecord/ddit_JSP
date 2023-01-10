@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -15,25 +16,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kr.or.ddit.vo.MemoVO;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Repository;
+
+import kr.or.ddit.vo.MemoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Repository
 public class FileSystemMemoDAOImpl implements MemoDAO {
-	// 싱글톤
-	private static FileSystemMemoDAOImpl instance;
-	public static FileSystemMemoDAOImpl getInstance() {
-		if(instance==null) {
-			instance = new FileSystemMemoDAOImpl();
-		}
-		return instance;
-	}	
+	@Inject
+	private ApplicationContext context;
+	// 컨테이너 자신의 reference를 넣어줌
 	
-	private File dataBase = new File("d:/memos.dat");
-	private Map<Integer, MemoVO> memoTable;
-	
-	// 복원작업 - 역직렬화
-	private FileSystemMemoDAOImpl(){
+	// 생성자가 실행되고 모든 injection이 끝나고 실행되는 init
+	@PostConstruct // 생성하고 모든 주입이 끝난 후 실행 - lifecycle init() 메소드
+	public void init() {
+		dataBase = context.getResource("file:d:/memos.dat"); // prefix로 classpath:, file: 사용가능
+		log.info("리소스 로딩 : {}", dataBase); // 출력되면 정상적으로 resource 찾고, 메모페이지 로딩된다는 소리
 		try(
-			FileInputStream fis = new FileInputStream(dataBase);
+			InputStream fis = dataBase.getInputStream(); // 1차 스트림 개방할 필요 X
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			ObjectInputStream ois = new ObjectInputStream(bis);
 		){
@@ -43,7 +51,11 @@ public class FileSystemMemoDAOImpl implements MemoDAO {
 			this.memoTable = new HashMap<>();
 		}
 	}
-
+	
+//	private File dataBase = new File("d:/memos.dat");
+	private Resource dataBase;
+	private Map<Integer, MemoVO> memoTable;
+	
 	@Override
 	public List<MemoVO> selectMemoList() {
 		return new ArrayList<>(memoTable.values());
@@ -65,9 +77,8 @@ public class FileSystemMemoDAOImpl implements MemoDAO {
 	
 	private void serializeMemoTable() {
 		try(
-			FileOutputStream fos = new FileOutputStream(dataBase);
-			BufferedOutputStream bos = new BufferedOutputStream(fos);
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
+			FileOutputStream fos = new FileOutputStream(dataBase.getFile());
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
 		){
 			oos.writeObject(memoTable);
 		} catch (Exception e) {
@@ -85,4 +96,5 @@ public class FileSystemMemoDAOImpl implements MemoDAO {
 	public int deleteMemo(int code) {
 		return 0;
 	}
+
 }

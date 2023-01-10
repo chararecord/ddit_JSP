@@ -25,11 +25,17 @@
   </build>
   
   <dependencies>
-  
+	  
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-context</artifactId>
 	    <version>${org.springframework-version}</version>
+	</dependency>
+  
+    <dependency>
+	    <groupId>javax.inject</groupId>
+	    <artifactId>javax.inject</artifactId>
+	    <version>1</version>
 	</dependency>
   
   	<!-- JavaBean 규약 지원 lombok - code generating framework -->

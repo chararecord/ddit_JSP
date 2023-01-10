@@ -1,11 +1,50 @@
 package kr.or.ddit.memo;
 
-import kr.or.ddit.memo.controller.MemoService;
+import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+
+import kr.or.ddit.memo.conf.MemoContextConfiguration;
+import kr.or.ddit.memo.service.MemoService;
+
+@Controller
 public class MemoTestView {
-	public static void main(String[] args) {
-		MemoService service = new MemoService();
+	private MemoService service;
+	
+	@Required // 주입할 수는 없지만 어떤 부분이 잘못되었는지 exception 자세히 보여줌
+	@Inject
+	public void setService(MemoService service) {
+		this.service = service;
+	}
+	public void printMemoList() {
 		service.retrieveMemoList().forEach(System.out::println);
+	}
+	
+	public static void main(String[] args) {
+//		ConfigurableApplicationContext context =
+//				new GenericXmlApplicationContext("classpath:kr/or/ddit/memo/conf/auto/root-context.xml");
+//		// context를 상속받았기 때문에 그 안에 있는 dao, service 사용 가능
+//		ConfigurableApplicationContext childContext =
+//				new ClassPathXmlApplicationContext(
+//							new String[] {"kr/or/ddit/memo/conf/auto/servlet-context.xml"}
+//							, context
+//						);
+//		context.registerShutdownHook();
+//		childContext.registerShutdownHook();
+		
+		ConfigurableApplicationContext context =
+			new AnnotationConfigApplicationContext(MemoContextConfiguration.class);
+		context.registerShutdownHook();
+		
+//		MemoTestView view = childContext.getBean(MemoTestView.class);
+		MemoTestView view = context.getBean(MemoTestView.class);
+		view.printMemoList();
 	}
 }
 

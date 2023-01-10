@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	
+<!-- 	1. 어노테이션을 쓸 수 있어야 함 -->
+	<context:annotation-config />
+<!-- 	2. 메모 패키지를 스캔해야함 -->
+<!-- 	3. 상위 컨테이너에 등록되어 있는 빈들은 재등록해서는 안됨(중복금지) -->
+	<context:component-scan base-package="kr.or.ddit.memo" use-default-filters="false">
+<!-- 	4. 그러나 컨트롤러는 여기 등록되어야 함 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+</beans>
