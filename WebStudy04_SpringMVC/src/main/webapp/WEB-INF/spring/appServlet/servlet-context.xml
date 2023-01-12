@@ -25,10 +25,17 @@
 		p:validationMessageSource-ref="messageSource"	
 	/>
 	
+	<!-- 언제나 늘 마지막에 위치 -->
 	<bean id="IRVR" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/views/"
 		p:suffix=".jsp"
 	/>
+	
+	<bean id="BNVR" class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="1"
+	/>
+	
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 	
 	<!-- Controller layer를 bean으로 등록하기 위한 필터링 설정 -->
 	<context:component-scan base-package="kr.or.ddit" use-default-filters="false">
@@ -55,5 +62,7 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
+	<!-- 정적 자원이 일괄 관리 되는 경우 활용 / 분산되면 설정 사용 불가(이럴 경우 default handler servlet 사용) -->
+	<!-- but 이 방법 추천, 캐시 관리까지 한번에 가능하기 때문에 -->
 	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="0" />
 </beans>
