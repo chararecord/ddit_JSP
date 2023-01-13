@@ -61,7 +61,6 @@ public class MemberServiceImplTest extends AbstractTestCase {
 	@Test
 	public void retrieveMemberListTest() {
 		pagingVO.setCurrentPage(1);
-		pagingVO.set
 		pagingVO.setTotalRecord(memberDAO.selectTotalRecord(pagingVO));
 		List<MemberVO> memList = memberDAO.selectMemberList(pagingVO);
 		log.info("memList : {}", memList);
