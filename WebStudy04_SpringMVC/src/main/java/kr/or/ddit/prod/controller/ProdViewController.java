@@ -23,7 +23,7 @@ import kr.or.ddit.vo.ProdVO;
  * 분류명도 함께 조회함
  */
 @Controller
-public class ProdViewController extends HttpServlet {
+public class ProdViewController {
 	
 	@Inject
 	private ProdService service;

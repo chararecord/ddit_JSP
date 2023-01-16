@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/board")
-public class BoardListController {
+public class BoardRetrieveController {
 	
 	private final BoardService service;
 	
@@ -42,5 +42,14 @@ public class BoardListController {
 		model.addAttribute("pagingVO", pagingVO);
 		
 		return "board/boardList";
+	}
+	
+	@RequestMapping("boardView.do")
+	public String boardView(
+			@RequestParam("what") int boNo
+			, Model model) {
+		BoardVO board = service.retrieveBoard(boNo);
+		model.addAttribute("board", board);
+		return "board/boardView";
 	}
 }

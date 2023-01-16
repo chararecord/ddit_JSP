@@ -32,7 +32,7 @@
 		p:mapUnderscoreToCamelCase="true"
 	/>
 	
-	<!-- 이 녀석 안에서 만들어지는 객체(SqlSessionFactory)가 bean으로 등록 -->
+	<!-- ***이 녀석 안에서 만들어지는 객체(SqlSessionFactory)가 bean으로 등록 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource"
 		p:mapperLocations="classpath:kr/or/ddit/mybatis/mappers/*.xml"

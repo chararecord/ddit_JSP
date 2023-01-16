@@ -57,7 +57,10 @@ public class BoardDAOTest {
 
 	@Test
 	public void testSelectBoard() {
-		fail("Not yet implemented");
+		BoardVO board = boardDAO.selectBoard(168);
+		assertNotNull(board);
+		board.getAttatchList()
+			.stream().forEach(System.out::println);
 	}
 
 	@Test

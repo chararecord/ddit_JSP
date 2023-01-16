@@ -5,10 +5,15 @@ import kr.or.ddit.board.vo.BoardVO;
 import kr.or.ddit.vo.PagingVO;
 
 public interface BoardService {
+	/**
+	 * 게시글 등록
+	 * @param board
+	 * @return 성공, 실패
+	 */
 	public int createBoard(BoardVO board);
 	public void retrieveBoardList(PagingVO<BoardVO> pagingVO);
 	/**
-	 * 
+	 * 게시글 조회
 	 * @param boNo
 	 * @return 존재여부(NotExistBoardException)
 	 */
