@@ -1,5 +1,7 @@
 package kr.or.ddit.board.controller;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -15,13 +17,19 @@ import kr.or.ddit.board.service.BoardService;
 import kr.or.ddit.board.vo.BoardVO;
 import kr.or.ddit.validate.InsertGroup;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/board/boardInsert.do")
 @Controller
 public class BoardInsertController {
-
 	private final BoardService service;
+	
+	@PostConstruct
+	public void init() {
+		log.info("주입된 객체 : {}", service.getClass().getName());
+	}
 	
 	// 무조건 board라는 속성이 생성되고 get, post 감
 	@ModelAttribute("board")

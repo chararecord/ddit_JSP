@@ -11,6 +11,7 @@
 		<!-- 필터를 넣을 때는 반드시 include가 위에 -->
 <!-- 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+		<context:include-filter type="annotation" expression="org.aspectj.weaver.AjAttribute.Aspect"/>
 	</context:component-scan>
 	
 <!-- 	bean 등록 시 사용 가능한 어노테이션 -->

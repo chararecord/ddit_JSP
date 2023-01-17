@@ -50,8 +50,8 @@ public class BoardServiceImpl implements BoardService {
 		// 2. binary 저장 - Middle Tier : (D:/saveFiles)
 		try { //★3
 			for(AttatchVO attatch : attatchList) {
-//				if(1==1)
-//					throw new RuntimeException("강제 발생 예외");
+				if(1==1)
+					throw new RuntimeException("강제 발생 예외");
 				attatch.saveTo(saveFiles);
 			}
 			return rowcnt;
@@ -60,7 +60,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 	
-	@Transactional
+//	@Transactional
 	@Override
 	public int createBoard(BoardVO board) {
 		String plain = board.getBoPass();

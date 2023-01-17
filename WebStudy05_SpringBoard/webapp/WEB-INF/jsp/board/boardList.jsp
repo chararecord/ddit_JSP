@@ -1,7 +1,11 @@
+<%@page import="kr.or.ddit.vo.PagingVO"%>
+<%@page import="kr.or.ddit.ui.DefaultPaginationRenderer"%>
+<%@page import="kr.or.ddit.ui.BootstrapPaginationRender"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.ddit.or.kr/class305" prefix="ui" %>
 <table>
 	<thead>
 		<tr>
@@ -43,7 +47,9 @@
 	<tfoot>
 		<tr>
 			<td colspan="6">
-				<div id="pagingArea">${pagingVO.pagingHTML }</div>
+				<div id="pagingArea">
+					<ui:pagination pagingVO="${pagingVO }" type="default"/>
+				</div>
 				<div>
 					<form:form id="searchUI" modelAttribute="simpleCondition" onclick="return false;">
 						<form:select path="searchType">

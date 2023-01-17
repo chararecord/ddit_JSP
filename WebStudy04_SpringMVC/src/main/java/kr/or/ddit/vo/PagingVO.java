@@ -63,36 +63,7 @@ public class PagingVO<T> {
 		startPage = endPage - (blockSize - 1);
 	}
 	
-	private final String APATTERN = "<a class='paging' href='#' data-page='%d'>%s</a>";
-	
-	public String getPagingHTML() {
-		StringBuffer html = new StringBuffer();
-		
-		if(startPage > blockSize) { // 이전블럭 존재
-			html.append(
-				String.format(APATTERN, startPage-blockSize, "이전")	
-			);
-		}
-		
-		endPage = endPage > totalPage ? totalPage : endPage;
-		for(int page=startPage; page<=endPage; page++) {
-			if(page==currentPage) {
-				html.append(
-					"<a href=''>"+page+"</a>"
-				);
-			} else {
-				html.append(
-					String.format(APATTERN, page, page+"")
-				);
-			}
-		}
-		
-		if(endPage  < totalPage) { // 다음블럭 존재
-			html.append(
-				String.format(APATTERN, endPage+1, "다음")	
-			);
-		}
-		
-		return html.toString();
+	public int getEndPage() {
+		return endPage > totalPage ? totalPage : endPage;
 	}
 }

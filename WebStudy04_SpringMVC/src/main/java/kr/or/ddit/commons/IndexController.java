@@ -13,7 +13,7 @@ public class IndexController {
 	
 	@RequestMapping("/index.do")
 	public String process(HttpServletRequest req) throws ServletException, IOException {
-		req.setAttribute("contentPage", "/WEB-INF/views/index.jsp");
-		return "layout";
+//		req.setAttribute("contentPage", "/WEB-INF/views/index.jsp");
+		return "index";
 	}
 }

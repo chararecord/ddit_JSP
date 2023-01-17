@@ -23,31 +23,6 @@
 	</thead>
 	<tbody id="listBody">
 		<c:set var="prodList" value="${pagingVO.dataList }" />
-<%-- 		<c:choose> --%>
-<%-- 			<c:when test="${not empty prodList }"> --%>
-<%-- 				<c:forEach items="${prodList }" var="prod"> --%>
-<!-- 					<tr> -->
-<%-- 						<td>${prod.rnum }</td> --%>
-<%-- 						<td>${prod.lprodNm }</td> --%>
-<!-- 						<td> -->
-<%-- 							<c:url value="/prod/prodView.do" var="viewURL"> <!-- 쿼리스트링 --> --%>
-<%-- 								<c:param name="who" value="${prod.prodId }" /> --%>
-<%-- 							</c:url> --%>
-<%-- 							<a href="${viewURL }">${prod.prodName }</a> --%>
-<!-- 						</td> -->
-<%-- 						<td>${prod.buyer.buyerName }</td> --%>
-<%-- 						<td>${prod.prodCost }</td> --%>
-<%-- 						<td>${prod.prodPrice}</td> --%>
-<%-- 						<td>${prod.memCount }</td> --%>
-<!-- 					</tr> -->
-<%-- 				</c:forEach> --%>
-<%-- 			</c:when> --%>
-<%-- 			<c:otherwise> --%>
-<!-- 				<tr> -->
-<!-- 					<td colspan="7">조건에 맞는 상품이 없습니다.</td> -->
-<!-- 				</tr> -->
-<%-- 			</c:otherwise> --%>
-<%-- 		</c:choose> --%>
 	</tbody>
 	<tfoot >
 		<tr>
@@ -143,9 +118,8 @@
 								$("<td>").attr("colspan", "7").html("조건에 맞는 상품 없음"));
 					trTags.push(tr);
 				}
-				console.log(trTags)
 				listBody.html(trTags);
-				pagingArea.html(pagingVO.pagingHTML)
+				pagingArea.html(resp.pagingHTML)
 			},
 			error : function(jqXHR, status, error) {
 				console.log(jqXHR);

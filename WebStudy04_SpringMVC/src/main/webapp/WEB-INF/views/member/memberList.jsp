@@ -1,14 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>member/memberList.do</title>
-<jsp:include page="/includee/preScript.jsp" />
-</head>
-<body>
+<%@ taglib uri="http://www.ddit.or.kr/class305" prefix="ui" %>
 <h4>회원 목록 조회</h4>
 <table>
 	<thead>
@@ -55,7 +48,7 @@
 	<tfoot>
 		<tr>
 			<td colspan="7">
-				${pagingVO.pagingHTML }
+				<ui:pagination pagingVO="${pagingVO }" type="default"/>
 				<div id="searchUI">
 					<select name="searchType">
 						<option value>전체</option>
@@ -100,6 +93,3 @@
 		return false;
 	});
 </script>
-<jsp:include page="/includee/postScript.jsp" />
-</body>
-</html>

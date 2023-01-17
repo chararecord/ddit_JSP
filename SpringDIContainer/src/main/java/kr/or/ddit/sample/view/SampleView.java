@@ -18,6 +18,7 @@ public class SampleView {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"kr/or/ddit/sample/conf/Parent-Context.xml"
 				, "kr/or/ddit/sample/conf/auto/SampleAutoDI-Context.xml"
+				, "kr/or/ddit/sample/conf/auto/Aop-Context.xml"
 		);
 		SampleService service = context.getBean(SampleService.class);
 		StringBuffer model = service.retrieveInformation("PK_2");

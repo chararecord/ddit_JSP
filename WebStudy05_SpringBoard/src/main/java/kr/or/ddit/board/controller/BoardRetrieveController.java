@@ -39,6 +39,7 @@ public class BoardRetrieveController {
 		pagingVO.setSimpleCondition(searchVO);
 		
 		service.retrieveBoardList(pagingVO);
+		
 		model.addAttribute("pagingVO", pagingVO);
 		
 		return "board/boardList";

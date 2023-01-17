@@ -3,6 +3,7 @@ package kr.or.ddit.prod.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.ddit.prod.dao.OthersDAO;
 import kr.or.ddit.prod.service.ProdService;
+import kr.or.ddit.ui.BootstrapPaginationRender;
+import kr.or.ddit.ui.PaginationRenderer;
 import kr.or.ddit.vo.BuyerVO;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ProdVO;
@@ -30,6 +33,8 @@ public class ProdListController{
    private ProdService service;
    @Inject
    private OthersDAO othersDAO;
+   @Resource(name="bootstrapPaginationRender")
+   private PaginationRenderer renderer;
    
    @ModelAttribute("lprodList")
    public List<Map<String, Object>> lprodList() {
@@ -54,12 +59,13 @@ public class ProdListController{
       , Model model
    ) throws ServletException {
 	   
-      PagingVO<ProdVO> pagingVO = new PagingVO<>(5, 2);
+	  PagingVO<ProdVO> pagingVO = new PagingVO<>(5, 2);
       pagingVO.setCurrentPage(currentPage);
       pagingVO.setDetailCondition(detailCondition);
       
       service.retrieveProdList(pagingVO);
       model.addAttribute("pagingVO", pagingVO);
+      model.addAttribute("pagingHTML", renderer.renderPagination(pagingVO));
       
       return "jsonView";
    }

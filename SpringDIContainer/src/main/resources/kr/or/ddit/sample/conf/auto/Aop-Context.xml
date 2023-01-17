@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="loggingAdvice" class="kr.or.ddit.sample.advice.LoggingAdvice" />
+	
+	<!-- @쓸 때는 얘 하나만 넣으주면 끝남 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+<!-- 	<aop:config> -->
+<!-- 		<aop:pointcut expression="execution(* kr.or.ddit.sample.service.*.*(..))" id="pointcut"/> -->
+<!-- 		<aop:aspect ref="loggingAdvice"> -->
+			<!-- target에 advice를 weaving할 떄 그 weaving 시점 : 지금은 메소드 호출 전 -->
+			<!-- runtime method weaving 구조 -->
+<!-- 			<aop:before method="before" pointcut-ref="pointcut"/> -->
+<!-- 			<aop:after-returning method="afterReturning" pointcut-ref="pointcut" returning="retValue"/> -->
+<!-- 			<aop:around method="around" pointcut-ref="pointcut" /> -->
+<!-- 		</aop:aspect> -->
+<!-- 	</aop:config> -->
+
+</beans>
