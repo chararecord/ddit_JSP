@@ -42,5 +42,15 @@
 			<th>내용</th>
 			<td>${board.boContent }</td>
 		</tr>
+		<tr>
+			<td colspan="2">
+			<c:url value="/board/boardUpdate.do" var="updateURL">
+				<c:param name="what" value="${board.boNo }"/>
+			</c:url>
+				<a id="updateBtn" class="btn btn-primary" href="${updateURL }" >수정</a>
+				<a class="btn btn-danger" href="" >삭제</a>
+				<a class="btn btn-secondary" href="<c:url value='/board/boardList.do' />" >목록으로</a>
+			</td>
+		</tr>
 	</thead>
 </table>

@@ -11,10 +11,16 @@
 	<definition name="board/*" extends="parent" preparer="boardViewPreparer">
 		<put-attribute name="content" value="/WEB-INF/jsp/board/{1}.jsp" />
 	</definition>
+	<definition name="member/*" extends="parent" >
+		<put-attribute name="content" value="/WEB-INF/jsp/member/{1}.jsp" />
+	</definition>
 	<definition name="prod/*" extends="parent">
 		<put-attribute name="content" value="/WEB-INF/jsp/prod/{1}.jsp" />
 	</definition>
 	<definition name="index" extends="parent">
 		<put-attribute name="content" value="/WEB-INF/jsp/index.jsp" />
+	</definition>
+	<definition name="login/*" extends="parent">
+		<put-attribute name="content" value="/WEB-INF/jsp/login/{1}.jsp" />
 	</definition>
 </tiles-definitions>

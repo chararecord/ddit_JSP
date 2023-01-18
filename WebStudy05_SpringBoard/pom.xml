@@ -10,6 +10,7 @@
   	<org.apache.logging.log4j-version>2.19.0</org.apache.logging.log4j-version>
   	<org.slf4j-version>1.7.25</org.slf4j-version>
   	<org.springframework-version>4.3.25.RELEASE</org.springframework-version>
+  	<org.springframework.security-version>4.2.15.RELEASE</org.springframework.security-version>
   </properties>
   
   <build> <!-- 프로젝트 자체를 관리할 때 사용하는 툴 -->
@@ -82,8 +83,13 @@
   	<!-- 암호화 지원 -->
   	<dependency>
 	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-crypto</artifactId>
-	    <version>4.2.15.RELEASE</version>
+	    <artifactId>spring-security-taglibs</artifactId>
+	    <version>${org.springframework.security-version}</version>
+	</dependency>
+  	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-config</artifactId>
+	    <version>${org.springframework.security-version}</version>
 	</dependency>
   
   	<!-- 서버가 이미 jar를 가지고 있는데 또 배포할 필요가 없기 때문에 개발할 때만 사용하고 배포할 때는 버림 -->

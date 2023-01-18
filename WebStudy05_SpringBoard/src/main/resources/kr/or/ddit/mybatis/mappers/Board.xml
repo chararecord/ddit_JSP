@@ -112,4 +112,13 @@
 			, 0
 		)
 	</insert>
+	<update id="updateBoard" parameterType="BoardVO">
+		UPDATE FREEBOARD
+		SET
+			BO_TITLE = #{boTitle, jdbcType=VARCHAR}
+			, BO_WRITER = #{boWriter, jdbcType=VARCHAR}
+			, BO_MAIL = #{boMail, jdbcType=VARCHAR}
+			, BO_CONTENT = #{boContent, jdbcType=CLOB}
+		WHERE BO_NO = #{boNo}
+	</update>
 </mapper>

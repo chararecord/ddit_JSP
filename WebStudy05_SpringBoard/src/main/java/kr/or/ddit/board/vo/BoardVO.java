@@ -44,7 +44,7 @@ public class BoardVO implements Serializable {
 	
 	private List<AttatchVO> attatchList; // has many
 
-	private int[] delAttNos; // 게시글 수정시 삭제할 첨부파일 번호 유지
+	private int[] delAttNos; // ***게시글 수정시 삭제할 첨부파일 번호 유지
 	
 	private int attCount;
 	
