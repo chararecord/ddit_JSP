@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+
+	<!-- HM, HA, VR(MVC 모델을 사용하기 위한 전략객체) 포함 여러 bean들을 자동 등록해줌 -->
+	<!-- HM, HA, VR, Validator 등의 MVC 프로그래밍 모델에서 사용될 전략 객체들이 자동 등록됨 -->
+	<mvc:annotation-driven validator="validator">
+		<mvc:argument-resolvers>
+			<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
+	
+	<!-- 메시지 커스터마이징 -->
+	<!-- 로케일에 따른 언어별 메시지 처리를 위한 전략 객체 -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basenames="kr.or.ddit.msgs.errorMessage,kr.or.ddit.msgs.message"
+	/>
+	
+	<!-- 이 안에서 만들어지는 객체가 bean에 등록되는거임 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+		p:validationMessageSource-ref="messageSource"	
+	/>
+	
+	<!-- 언제나 늘 마지막에 위치 -->
+	<bean id="IRVR" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/jsp/"
+		p:suffix=".jsp"
+	/>
+	
+	<bean id="BNVR" class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="1"
+	/>
+	
+	<!-- 마샬링 할 수 있는 구조 -->
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+	
+	<!-- Tiles Context 형성 -->
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
+		p:definitions="/WEB-INF/tiles/*-definitions.xml"
+		p:preparerFactoryClass="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"
+	/>
+	<bean id="TVR" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
+		p:order="2"
+	/>
+	
+	<!-- Controller layer를 bean으로 등록하기 위한 필터링 설정 -->
+	<context:component-scan base-package="kr.or.ddit" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+	<!-- LocaleChangeInterceptor가 변경한 로케일 정보를 저장하기 위해 사용하는 전략 객체 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+		p:cookieName="localeCookie"
+		p:cookiePath="/" 
+		p:cookieMaxAge="#{60*60*24*5}"
+	/>
+	
+	<!-- HandlerInterceptor : 스프링 컨테이너 밖에 존재하는 웹 필터의 역할을 대신하는 객체 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- /* : /member, /prod만 받고 /member/memberView 못받음, /** : 모든 요청 커버 가능 -->
+			<mvc:mapping path="/**"/>
+			<!-- language 이름의 요청 파라미터를 기준으로 현재 로케일을 변경하기 위한 인터셉터 -->
+			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+				p:paramName="language"
+			/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 정적 자원이 일괄 관리 되는 경우 활용 / 분산되면 설정 사용 불가(이럴 경우 default handler servlet 사용) -->
+	<!-- but 이 방법 추천, 캐시 관리까지 한번에 가능하기 때문에 -->
+	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="0" />
+
+	<!-- Custom view preparer -->
+<!-- 	<bean id="boardViewPreparer" class="kr.or.ddit.board.view.preparer.BoardViewPreparer" /> -->
+
+<!-- 	<bean id="paginationManager" class="kr.or.ddit.ui.DefaultPaginationManager"> -->
+<!-- 		<constructor-arg name="rendererMap"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="default"> -->
+<!-- 					<bean class="kr.or.ddit.ui.DefaultPaginationRenderer" /> -->
+<!-- 				</entry> -->
+<!-- 				<entry key="bootstrap"> -->
+<!-- 					<bean class="kr.or.ddit.ui.BootstrapPaginationRender" /> -->
+<!-- 				</entry> -->
+<!-- 			</map> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
+	
+	<!-- path-requestMapping, view-name=logicalviewname -->
+	<mvc:view-controller path="/login/loginForm" view-name="login/loginForm"/>
+</beans>

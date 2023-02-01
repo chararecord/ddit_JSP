@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+
+
+
+
+	<!--  하위 컨테이너  -->
+	<!-- HandlerMapping, HandlerAdapter, ViewResolver, Validator 등의 MVC 프로그래밍 모델에서 사용될 전략 객체들이 자동 등록됨 -->
+	<mvc:annotation-driven validator="validator"></mvc:annotation-driven>
+	
+	
+	
+	
+	
+	<!-- 로케일에 따른 언어별 메시지 처리를 위한 전략 객체   -->
+	<!--  /WebStudy04_SpringMVC/src/main/resources/kr/or/ddit/msgs/errorMessage_ko.properties -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" 
+		p:basenames="kr.or.ddit.msgs.errorMessage,kr.or.ddit.msgs.message"
+	/>
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" 
+		p:validationMessageSource-ref="messageSource"
+	/> <!-- messageSource로부터 주입받음   -->
+	
+	
+	
+	
+	
+	<!-- view Resolver임   -->
+	<!--  prefix sufix를 지정하기 위한 객체  -->
+	<!--  항상 order last -->
+	<bean id="IRVR" class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+		p:prefix="/WEB-INF/jsp/"
+		p:suffix=".jsp"
+	/>
+	<bean id="BNVR" class="org.springframework.web.servlet.view.BeanNameViewResolver" 
+		p:order="1"
+	/>
+	<!-- 
+	p:order="1" => 일단 얘가 먼저 받아서 처리하고 없으면 그다음에 IRVR이 받아서 처리
+	/WEB-INF/views/jsonView/.jsp -->
+	
+	<!--  마샬링 하기 위한 객체  -->
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+	
+	
+	<!--  tiles -->
+	<!-- Tiles Context 형셩 -->
+    <!-- 이 definitions이라고 이름붙여진 파일들을 설정 파일로 쓰겠다.   -->
+	<bean id="tilesConfigurer"  class="org.springframework.web.servlet.view.tiles3.TilesConfigurer" 
+		p:definitions="/WEB-INF/tiles/*-definitions.xml"
+		p:preparerFactoryClass="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"
+	
+	/>
+	<bean id="TVR" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" 
+		p:order="2"
+	/>
+	
+	
+	
+	
+	
+	
+	
+	<!--   controller layer를 bean으로 등록하기 위한 필터링 설정  -->
+	<context:component-scan base-package="kr.or.ddit" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	
+	
+	
+	
+	<!-- 
+	locale을 변경하기 위한 설정  : mvc:interceptor
+	locale을 변경하기 위한 조건  :p:paramName="language"
+	변경한 걸 저장하기 위한 객체  : id="localeResolver" 
+	 -->
+	<!--  LocaleChangeInterceptor 가 변경한 로케일 정보를 저장하기 위해 사용하는 전략객체 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" 
+		p:cookieName="localeCookie"
+		p:cookiePath="/"
+		p:cookieMaxAge="#{60*60*24*5}"
+	/>
+	<!--  HandlerInterceptor: 스프링 컨테이너 밖에 존재하는 웹 필터의 역할을 대신하는 객체   -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<!-- language 이름의 요청 파라미터를 기준으로 현재 로케일을 변경하기 위한 인터셉터  -->
+			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" 
+				p:paramName="language"
+			/>
+		</mvc:interceptor>	
+	</mvc:interceptors>
+	
+	
+	
+	
+	
+	<!--  
+	resources폴더 내부에 있는 모든 파일(=정적자원) 연결 + 캐시에 저장안되게 하기 
+	정적자원이 일괄관리가 되는 경우에 활용됨 	
+	 -->
+	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="0" />
+	
+
+	<!-- Custome view preparer -->
+	<bean id="boardViewPreparer" class="kr.or.ddit.board.view.preparer.BoardViewPreparer"  /> 
+	
+
+
+</beans>

@@ -18,5 +18,4 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 		<!-- RestControllerAdvice는 @ControllerAdvice를 metaAnnotation으로 쓰고 있기 때문에 굳이 제외하지 않아도 됨 -->
 	</context:component-scan>
-
 </beans>

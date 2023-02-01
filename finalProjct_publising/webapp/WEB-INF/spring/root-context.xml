@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<!--  
+	상위 컨테이너  
+	model layer 구성요소 객체를 bean으로 등록하기 위한 필터 설정
+	@Componenent, @Service, @Repository, @Configuration 이 네가지가 상위 컨테이너  에 등록됨 
+	-->
+
+	<!--@Required를 비롯한 어노테이션들이 동작할 수 있는 BeanPostProcessor가 자동 등록됨  -->
+	<!--  어노테이션으로 bean을 주입할 수 있도록 선언  -->
+	<context:annotation-config />
+	<context:component-scan base-package="kr.or.ddit" use-default-filters="true">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	
+	
+	
+	<util:properties id="appInfo" location="classpath:kr/or/ddit/appInfo.properties" />
+	<!-- 첨부파일  -->
+	<bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
+		p:defaultEncoding="#{appInfo.defaultEncoding}"
+		p:maxInMemorySize="#{appInfo.inMemorySize}"
+		p:maxUploadSize="#{T(java.lang.Integer).parseInt(appInfo.perFileSize) * T(java.lang.Integer).parseInt(appInfo.maxFileCount)}"
+		p:maxUploadSizePerFile="#{appInfo.perFileSize}"
+	/>
+	<!-- 
+	1024 : 1키로바이트
+	1024*1024 : 1메가바이트
+	#{1024*1024*20} : 파일하나당 최대 20까지 허용하겠다 
+	
+	
+	클래스의 퀄리파이드네임이라는 뜻  => T()
+	Integer로 타입을 
+	p:maxUploadSize="#{appInfo.perFileSize * appInfo.maxFileCount}"
+	 -->
+	
+	
+
+</beans>

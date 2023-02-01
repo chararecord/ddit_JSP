@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>    
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}>/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/style.js"></script>
+<script>
+$(function(){
+	//사이드메뉴 스크롤바
+	$(".sb-sidenav-menu").mCustomScrollbar({
+	    theme:"minimal-dark",
+	    mouseWheelPixels: 100,
+	    scrollInertia: 0
+	});
+});
+
+
+</script>

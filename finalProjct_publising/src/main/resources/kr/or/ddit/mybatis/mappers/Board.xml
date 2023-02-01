@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.board.dao.BoardDAO">
+
+	<sql id="searchFrag">
+	    <where>
+	        <!--  키워드가 있다면 freeBoard  -->
+	    	<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+	    		<choose>
+					<when test="simpleCondition.searchType eq 'writer'"><!--  writer하고 비교 -->	 
+						INSTR(BO_WRITER, #{simpleCondition.searchWord}) > 0 
+					</when>    		
+					<when test="simpleCondition.searchType eq 'content'">
+						INSTR(BO_CONTENT, #{simpleCondition.searchWord}) > 0 
+					</when>		    		
+					<otherwise>
+						INSTR(BO_WRITER, #{simpleCondition.searchWord}) > 0 
+						OR
+						INSTR(BO_CONTENT, #{simpleCondition.searchWord}) > 0 
+					</otherwise>
+	    		</choose>
+	    	</if>
+    	</where>
+	</sql>
+
+
+
+
+	<select id="selectTotalRecord" parameterType="kr.or.ddit.vo.PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM FREEBOARD
+		 <include refid="searchFrag" />
+	</select>
+
+	<select id="selectBoardList" parameterType="kr.or.ddit.vo.PagingVO" resultType="kr.or.ddit.board.vo.BoardVO">
+		WITH ORDEREDBOARD AS (
+		    SELECT 
+		        bo_no,
+		        bo_title,
+		        bo_writer,
+		        bo_ip,
+		        bo_mail,
+		        bo_pass,
+		        bo_content,
+		        bo_date,
+		        bo_hit
+		        , ( 
+		            SELECT COUNT(ATT_NO)
+		            FROM ATTATCH
+		            WHERE ATTATCH.BO_NO = FREEBOARD.BO_NO
+		        ) ATT_COUNT
+		    FROM FREEBOARD
+		    <include refid="searchFrag" />
+		    ORDER BY BO_NO DESC
+		
+		)
+		SELECT A.*
+		FROM (
+		    SELECT ROWNUM RNUM, ORDEREDBOARD.*
+		    FROM ORDEREDBOARD  
+		)A
+		WHERE RNUM BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	
+	
+	
+	
+	<!-- 
+	resultType="BoardVO" : has 관계 쓸수 없음
+	 -->
+	
+	<resultMap type="kr.or.ddit.board.vo.BoardVO" id="boardMap" autoMapping="true">
+		<id property="boNo" column="board_no" /> <!-- 수동 바인딩  -->
+		<!-- 
+		1:다 
+		has many관계 
+		-->
+		<collection property="attachList" ofType="kr.or.ddit.board.vo.AttatchVO" autoMapping="true" /> <!-- 자동바인팅  -->
+	</resultMap>
+	<select id="selectBoard" parameterType="int" resultMap="boardMap">
+		SELECT
+		    a.bo_no board_no, bo_title, bo_writer, bo_ip,
+		    bo_mail, bo_pass, bo_content,
+		    bo_date, bo_hit,
+		    
+		    att_no, att_filename, att_savename,
+		    att_mime, att_fancysize, att_download,
+		    b.bo_no
+		FROM
+		    freeboard a left outer join attatch b on (a.bo_no = b.bo_no)
+		where a.bo_no = #{boNo}  
+	</select>
+	<!--
+	컬럼(bo_no)이 같을 경우 
+	attachVO에 있는 bo_no는 바인딩 되지 않고 => <id property="boNo" column="board_no" />
+	freeboard에 있는 bo_no만 바인딩
+	 -->
+	 
+	 
+	 <!-- 조회수 증가시키기   -->
+	 <update id="incrementHit" parameterType="int">
+	 	UPDATE FREEBOARD
+	 	SET
+	 	BO_HIT = BO_HIT + 1
+	 	WHERE BO_NO = #{boNo}
+	 </update>
+	
+	
+	
+	
+	<insert id="insertBoard" parameterType="kr.or.ddit.board.vo.BoardVO">
+		<selectKey order="BEFORE" resultType="int" keyProperty="boNo">
+			SELECT FREEBOARD_SEQ.NEXTVAL
+			FROM DUAL
+		</selectKey>
+		INSERT INTO freeboard (
+		    bo_no,
+		    bo_title,
+		    bo_writer,
+		    bo_ip,
+		    bo_mail,
+		    bo_pass,
+		    bo_content,
+		    bo_date,
+		    bo_hit
+		) VALUES (
+		     #{boNo,jdbcType=NUMERIC}
+			, #{boTitle,jdbcType=VARCHAR}
+			, #{boWriter,jdbcType=VARCHAR}
+			, #{boIp,jdbcType=VARCHAR}
+			, #{boMail,jdbcType=VARCHAR}
+			, #{boPass,jdbcType=VARCHAR}
+			, #{boContent,jdbcType=CLOB}
+			, SYSDATE
+			, 0
+		)
+	</insert>
+	
+
+
+
+
+
+
+
+
+</mapper>

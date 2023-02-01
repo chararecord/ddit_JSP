@@ -1,0 +1,18 @@
+package kr.or.ddit.emp.empInfo.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ *  교직원정보관리 컨트롤러
+ * @author 민경진
+ *
+ */
+@Controller
+public class EmployeeInfoController {
+
+	@RequestMapping("/emp/empInfo")
+	public String empInfo() {
+		return "emp/empInfo";
+	}
+}
