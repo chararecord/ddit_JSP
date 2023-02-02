@@ -11,6 +11,9 @@
   	<put-attribute name="postScript" value="/includee/postScript.jsp" />
   </definition>
   
+  <definition name="student/*" extends="parent" preparer="menuCommonPreparer">
+	<put-attribute name="content" value="/WEB-INF/jsp/{1}/{1}.jsp" />
+  </definition>
   
   <definition name="index" extends="parent"> 
   	<put-attribute name="content" value="/WEB-INF/jsp/index.jsp" />

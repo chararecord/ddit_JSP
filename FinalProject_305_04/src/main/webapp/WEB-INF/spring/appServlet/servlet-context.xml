@@ -79,21 +79,21 @@
 	<!-- but 이 방법 추천, 캐시 관리까지 한번에 가능하기 때문에 -->
 	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="0" />
 
-	<!-- Custom view preparer -->
-<!-- 	<bean id="boardViewPreparer" class="kr.or.ddit.board.view.preparer.BoardViewPreparer" /> -->
+	<!-- 	Custom view preparer -->
+<!-- 	<bean id="menuCommonPreparer" class="kr.or.ddit.commons.preparer.MenuCommonPreparer" /> -->
 
-<!-- 	<bean id="paginationManager" class="kr.or.ddit.ui.DefaultPaginationManager"> -->
-<!-- 		<constructor-arg name="rendererMap"> -->
-<!-- 			<map> -->
-<!-- 				<entry key="default"> -->
-<!-- 					<bean class="kr.or.ddit.ui.DefaultPaginationRenderer" /> -->
-<!-- 				</entry> -->
-<!-- 				<entry key="bootstrap"> -->
-<!-- 					<bean class="kr.or.ddit.ui.BootstrapPaginationRender" /> -->
-<!-- 				</entry> -->
-<!-- 			</map> -->
-<!-- 		</constructor-arg> -->
-<!-- 	</bean> -->
+	<bean id="paginationManager" class="kr.or.ddit.ui.DefaultPaginationManager">
+		<constructor-arg name="rendererMap">
+			<map>
+				<entry key="default">
+					<bean class="kr.or.ddit.ui.DefaultPaginationRenderer" />
+				</entry>
+				<entry key="bootstrap">
+					<bean class="kr.or.ddit.ui.BootstrapPaginationRender" />
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
 	
 	<!-- path-requestMapping, view-name=logicalviewname -->
 	<mvc:view-controller path="/login/loginForm" view-name="login/loginForm"/>

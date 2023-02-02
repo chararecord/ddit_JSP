@@ -28,19 +28,28 @@
 	          	<div class="sb-nav-link sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 				공통스타일
 	         </a>
-			 <a class="nav-link" href="javascript:void(0);">
+	         
+	         <!-- 공통메뉴 조회 -->
+	         <c:forEach items="${menuList }" var="menu">
+				 <a class="nav-link" href="<c:url value='${menu.menuUrl }' />">
+		          	<div class="sb-nav-link sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+					${menu.menuName }
+		         </a>
+	         </c:forEach>
+	         
+	         <a class="nav-link" href="<c:url value='/campus/notice' />">
 	          	<div class="sb-nav-link sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-				공지사항 
+				공지사항
 	         </a>
-	         <a class="nav-link" href="javascript:void(0);">
+	         <a class="nav-link" href="<c:url value='/campus/news' />">
 	          	<div class="sb-nav-link sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 				학교뉴스
 	         </a>
-	         <a class="nav-link" href="javascript:void(0);">
+	         <a class="nav-link" href="<c:url value='/campus/facility' />">
 	          	<div class="sb-nav-link sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 				시설대여
 	         </a>
-	         <a class="nav-link" href="javascript:void(0);">
+	         <a class="nav-link" href="<c:url value='/campus/jobSupport' />">
 	          	<div class="sb-nav-link sb-nav-link-icon"><i class="bi bi-building-fill-exclamation"></i></div>
 				취업지원센터
 	         </a>

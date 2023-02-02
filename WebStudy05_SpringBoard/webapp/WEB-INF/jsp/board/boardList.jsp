@@ -48,7 +48,7 @@
 		<tr>
 			<td colspan="6">
 				<div id="pagingArea">
-					<ui:pagination pagingVO="${pagingVO }" type="default"/>
+					<ui:pagination pagingVO="${pagingVO }" type="bootstrap"/>
 				</div>
 				<div>
 					<form:form id="searchUI" modelAttribute="simpleCondition" onclick="return false;">

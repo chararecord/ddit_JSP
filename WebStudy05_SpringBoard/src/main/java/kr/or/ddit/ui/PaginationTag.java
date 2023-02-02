@@ -30,7 +30,7 @@ public class PaginationTag extends TagSupport{
 		
 		WebApplicationContext springContainer = RequestContextUtils.findWebApplicationContext(request, application);
 		
-		 PaginationManager manager = springContainer.getBean(PaginationManager.class);
+		PaginationManager manager = springContainer.getBean(PaginationManager.class);
 		
 		PaginationRenderer renderer = manager.rendererType(type);
 		
