@@ -1,0 +1,67 @@
+package kr.or.ddit.prof.lectroom.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.prof.lectroom.service.ProfLectListService;
+import kr.or.ddit.vo.LectureVO;
+import kr.or.ddit.vo.ProfessorVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 교수의 나의 강의 목록 컨트롤러
+ * @author 민경진
+ * @Since 2023. 2. 2.
+ * <pre>
+ *
+ * ======[[개정이력(Modification Information)]]======
+ *   수정일                    수정자                        수정내용
+ * --------          --------    -----------------------
+ * 2023. 2. 7.      이현주   	 		수정
+ *
+ * Copyright (c) 2023 by DDIT All right reserved
+ * </pre>
+ */
+@Slf4j
+@RequiredArgsConstructor
+@RequestMapping("/prof")
+@Controller
+public class ProfLectListController {
+	
+	@Autowired
+	private final ProfLectListService service;
+	
+	@ModelAttribute
+	public LectureVO profLectureList() {
+		return new LectureVO();
+	}
+	
+//	@GetMapping("/lectroom/lectroom")
+//	public String prifLect() {
+//		return "prof/lectroom/lectroom";
+//	}
+	
+	@GetMapping(value="/lectroom/lectroom",produces="application/json;charset=utf-8")
+	public String profLectList(
+			@RequestParam(value="profId", required=true) int profId
+			,@RequestParam(value="semeId", required=true) String semeId
+			, Model model
+			) {
+		log.info("교수 강의목록에 왔다");
+		
+		ProfessorVO professorVO = service.retrieveProfLectList(profId, semeId);
+		
+		model.addAttribute("professorVO", professorVO);
+		
+		return "prof/lectroom/lectroom";
+	}
+}

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.emp.studentInfo.dao.StudentInfoDao">
+
+
+	<!-- 코드프레그먼트 -->
+	<sql id="searchFrag">
+	    <where>
+	    	<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+	    		<choose>
+	    			<when test="simpleCondition.searchType eq 'camYear'">
+	    				INSTR(CAM_YEAR, #{simpleCondition.searchWord}) > 0
+	    			</when>
+	    			<when test="simpleCondition.searchType eq 'userId'">
+	    				INSTR(USER_ID, #{simpleCondition.searchWord}) > 0
+	    			</when>
+	    			<when test="simpleCondition.searchType eq 'userNm'">
+	    				INSTR(USER_NM, #{simpleCondition.searchWord}) > 0
+	    			</when>
+					<otherwise>
+	    				INSTR(CAM_YEAR, #{simpleCondition.searchWord}) > 0
+	    				OR
+	    				INSTR(USER_ID, #{simpleCondition.searchWord}) > 0
+	    				OR
+	    				INSTR(USER_NM, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+	    		</choose>
+	    	</if>
+	    </where>
+	</sql>
+
+
+	<!-- 게시판 내 전체 게시글 개수 조회하는 SELECT문 -->
+	<select id="selectTotalRecord" parameterType="PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM v_stu
+		<include refid="searchFrag" />		
+	</select>
+	
+	<resultMap type="StudentVO" id="studentMap" autoMapping="true">
+		<id property="stdId" column="STD_ID"/>
+		<association property="recordVO" javaType="RecordVO" />
+		<association property="collVO" javaType="CollVO" autoMapping="true"/>
+		<association property="majorVO" javaType="MajorVO" autoMapping="true"/>
+		<collection property="recordList" ofType="RecordVO" autoMapping="true" >
+			<id property="recoId" column="RECO_ID"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 게시글 리스트 조회 SELECT문 -->
+	<select id="selectStudentInfoList" parameterType="PagingVO" resultMap="studentMap">
+		WITH STUINFO AS (
+		    SELECT A.STD_ID,
+		           A.CAM_YEAR,
+		           A.REC_NM,
+		           A.REC_UPDATE,
+		           C.USER_NM,
+		           D.MAJOR_NM,
+		           E.COLL_NM
+		      FROM USR C INNER JOIN STUDENT B ON(B.STD_ID = C.USER_ID)
+		                 LEFT OUTER JOIN V_STD_RECORD  A ON(A.STD_ID = B.STD_ID)
+		                 LEFT OUTER JOIN MAJOR   D ON(B.MAJOR_ID = D.MAJOR_ID)
+		                 LEFT OUTER JOIN COLL    E ON(D.COLL_ID = E.COLL_ID)
+		      ORDER BY STD_ID
+		)
+		SELECT B.*
+		FROM (
+		        SELECT ROWNUM RNUM2, A.*
+		        FROM (
+		            SELECT ROWNUM RNUM, STUINFO.*
+		            FROM STUINFO
+		            ORDER BY STD_ID DESC
+		        )A
+		    ) B
+		WHERE RNUM2 BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	
+<!-- 게시글 상세 조회 SELECT문 -->
+	<select id="selectStudentInfo" parameterType="int" resultMap="studentMap">
+		SELECT A.CAM_YEAR,
+		       A.REC_NM,
+		       A.REC_UPDATE,
+		       B.STD_ID,
+		       B.ENT_DATE,
+		       C.USER_ID,
+		       C.USER_NM,
+		       C.USER_NM_EN,
+		       C.USER_PASS,
+		       C.USER_RRN1,
+		       C.USER_RRN2,
+		       C.USER_PHONE,
+		       C.USER_POST,
+		       C.USER_ADDR,
+		       C.USER_DETAIL_ADDR,
+		       C.USER_EMAIL,
+		       C.USER_BANK,
+		       C.USER_ACCT_HD,
+		       C.USER_ACCT_NO,
+		       C.USER_GENDER,
+		       C.USER_NTL,
+		       C.USER_BIR,
+		       B.PROF_ID AS "professorVO.profId",
+		        ( SELECT USER_NM
+		          FROM USR
+		          WHERE USER_ID = B.PROF_ID ) AS "professorVO.profNm",
+		       D.MAJOR_ID,
+		       D.MAJOR_NM,
+		       E.COLL_NM,
+		       E.COLL_ID,
+		       F.SEME_ID,
+		       F.SEME_YEAR
+		  FROM RECORD A, STUDENT B, USR C, MAJOR D, COLL E, SEMESTER F
+		 WHERE A.STD_ID = B.STD_ID
+		   AND B.STD_ID = C.USER_ID
+		   AND B.MAJOR_ID = D.MAJOR_ID
+		   AND D.COLL_ID = E.COLL_ID
+		   AND A.SEME_ID = F.SEME_ID
+		   AND A.STD_ID = #{stdId}
+	</select>
+	
+	
+	
+	<select id="updateSelectRecordStudentInfo" parameterType="RecordVO">
+		SELECT A.CAM_YEAR,
+		       A.REC_NM,
+		       A.REC_UPDATE,
+               B.SEME_ID,
+               B.SEME_YEAR
+		  FROM RECORD A, SEMESTER B
+		 WHERE A.SEME_ID = B.SEME_ID
+           AND STD_ID = #{stdId}
+	</select>
+
+	
+	<update id="updateStuStudentInfo" parameterType="StudentVO">
+		UPDATE STUDENT
+		SET 
+		    MAJOR_ID = #{majorVO.majorId,jdbcType=VARCHAR}
+		    , PROF_ID = #{profId,jdbcType=NUMERIC}
+		    , ENT_DATE = #{entDate,jdbcType=VARCHAR}
+		WHERE STD_ID = #{stdId}
+	</update>
+	
+	<update id="updateUserStudentInfo" parameterType="StudentVO">
+		UPDATE USR 
+		SET 
+			USER_BIR = #{userBir,jdbcType=VARCHAR}
+			, USER_NM = #{userNm,jdbcType=VARCHAR}
+			, USER_NM_EN = #{userNmEn,jdbcType=VARCHAR}
+			, USER_PASS = #{userPass,jdbcType=VARCHAR}
+			, USER_RRN1 = #{userRrn1,jdbcType=VARCHAR}
+			, USER_RRN2 = #{userRrn2,jdbcType=VARCHAR}
+			, USER_PHONE = #{userPhone,jdbcType=VARCHAR}
+			, USER_POST = #{userPost,jdbcType=VARCHAR}
+			, USER_ADDR = #{userAddr,jdbcType=VARCHAR}
+			, USER_DETAIL_ADDR = #{userDetailAddr,jdbcType=VARCHAR}
+			, USER_EMAIL = #{userEmail,jdbcType=VARCHAR}
+			, USER_BANK = #{userBank,jdbcType=VARCHAR}
+			, USER_ACCT_HD = #{userAcctHd,jdbcType=VARCHAR}
+			, USER_ACCT_NO = #{userAcctNo,jdbcType=VARCHAR}
+			, USER_GENDER = #{userGender,jdbcType=VARCHAR}
+			, USER_NTL = #{userNtl,jdbcType=VARCHAR}
+		WHERE USER_ID = #{userId}
+	</update>
+	
+
+
+
+
+
+
+
+
+
+	
+	
+<!-- 인서트 쿼리 3개 -->
+
+	<insert id="insertUserStudentInfo" parameterType="StudentVO">
+		INSERT INTO USR(
+		    USER_ID,
+		    USER_NM,
+		    USER_NM_EN,
+		    USER_PASS,
+		    USER_GENDER,
+		    USER_RRN1,
+		    USER_RRN2,
+		    USER_ROLE,
+		    USER_EMAIL,
+		    USER_BIR,
+		    USER_NTL,
+		    USER_PHONE,
+		    USER_POST,
+		    USER_ADDR,
+		    USER_DETAIL_ADDR,
+		    USER_BANK,
+		    USER_ACCT_HD,
+		    USER_ACCT_NO
+		)VALUES(
+		#{userId,jdbcType=NUMERIC}
+		, #{userNm,jdbcType=VARCHAR}
+		, #{userNmEn,jdbcType=VARCHAR}
+		, #{userPass,jdbcType=VARCHAR}
+		, #{userGender,jdbcType=VARCHAR}
+		, #{userRrn1,jdbcType=VARCHAR}
+		, #{userRrn2,jdbcType=VARCHAR}
+		, #{userRole,jdbcType=VARCHAR}
+		, #{userEmail,jdbcType=VARCHAR}
+		, #{userBir,jdbcType=VARCHAR}
+		, #{userNtl,jdbcType=VARCHAR}
+		, #{userPhone,jdbcType=VARCHAR}
+		, #{userPost,jdbcType=VARCHAR}
+		, #{userAddr,jdbcType=VARCHAR}
+		, #{userDetailAddr,jdbcType=VARCHAR}	
+		, #{userBank,jdbcType=VARCHAR}
+		, #{userAcctHd,jdbcType=VARCHAR}
+		, #{userAcctNo,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	
+	<insert id="insertStuStudentInfo" parameterType="StudentVO">
+		INSERT INTO STUDENT(
+		    STD_ID, 
+		    MAJOR_ID, 
+		    PROF_ID, 
+		    ENT_DATE
+		)VALUES(
+		#{userId,jdbcType=NUMERIC}
+		, #{majorId,jdbcType=VARCHAR}
+		, #{profId,jdbcType=NUMERIC}
+		, #{entDate,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	
+
+	<insert id="insertRecordStudentInfo" parameterType="StudentVO">
+		<selectKey order="BEFORE" resultType="String" keyProperty="recoId">
+		SELECT 'FO1'||LPAD(NOTI_SEQ.NEXTVAL, 4, '0')
+			FROM DUAL
+		</selectKey>
+		INSERT INTO RECORD(
+		    RECO_ID,
+		    STD_ID,
+		    SEME_ID,
+		    CAM_YEAR,
+		    REC_NM,
+		    REC_UPDATE
+		) VALUES(
+		 #{recoId}
+		, #{stdId,jdbcType=NUMERIC}
+		, #{semeId,jdbcType=VARCHAR}
+		, #{recordList[0].camYear,jdbcType=NUMERIC}
+		, #{recordList[0].recNm,jdbcType=VARCHAR}
+		, #{recordList[0].recUpdate,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	
+<!-- 단과 목록 가져오기 -->
+	<select id="selectCollList" resultType="kr.or.ddit.vo.CollVO">
+		SELECT COLL_ID, COLL_NM, COLL_INTRO
+ 		  FROM COLL 
+	</select>
+
+
+<!-- 단과 선택 후 학과 목록 가져오기 -->
+	<select id="selectMajorList" parameterType="kr.or.ddit.vo.CollVO" resultType="kr.or.ddit.vo.MajorVO">
+		SELECT MAJOR_ID, COLL_ID, MAJOR_NM, MAJOR_TEL, DEAN, MAJOR_INFO, LIC_INFO_ID
+		FROM MAJOR
+		WHERE COLL_ID = #{collId}
+	</select>
+	
+	
+<!-- 단과 선택 후 학과 목록 가져오기 -->
+	<select id="selectProList" parameterType="kr.or.ddit.vo.MajorVO" resultType="kr.or.ddit.vo.ProfessorVO">
+		SELECT A.PROF_ID, A.LABO_ID, A.MAJOR_ID, A.ENT_DATE, A.LEV_DATE, A.POS, B.USER_NM
+		FROM PROFESSOR A, USR B
+		WHERE A.PROF_ID = B.USER_ID
+		  AND A.MAJOR_ID = #{majorId}
+	</select>
+	
+	
+<!-- 학기아이디 목록 가져오기 -->
+	<select id="selectSemeList" resultType="kr.or.ddit.vo.SemesterVO">
+		SELECT SEME_ID, SEME_YEAR, SEME
+		FROM SEMESTER 
+	</select>	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,158 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<div class="cont">
+
+	<!-- cont-title -->
+	<div class="cont-title">
+		<h2>학적 조회<button type="button" class="star on"><span class="sr-only">즐겨찾기</span></button></h2>
+		<!--cont-navi-->
+		<div class="cont-navi">
+			<span>home</span> <i class="bi bi-house-door-fill"></i>
+			<strong>path1</strong> 
+			<strong>path2</strong> 
+			<strong>path3</strong>
+			<strong>path4</strong>
+		</div>
+		<!--end cont-navi-->
+	</div>
+	<!-- end cont-title -->
+
+	<div class="white-box">
+		
+		
+		<!-- styletab  -->
+		<div class="tab-wrap">
+		    <!-- tablist  -->
+			<ul class="tab tab-1dep" role="tablist">
+				<li class="on"><a class="active tab1" href="${pageContext.request.contextPath}/style/cmpt.do" id="">테이블</a></li>
+				<li><a  class="nav-link" href="${pageContext.request.contextPath}/style/tab.do">탭</a></li>
+			</ul>
+			<!--  // tablist  -->	
+		</div>
+		<!--  // styletab  -->
+		
+		
+		
+		
+		<!-- cont-box-inner -->
+		<div class="cont-box-inner">
+
+			<div class="title">
+				<h3>현재 학적 조회</h3>
+				<div class="box-btn">
+					<button type="button" class="btn default">삭제</button>
+					<button type="button" class="btn default">수정</button>
+					<button type="button" class="btn purple">등록</button>
+				</div>
+			</div>
+
+
+			<!--  "photo-wrap"-->
+			<div class="photo-wrap">
+				<div class="photo">
+					<img src="/resources/images/star.png" alt="프로필사진" />
+				</div>
+
+				<div class="tbl-wrap">
+					<table class="tbl">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 150px;">
+							<col style="width: 150px;">
+							<col style="width: auto;">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">학번</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">이름</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">이름(영문)</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">입학구분</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">학과전공</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">재적학년도</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">최종변동코드</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">최종변동일자</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">등록상태</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">재학여부</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">졸업대상/예정구분</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+								<th scope="row">일반휴학횟수</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!--   // "photo-wrap"-->
+
+		</div>
+		<!--  // cont-box-inner -->
+		
+	</div>
+</div>
+	

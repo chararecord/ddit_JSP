@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prof.lectBoard.dao.LectureBoardDAO">
+	
+	<!-- 코드프레그먼트 -->
+	<sql id="searchFrag">
+	    <where>
+	    	<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+	    		<choose>
+	    			<when test="simpleCondition.searchType eq 'tit'">
+	    				INSTR(TIT, #{simpleCondition.searchWord}) > 0
+	    			</when>
+	    			<when test="simpleCondition.searchType eq 'cont'">
+	    				INSTR(CONT, #{simpleCondition.searchWord}) > 0
+	    			</when>
+					<otherwise>
+	    				INSTR(TIT, #{simpleCondition.searchWord}) > 0
+	    				OR
+	    				INSTR(CONT, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+	    		</choose>
+	    	</if>
+	    </where>
+	</sql>
+	
+	<resultMap type="LectureVO" id="lectureMap" autoMapping="true">
+		<id property="lectId" column="LECT_ID" />
+		<association property="profVO" javaType="ProfessorVO" autoMapping="true" />
+		<association property="subMajorVO" javaType="SubMajorVO" autoMapping="true" />
+		<association property="semeVO" javaType="SemesterVO" autoMapping="true" />
+	</resultMap>
+	<!-- 강의 정보 조회 -->
+	<select id="selectLectInfo" parameterType="String" resultMap="lectureMap" >
+		WITH PROFVIEW AS (
+		    SELECT
+		        A.USER_NM
+		        , B.PROF_ID
+		        , A.USER_PHONE
+		        , A.USER_EMAIL
+		        , B.MAJOR_ID
+		    FROM USR A INNER JOIN PROFESSOR B ON (A.USER_ID = B.PROF_ID)
+		)
+		SELECT
+		    E.SEME_YEAR
+		    , E.SEME
+		    , C.LECT_NM
+		    , C.CAM_YEAR
+		    , (
+		        SELECT COMM_DESC
+		        FROM COMM
+		        WHERE COMM.COMM_ID = C.ESTA_SUB
+		    ) AS ESTA_SUB
+		    , C.SUBJECT_NM
+		    , C.MAJOR_NM
+		    , C.COLL_NM
+		    , C.CREDIT
+		    , D.*
+		FROM V_LECTUREINFO C INNER JOIN PROFVIEW D ON (C.PROF_ID = D.PROF_ID)
+		                    INNER JOIN SEMESTER E ON (C.SEME_ID = E.SEME_ID)
+		WHERE C.LECT_ID = #{lectId}
+	</select>
+	
+	<!-- 게시판 내 전체 게시글 개수 조회하는 SELECT문 -->
+	<select id="selectTotalRecord" parameterType="PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM LECT_BOARD
+		<include refid="searchFrag" />
+	</select>
+	
+	<!-- 강의 게시판 게시글 조회 SELECT문 -->
+	<select id="selectLectBoardList" parameterType="PagingVO" resultType="LectBoardVO">
+		WITH ORDEREDLECTBOARD AS (
+		    SELECT LECT_BOARD_ID, LECT_ID, TIT, CONT, WR_DATE, HIT
+		            , (
+		                SELECT COUNT(ATTA_SN)
+		                FROM ATTA_FILE
+		                WHERE ATTA_FILE.ATTA_ID = LECT_BOARD.LECT_BOARD_ID
+		            ) AS ATTA_COUNT
+		    FROM LECT_BOARD
+		    <include refid="searchFrag" />
+		    ORDER BY LECT_BOARD_ID 
+		)
+		SELECT  B.* FROM (
+		    SELECT ROWNUM RNUM2, A.*
+		    FROM (
+		            SELECT ROWNUM RNUM, C.*, D.USER_NM
+		            FROM ORDEREDLECTBOARD C INNER JOIN V_LECTUREINFO D ON (C.LECT_ID = D.LECT_ID)
+                    ORDER BY LECT_BOARD_ID DESC
+		    ) A
+		) B
+		WHERE RNUM2 BETWEEN #{startRow} AND #{endRow}
+	</select>
+</mapper>

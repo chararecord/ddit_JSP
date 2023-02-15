@@ -1,0 +1,38 @@
+package kr.or.ddit.vo;
+
+import java.util.List;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * @author 이현주
+ * @Since 2023. 2. 9.
+ * <pre>
+ *
+ * ======[[개정이력(Modification Information)]]======
+ *   수정일                    수정자                        수정내용
+ * --------          --------    -----------------------
+ * 2023. 2. 9.       이현주      		생성
+ *
+ * Copyright (c) 2023 by DDIT All right reserved
+ * </pre>
+ */
+@Data
+@EqualsAndHashCode(of="stdId")
+public class MyStudentVO extends UsrVO{
+
+	
+	private Integer stdId;
+	private String majorId;
+	private Integer profId;
+	private String entDate;
+	
+	private MajorVO majorVO; // 1:1
+	private CollVO collVO; // 1:1
+	private ProfessorVO professorVO; // 1:1
+	private List<MyLectureVO> mylectureList; // has many 관계
+	
+	private Integer camYear; // 마지막 변동된 학년 정보 . 학적 변동 정보는 record의  list로 넣어야함
+	private String semeId;
+}

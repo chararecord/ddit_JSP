@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.lectList.dao.LectListDAO">
+
+
+<!--수강중인 강의 목록(학생) -->
+
+<resultMap type="MyLectureVO" id="stdLect">
+	<collection property="myStudentList" ofType="MyStudentVO" autoMapping="true"></collection>
+</resultMap>
+
+<select id="selectLectList" parameterType="MyStudentVO"  resultMap="stdLect">
+
+SELECT 
+(SELECT COMM_DESC
+        FROM COMM
+        WHERE COMM.COMM_ID = B.ESTA_SUB) AS ESTA_SUB
+,B.LECT_ID, B.LECT_NM, B.MAJOR_NM, B.COLL_NM, B.USER_NM, B.CREDIT 
+,C.SEME_YEAR , C.SEME , C.SEME_ID
+FROM CURR_LECT A INNER JOIN V_LECTUREINFO B ON (A.LECT_ID = B.LECT_ID)
+                    INNER JOIN SEMESTER C ON (B.SEME_ID = C.SEME_ID)
+WHERE A.STD_ID =  #{stdId}
+AND C.SEME_ID = #{semeId}
+
+</select>
+
+
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.commons.dao.AttaFileDAO">
+	<insert id="insertAttaFiles" parameterType="CommonAttaFileVO">
+<!-- 		<selectKey order="BEFORE" resultType="int" keyProperty="startAttaId"> -->
+<!-- 			SELECT NVL(MAX(0), 0)+1 -->
+<!-- 			FROM ATTA_FILE -->
+<!-- 		</selectKey> -->
+		INSERT ALL
+		<foreach collection="attaFileList" item="attaFile" index="idx">
+			INTO ATTA_FILE(
+				ATTA_ID
+				, ATTA_SN
+				, ATTA_FILENM
+				, ATTA_SAVENM
+				, ATTA_MIME
+				, ATTA_FILESIZE
+				, ATTA_FANCYSIZE
+				, ATTA_DOWNLOAD
+				, ATTA_PATH
+			) VALUES (
+				#{attaId, jdbcType=VARCHAR}
+				, #{idx}
+				, #{attaFile.attaFilenm, jdbcType=VARCHAR}
+				, #{attaFile.attaSavenm, jdbcType=VARCHAR}
+				, #{attaFile.attaMime, jdbcType=VARCHAR}
+				, #{attaFile.attaFilesize, jdbcType=NUMERIC}
+				, #{attaFile.attaFancysize, jdbcType=VARCHAR}
+				, 0
+				, #{attaFile.attaPath, jdbcType=VARCHAR}
+			)
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+</mapper>

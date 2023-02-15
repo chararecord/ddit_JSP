@@ -1,0 +1,44 @@
+package kr.or.ddit.vo;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+import kr.or.ddit.validate.DeleteGroup;
+import kr.or.ddit.validate.UpdateGroup;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+/**
+ * 학생 객체
+ * @author 장은호
+ * @Since 2023. 2. 3.
+ * <pre>
+ *
+ * ======[[개정이력(Modification Information)]]======
+ *   수정일                    수정자                        수정내용
+ * --------          --------    -----------------------
+ * 2023. 2. 3.       장은호        		생성
+ * 2023. 2. 3.		  송지은 			rnum, usrList 추가
+ * Copyright (c) 2023 by DDIT All right reserved
+ * </pre>
+ */
+@Data
+@EqualsAndHashCode(of="stdId")
+@ToString
+public class StudentVO extends UsrVO {
+	private int rnum;
+	@NotNull(groups= {UpdateGroup.class, DeleteGroup.class})
+	private Integer stdId;
+	private Integer profId;
+	private String entDate;
+	private String collNm;
+	private String majorNm;
+	private Integer camYear;
+	
+	private UsrVO usrList;
+	private List<RecordVO> recordList;
+}
+

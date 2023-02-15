@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd" >
+<tiles-definitions>
+
+<!-- 공통   -->
+  <definition name="parent"  template="/WEB-INF/jsp/template.jsp">
+  	<put-attribute name="preScript" value="/includee/preScript.jsp" />
+  	<put-attribute name="headerMenu" value="/includee/headerMenu.jsp" />
+  	<put-attribute name="leftMenu" value="/includee/leftMenu.jsp" />
+  	<put-attribute name="footer" value="/includee/footer.jsp" />
+  	<put-attribute name="postScript" value="/includee/postScript.jsp" />
+  </definition>
+  
+  <definition name="student/*" extends="parent" preparer="menuCommonPreparer">
+	<put-attribute name="content" value="/WEB-INF/jsp/{1}/{1}.jsp" />
+  </definition>
+  
+  <definition name="index" extends="parent"> 
+  	<put-attribute name="content" value="/WEB-INF/jsp/index.jsp" />
+  </definition>  
+  
+  <definition name="style/*" extends="parent"> 
+  	<put-attribute name="content" value="/WEB-INF/jsp/style/{1}.jsp" />
+  </definition>
+  
+  <definition name="prof/*" extends="parent"> 
+  	<put-attribute name="content" value="/WEB-INF/jsp/prof/{1}.jsp" />
+  </definition>  
+  
+  <definition name="student/*" extends="parent"> 
+  	<put-attribute name="content" value="/WEB-INF/jsp/student/{1}.jsp" />
+  </definition>  
+  
+  <definition name="campus/*" extends="parent"> 
+  	<put-attribute name="content" value="/WEB-INF/jsp/campus/{1}.jsp" />
+  </definition>  
+  
+  <definition name="emp/*" extends="parent"> 
+  	<put-attribute name="content" value="/WEB-INF/jsp/emp/{1}.jsp" />
+  </definition>  
+  
+
+</tiles-definitions>

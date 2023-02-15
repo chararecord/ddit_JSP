@@ -1,0 +1,55 @@
+package kr.or.ddit.student.attend.controller;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import kr.or.ddit.student.attend.service.AttendService;
+import kr.or.ddit.vo.AttendVO;
+import kr.or.ddit.vo.LectureVO;
+import kr.or.ddit.vo.StudentVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 출결 컨트롤러
+ * @author 민경진
+ *
+ */
+@Slf4j
+@RequiredArgsConstructor
+@RequestMapping("/student")
+@Controller
+public class AttendController {
+	
+
+	@Autowired
+	private final AttendService service;
+	
+	@ModelAttribute
+	public AttendVO studentAttendList() {
+		return new AttendVO();
+	}
+	
+	@RequestMapping("/attend")
+	public String attend(
+			@RequestParam("stdId") int stdId
+			, @RequestParam("lectId") String lectId
+			, Model model) {
+		
+		log.info("교수 -출석 관리에 왔다" + stdId);
+		
+		List<AttendVO> attendVO = service.retrieveAttendList(stdId, lectId);
+		
+		model.addAttribute("attendVO", attendVO);
+		
+		
+		return "student/attend/attend";
+	}
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.campus.notice.dao.NoticeDAO">
+
+	<!-- 게시판 내 전체 게시글 개수 조회하는 SELECT문 -->
+	<select id="selectTotalRecord" parameterType="PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM NOTICE
+	</select>
+	
+	<!-- 게시글 리스트 조회 SELECT문 -->
+	<select id="selectNoticeList" parameterType="PagingVO" resultType="NoticeVO">
+		WITH ORDEREDNOTICE AS (
+		    SELECT NOTI_ID, EMP_ID, TIT, CONT, WR_DATE, HIT
+		    FROM NOTICE
+		    ORDER BY NOTI_ID 
+		)
+		SELECT  B.* FROM (
+			SELECT ROWNUM RNUM2, A.*
+			FROM (
+			        SELECT ROWNUM RNUM, ORDEREDNOTICE.*
+			        FROM ORDEREDNOTICE ORDER BY NOTI_ID DESC
+			) A
+		) B
+		WHERE RNUM2 BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 게시글 등록하는 INSERT문 -->
+	<insert id="insertNotice" parameterType="NoticeVO">
+		<selectKey order="BEFORE" resultType="String" keyProperty="notiId">
+			SELECT 'BA1'||LPAD(NOTI_SEQ.NEXTVAL, 4, '0')
+			FROM DUAL
+		</selectKey>
+		INSERT INTO NOTICE (
+			NOTI_ID
+			, EMP_ID
+			, TIT
+			, CONT
+			, WR_DATE
+			, HIT
+		) VALUES (
+			#{notiId}
+			, #{empId, jdbcType=NUMERIC}
+			, #{tit, jdbcType=VARCHAR}
+			, #{cont, jdbcType=VARCHAR}
+			, SYSDATE
+			, 0
+		)
+	</insert>
+	
+	<!-- 조회수 증가하는 UPDATE문 -->
+	<update id="incrementHit" parameterType="int">
+		UPDATE NOTICE
+		SET
+		HIT = HIT + 1
+		WHERE NOTI_ID = #{notiId}
+	</update>	
+</mapper>

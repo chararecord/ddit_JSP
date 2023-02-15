@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prof.lectSylla.dao.LectureSyllabusDAO">
+
+<!-- 해당 교수의 강의계획서 전체목록 조회 -->
+<select id="selectSyllabusList" parameterType="kr.or.ddit.vo.ProfessorVO" resultType="SyllabusVO">
+	SELECT 
+	    B.SEME_YEAR AS SEME_YEAR, 
+	    B.SEME AS SEMESTER, 
+	    A.CAM_YEAR AS CAM_YEAR, 
+	    A.LECT_NM AS LECT_NM, 
+	    A.HOPE_MAX AS HOPE_MAX,
+	    (SELECT COMM_DESC
+	       FROM COMM
+	      WHERE COMM.COMM_ID = C.ESTA_SUB) AS COMM_DESC,
+	    C.CREDIT AS CREDIT, 
+	    A.HOPE_TIME AS HOPE_TIME,
+	    (SELECT BUILD_NM
+	       FROM BUILDING
+	      WHERE BUILDING.BUILD_ID = D.BUILD_ID
+	    ) AS BUILD_NM,
+	    D.ROOM_NUM AS ROOM_NUM,
+	    A.SYLLA_MEET AS SYLLA_MEET, 
+	    E.APRV_STATE AS APRV_STATE
+	FROM SYLLABUS A INNER JOIN SEMESTER B ON (A.SEME_ID = B.SEME_ID)
+               		INNER JOIN SUB_MAJOR C ON (A.SUB_MAJOR_ID = C.SUB_MAJOR_ID)
+                	INNER JOIN LECT_ROOM D ON (A.LECT_ROOM_ID = D.LECT_ROOM_ID)
+                	INNER JOIN SYLLA_APPR E ON (A.SYLLA_ID = E.SYLLA_ID)
+	WHERE A.PROF_ID = ${profId}
+</select>
+
+<!--해당 학과의 과목 조회 -->
+<select id="selectSubMajorList" parameterType="map" resultType="kr.or.ddit.vo.SubMajorVO">
+	SELECT A.SUB_MAJOR_ID, 
+	       A.SEME_ID, 
+	       (SELECT COMM_DESC
+	          FROM COMM
+	         WHERE COMM.COMM_ID = A.ESTA_SUB) AS ESTA_SUB,
+			       A.SUBJECT_NM, 
+			       A.CREDIT
+		FROM SUB_MAJOR A INNER JOIN PROFESSOR B ON(A.MAJOR_ID = B.MAJOR_ID)
+		                 INNER JOIN SEMESTER C ON(A.SEME_ID = C.SEME_ID)
+		WHERE B.PROF_ID = #{profId}
+		  AND C.SEME_ID = #{semeId}
+</select>
+
+
+<select id="selectSemesterList" resultType="kr.or.ddit.vo.SemesterVO">
+	SELECT SEME_ID, 
+		   SEME_YEAR, 
+		   SEME
+	FROM SEMESTER
+	ORDER BY 2
+</select>
+
+
+<!-- 건물목록 가져오기 -->
+<select id="selectBuildingList" resultType="kr.or.ddit.vo.BuildingVO">
+	SELECT BUILD_ID, 
+		   BUILD_NM, 
+		   BUILD_COMM
+	FROM BUILDING
+</select>
+
+
+<!-- 건물목록 중 한 건물을 선택하면 강의실 목록 가져오기 -->
+<select id="selectLectRoomList" parameterType="kr.or.ddit.vo.BuildingVO" resultType="kr.or.ddit.vo.LectRoomVO">
+	SELECT LECT_ROOM_ID, 
+		   BUILD_ID, 
+		   ROOM_NUM, 
+		   NUM_PPL
+	FROM LECT_ROOM
+	WHERE BUILD_ID = #{buildId}
+</select>
+
+<!-- 강의계획서 등록 -->
+<insert id="insertLectSyllabus" parameterType="kr.or.ddit.vo.SyllabusVO">
+	INSERT INTO SYLLABUS (
+	    SYLLA_ID,
+	    SEME_ID,
+	    PROF_ID,
+	    LECT_ROOM_ID,
+	    SUB_MAJOR_ID,
+	    LECT_NM,
+	    CAM_YEAR,
+	    LECT_HOUR,
+	    HOPE_TIME,
+	    HOPE_MAX,
+	    TEXTBOOK,
+	    LECT_COM,
+	    NOTE,
+	    SYLLA_MEET
+	) VALUES (
+    (SELECT 'DD' || TO_CHAR(SUBSTR(MAX(SYLLA_ID),3,5)+1)FROM SYLLABUS),
+	    #{semeId},
+	    3120001,
+	    #{lectRoomId},
+	    #{subMajorId},
+	    #{lectNm},
+	    #{camYear},
+	    #{lectHour},
+	    #{hopeTime},
+	    #{hopeMax},
+	    #{textbook},
+	    #{lectCom},
+	    #{note},
+	    #{syllaMeet}
+	)
+</insert>
+
+<select id="selectSyllaAppr" resultType="kr.or.ddit.vo.SyllabusVO">
+	SELECT *
+	  FROM SYLLABUS
+	 WHERE PROF_ID = #{profId}
+	   AND ROWNUM = 1
+	 ORDER BY 1 DESC
+</select>
+
+<!-- 강의계획서 등록 후 강의승인 테이블에 등록 -->
+<insert id="insertSyllaAppr" parameterType="kr.or.ddit.vo.SyllabusVO">
+	INSERT INTO SYLLA_APPR (
+	    SYLLA_APPR_ID,
+	    SYLLA_ID,
+	    PROF_ID,
+	    APRV_STATE
+	) VALUES (
+	     (SELECT 'DD' || TO_CHAR(SUBSTR(MAX(SYLLA_ID),3,5)+1)FROM SYLLA_APPR),
+	    #{syllaId},
+	    #{profId},
+	    '2'
+	)
+</insert>
+
+</mapper>

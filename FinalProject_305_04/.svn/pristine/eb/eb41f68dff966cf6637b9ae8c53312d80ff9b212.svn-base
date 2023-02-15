@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prof.lectroom.dao.ProfLectListDAO">
+
+
+	<!--나의 강의 목록 조회(교수) -->
+	<resultMap type="ProfessorVO" id="professorMap" autoMapping="true">
+		<id property="profId" column="PROF_ID" />
+		<collection property="myLectureList" autoMapping="true" ofType="MyLectureVO">
+			<association property="semeVO" javaType="SemesterVO" autoMapping="true"></association>
+		</collection>
+	</resultMap>
+
+	<select id="selectProfLectList" parameterType="ProfessorVO"
+		resultMap="professorMap">
+		SELECT 
+				(
+				SELECT COMM_DESC
+				        FROM COMM
+				        WHERE COMM.COMM_ID = A.ESTA_SUB
+				) ESTA_SUB,
+				A.LECT_ID, A.LECT_NM, A.CREDIT, A.CAM_YEAR, 
+				(SELECT COMM_DESC
+				    FROM COMM
+				    WHERE COMM.COMM_ID = A.SYLLA_MEET) SYLLA_MEET
+		FROM V_LECTUREINFO A
+		WHERE A.PROF_ID=#{profId}
+		   AND A.SEME_ID=#{semeId}
+	</select>
+
+
+	<!-- 나의 강의를 듣는 학생 목록 조회(교수) -->
+
+	<resultMap type="MyLectureVO" id="lectureMap" autoMapping="true">
+		<id property="lectId" column="LECT_ID" />
+		<collection property="myStudentList" autoMapping="true" ofType="MyStudentVO"></collection>
+	</resultMap>
+
+	<select id="selectProfStdList" parameterType="LectureVO" resultMap="lectureMap">
+	        
+        WITH STUDENTVIEW AS (
+        SELECT A.STD_ID, B.MAJOR_ID, B.MAJOR_NM, C.COLL_NM, C.COLL_ID
+        , ( 
+        SELECT CAM_YEAR
+        FROM (
+             SELECT STD_ID 
+            , MAX(CAM_YEAR) KEEP(DENSE_RANK LAST ORDER BY RECO_ID) AS CAM_YEAR
+            , MAX(RECO_ID) KEEP(DENSE_RANK LAST ORDER BY RECO_ID) AS RECO_ID
+            , MAX(REC_NM) KEEP(DENSE_RANK LAST ORDER BY RECO_ID) AS REC_NM
+            FROM RECORD 
+            GROUP BY STD_ID
+            ) RE
+            WHERE A.STD_ID = RE.STD_ID
+        )   CAM_YEAR  
+        FROM STUDENT A INNER JOIN MAJOR B ON (A.MAJOR_ID = B.MAJOR_ID)
+						INNER JOIN COLL C ON (B.COLL_ID = C.COLL_ID)
+       ), CURR_LECTVIEW AS (
+       select D.CURLECT_ID,D.STD_ID, D.LECT_ID
+       , E.MAJOR_ID, E.MAJOR_NM, E.COLL_NM, E.COLL_ID, E.CAM_YEAR
+       from curr_lect D inner join STUDENTVIEW E on (D.STD_ID = E.STD_ID)
+       ), CURR_LECTUSERVIEW AS(
+        SELECT F.*, G.USER_NM
+        FROM CURR_LECTVIEW F INNER JOIN USR G ON (F.STD_ID = G.USER_ID)
+        )
+       select H.LECT_ID, H.LECT_NM, H.SEME_ID
+       , J.SEME_YEAR "semeVO.semeYear", J.SEME "semeVO.seme"
+       ,I.STD_ID, I.USER_NM
+       , I.COLL_ID "collVO.collId", I.COLL_NM "collVO.collNm"
+       , I.MAJOR_ID "majorVO.majorId", I.MAJOR_NM "majorVO.majorNm"
+       , I.CAM_YEAR 
+        from LECTURE H INNER JOIN SEMESTER J ON (H.SEME_ID = J.SEME_ID)
+        
+        LEFT OUTER JOIN CURR_LECTUSERVIEW I ON(H.LECT_ID = I.LECT_ID)
+        	WHERE H.LECT_ID=#{lectId}
+	</select>
+
+
+<!-- 학생들 출결 관리 -->
+	<select id="selectAttendManage" parameterType="StudentVO" resultType="AttendVO">
+		SELECT
+				TO_CHAR(A.ATTEND_DATE, 'YYYY-MM-DD') AS ATTEND_DATE,
+				A.ATTEND_STAT,
+				C.USER_NM ,
+				D.LECT_NM ,
+				E.SEME_YEAR,
+				E.SEME,
+				B.STD_ID,
+				D.LECT_ID,
+				A.ATTEND_ID
+		FROM ATTEND A INNER JOIN CURR_LECT B ON (A.CURLECT_ID = B.CURLECT_ID)
+						INNER JOIN USR C ON (B.STD_ID = C.USER_ID)
+						INNER JOIN LECTURE D ON (B.LECT_ID = D.LECT_ID)
+						INNER JOIN SEMESTER E ON (D.SEME_ID = E.SEME_ID)
+		WHERE B.STD_ID = #{stdId}
+		  AND D.LECT_ID = #{lectId}
+	</select>
+	
+<!-- 	attnedid, currect_id를 받아올 select 하나 추가해야함 -->
+<!-- 	<update id="updateAttendStat" parameterType="String"> -->
+<!-- 		 update  -->
+<!-- 		set  -->
+<!-- 		where  attendId, currect_id -->
+<!-- 	</update> -->
+
+<!-- <select id=""> -->
+<!-- SELECT ATTEND_ID -->
+<!-- FROM ATTEND -->
+
+<!-- </select> -->
+
+<update id="updateAttendStat" parameterType="AttendVO" >
+UPDATE ATTEND
+SET ATTEND_STAT =#{attendStat}
+WHERE ATTEND_ID = #{attendId}
+
+</update>
+
+
+
+</mapper>

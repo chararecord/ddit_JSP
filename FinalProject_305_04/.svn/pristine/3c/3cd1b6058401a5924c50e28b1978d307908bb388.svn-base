@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.assignment.dao.AssignmentStudentDAO">
+
+
+		
+	<!-- 게시글 리스트 조회   -->
+	 <resultMap type="CurrLectVO" id="currlectMap" autoMapping="true">
+		<id property="curlectId" column="CURLECT_ID" />
+		<collection property="assignmentList" ofType="AssignmentVO" autoMapping="true">
+			<id property="asgnId" column="ASGN_ID"/>
+		</collection>
+	</resultMap>  
+
+	
+	<select id="selectAssignmentList" parameterType="CurrLectVO" resultMap="currlectMap">
+		SELECT A.CURLECT_ID, A.STD_ID, A.FIN_SCORE 
+       		   ,B.LECT_ID, B.SYLLA_APPR_ID, B.LECT_NM, B.LECT_STATE, B.CAM_YEAR, B.NUM_CLASS, B.CREDIT, B.LECT_HOUR, B.TEXTBOOK, B.LECT_COM, B.NOTE, B.ONF_LINE, B.ASSIGN_ROOM_ID
+              ,C.ASGN_ID, C.ASSIGN_NM, C.ASSIGN_RDATE, C.ASSIGN_DDATE, C.ASSIGN_CONT ,D.SEME_ID, D.EXAM_TYPE
+		FROM CURR_LECT A LEFT OUTER JOIN LECTURE B ON(A.LECT_ID = B.LECT_ID )
+		               LEFT OUTER JOIN ASGN C ON(B.LECT_ID = C.LECT_ID)
+		               LEFT OUTER JOIN EXAM_CAL D ON (B.SEME_ID = D.SEME_ID)
+		WHERE A.CURLECT_ID = #{curlectId}
+		ORDER BY CURLECT_ID
+	</select>
+
+
+
+
+</mapper>
+
+
+
+
+
+
+

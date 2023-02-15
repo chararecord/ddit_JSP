@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prof.dean.dao.LectrueSyllabusDeanDAO">
+
+	<resultMap type="SyllabusVO" id="syllabusMap" autoMapping="true">
+		<id property="syllaId" column="SYLLA_ID"/>
+		<association property="semesterVO" autoMapping="true" javaType="SemesterVO"></association>
+		<association property="subMajorVO" autoMapping="true" javaType="SubMajorVO"></association>
+		<association property="buildingVO" autoMapping="true" javaType="BuildingVO"></association>
+		<association property="lectRoomVO" autoMapping="true" javaType="LectRoomVO"></association>
+		<association property="syllaApprVO" autoMapping="true" javaType="SyllaApprVO"></association>
+		<association property="professorVO" autoMapping="true" javaType="ProfessorVO"></association>
+	</resultMap>
+
+	<select id="selectDeanSyllaList" resultMap="syllabusMap">
+	SELECT 
+		B.SEME_YEAR AS SEME_YEAR, 
+	    B.SEME AS SEME, 
+	    A.CAM_YEAR AS CAM_YEAR, 
+	    A.LECT_NM AS LECT_NM, 
+	    A.HOPE_MAX AS HOPE_MAX,
+	    (SELECT COMM_DESC
+	       FROM COMM
+	      WHERE COMM.COMM_ID = C.ESTA_SUB) AS COMM_DESC,
+	    C.CREDIT AS CREDIT, 
+	    A.HOPE_TIME AS HOPE_TIME,
+	    A.SYLLA_ID AS SYLLA_ID,
+	    (SELECT BUILD_NM
+	       FROM BUILDING
+	      WHERE BUILDING.BUILD_ID = D.BUILD_ID
+	    ) AS BUILD_NM,
+	    D.ROOM_NUM AS ROOM_NUM,
+        (SELECT COMM_DESC
+           FROM COMM
+          WHERE COMM.COMM_ID = A.SYLLA_MEET
+        ) AS SYLLA_MEET,
+	   (SELECT COMM_DESC
+           FROM COMM
+          WHERE COMM.COMM_ID = E.APRV_STATE) AS APRV_STATE
+	FROM SYLLABUS A INNER JOIN SEMESTER B ON (A.SEME_ID = B.SEME_ID)
+               		INNER JOIN SUB_MAJOR C ON (A.SUB_MAJOR_ID = C.SUB_MAJOR_ID)
+                	INNER JOIN LECT_ROOM D ON (A.LECT_ROOM_ID = D.LECT_ROOM_ID)
+                	INNER JOIN SYLLA_APPR E ON (A.SYLLA_ID = E.SYLLA_ID)
+	</select>
+	
+	<select id="selectDeanSylla" parameterType="SyllabusVO" resultMap="syllabusMap">
+		SELECT B.SEME_YEAR
+        , B.SEME as SEME
+        ,( SELECT USER_NM
+             FROM USR
+            WHERE USR.USER_ID = A.PROF_ID
+        ) AS USER_NM
+        ,(SELECT BUILD_NM
+            FROM BUILDING
+	       WHERE BUILDING.BUILD_ID = D.BUILD_ID
+         ) AS BUILD_NM
+        , D.ROOM_NUM
+        , A.CAM_YEAR
+        , A.HOPE_TIME
+        , A.HOPE_MAX
+        , A.TEXTBOOK
+        , A.LECT_COM
+        , A.NOTE
+        ,(SELECT COMM_DESC
+           FROM COMM
+          WHERE COMM.COMM_ID = A.SYLLA_MEET
+        ) AS SYLLA_MEET
+        , A.SYLLA_ID
+		FROM SYLLABUS A INNER JOIN SEMESTER B ON (A.SEME_ID = B.SEME_ID)
+                		INNER JOIN PROFESSOR C ON (A.PROF_ID = C.PROF_ID)
+                		INNER JOIN LECT_ROOM D ON (A.LECT_ROOM_ID = D.LECT_ROOM_ID)
+		WHERE SYLLA_ID = #{syllaId}
+	</select>
+</mapper>

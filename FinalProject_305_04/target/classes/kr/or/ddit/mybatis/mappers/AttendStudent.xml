@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.attend.dao.AttendDAO">
+
+
+<!--'수강강의' 테이블  -->
+<resultMap type="CurrLectVO" id="currLectMap" autoMapping="true">
+	<collection property="attendtList" resultMap="attendMap"></collection>
+	<collection property="lectureList" resultMap="lectureMap"></collection>
+	<collection property="studentList" resultMap="studentMap"></collection>
+</resultMap>
+
+<!--'출결' 테이블  -->
+<resultMap type="AttendVO" id="attendMap" autoMapping="true">
+	<id property="attendId" column="ATTEND_ID"/>
+	<association property="lecture" javaType="MyLectureVO"></association>
+	<association property="student" javaType="MyStudentVO"></association>
+</resultMap>
+
+<!--'강의' 테이블  -->
+<resultMap type="MyLectureVO" id="lectureMap" autoMapping="true">
+	<id property="lectId" column="LECT_ID"/>
+</resultMap>
+
+
+<!--'학생' 테이블  -->
+<resultMap type="MyStudentVO" id="studentMap" autoMapping="true">
+	<id property="stdId" column="STD_ID"/> 
+</resultMap>
+
+
+
+<!--학생이 본인의 출결 현황을 조회  -->
+
+<select id="selectAttendList" parameterType="StudentVO" resultMap="attendMap">
+		SELECT
+				TO_CHAR(A.ATTEND_DATE, 'YYYY-MM-DD') AS ATTEND_DATE,
+				A.ATTEND_STAT,
+				C.USER_NM ,
+				D.LECT_NM ,
+				E.SEME_YEAR,
+				E.SEME,
+				D.LECT_ID
+		FROM ATTEND A INNER JOIN CURR_LECT B ON (A.CURLECT_ID = B.CURLECT_ID)
+						INNER JOIN USR C ON (B.STD_ID = C.USER_ID)
+						INNER JOIN LECTURE D ON (B.LECT_ID = D.LECT_ID)
+						INNER JOIN SEMESTER E ON (D.SEME_ID = E.SEME_ID)
+		WHERE B.STD_ID = #{stdId}
+		AND D.LECT_ID = #{lectId}
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,288 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.ddit.or.kr/class305" prefix="ui"%>
+
+<div class="cont">
+
+	<!-- cont-title -->
+	<div class="cont-title">
+		<h2>
+			강의게시판
+			<button type="button" class="star">
+				<span class="sr-only">즐겨찾기</span>
+			</button>
+		</h2>
+		<!--cont-navi-->
+		<div class="cont-navi">
+			<span>home</span> <i class="bi bi-house-door-fill"></i>
+			<strong><a>나의강의목록</a></strong>
+			<strong>강의게시판</strong>
+		</div>
+		<!--end cont-navi-->
+	</div>
+	<!-- end cont-title -->
+
+	<div class="white-box">
+
+		<!-- cont-box-inner -->
+		<div class="cont-box-inner">
+			<div class="cont-box-inner">
+				<div class="title">
+					<h3>강의정보</h3>
+				</div>
+				<div class="tbl-wrap">
+					<c:set value="${lectInfo}" var="lect" />
+					<table class="tbl">
+						<caption>강의정보</caption>
+						<colgroup>
+							<col style="width: 150px;">
+							<col style="width: auto;">
+							<col style="width: 150px;">
+							<col style="width: auto;">
+						</colgroup>
+						<tbody class="center">
+							<tr>
+								<th scope="row">학사연도</th>
+								<td>${lect.semeVO.semeYear }년</td>
+								<th scope="row">학기</th>
+								<td>${lect.semeVO.seme }학기</td>
+								<th scope="row">학년</th>
+								<td>${lect.camYear }학년</td>
+								<th scope="row">학점</th>
+								<td>${lect.credit }학점</td>
+							</tr>
+							<tr>
+								<th scope="row">이수구분</th>
+								<td>${lect.estaSub }</td>
+								<th scope="row">학과과목명</th>
+								<td>${lect.subMajorVO.subjectNm }</td>
+								<th scope="row">강의명</th>
+								<td>${lect.lectNm }</td>
+								<th scope="row">교수명</th>
+								<td>${lect.profVO.userNm }</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<br /> <br /> <br />
+			<div class="title">
+				<div class="left w50" style="box-sizing: border-box; float: left;">
+					<h3 class="left">강의게시판</h3>
+					<span class="total"><em>${pagingVO.totalRecord }</em>건</span>
+				</div>
+				<div class="right-part w50"
+					style="box-sizing: border-box; float: right;">
+					<div class="search-form">
+						<form:form id="searchUI" modelAttribute="simpleCondition"
+							onsubmit="return false;">
+							<form:select path="searchType">
+								<option value>전체</option>
+								<form:option value="tit" label="제목" />
+								<form:option value="cont" label="내용" />
+							</form:select>
+							<div class="input-group">
+								<form:input path="searchWord" />
+								<input id="searchBtn" class="btn btn-search primary"
+									type="button" value="검색" />
+							</div>
+							<div class="box-btn">
+								<button type="button" class="insertBtn btn purple">등록</button>
+							</div>
+						</form:form>
+					</div>
+				</div>
+			</div>
+			<!--tbl start-->
+
+			<div class="tbl-wrap">
+				<table class="tbl center">
+					<caption>강의게시판 테이블</caption>
+					<colgroup>
+						<col style="width: 10%" />
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col" class="w5">선택</th>
+							<th scope="col" class="w5">글번호</th>
+							<th scope="col" class="w50">제목</th>
+							<th scope="col" class="w5">첨부파일</th>
+							<th scope="col">작성자</th>
+							<th scope="col">등록일</th>
+							<th scope="col" class="w5">조회수</th>
+						</tr>
+					</thead>
+					<tbody id="listBody">
+						<tr>
+							<c:set var="lectBoardList" value="${pagingVO.dataList }" />
+							<c:choose>
+								<c:when test="${not empty lectBoardList }">
+									<c:forEach items="${lectBoardList }" var="lectBoard">
+										<tr>
+											<td>
+												<!-- 체크박스 -->
+												<div class="rc-wrap">
+													<input type="checkbox" id="checkbox5" name="notiCheck"
+														value="${lectBoard.lectBoardId }"> <label
+														for="checkbox5"><span class="sr-only">선택</span></label>
+												</div>
+											</td>
+											<td>${lectBoard.rnum }</td>
+											<td style="text-align: left">
+											<a href="#" hidden="">
+													${lectBoard.tit } <c:if test="${lectBoard.attaCount ge 1}">
+														<span class="material-symbols-outlined"
+															style="font-size: 15px">attach_file</span>
+													</c:if>
+											</a>
+											</td>
+											<td>${lect.profVO.userNm }</td>
+											<td>${lectBoard.wrDate }</td>
+											<td>${lectBoard.hit }</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<td colspan="5">조건에 맞는 게시글이 없습니다.</td>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--tbl end-->
+
+			<!-- 페이지 네비게이션 -->
+			<div id="pagingArea" class="pagination_block">
+				<ui:pagination pagingVO="${pagingVO }" type="bootstrap" />
+			</div>
+			<!-- //페이지 네비게이션 -->
+		</div>
+		<!-- end cont-box-inner -->
+	</div>
+</div>
+<form:form id="searchForm" method="get" modelAttribute="simpleCondition">
+	<form:hidden path="searchType" name="searchType" />
+	<form:hidden path="searchWord" />
+	<input type="hidden" name="page" />
+</form:form>
+<script>
+let listBody = $("#listBody");
+
+let pagingArea = $("#pagingArea").on('click', "a.paging", function(event) {
+	event.preventDefault();
+	let page = $(this).data("page");
+	if (!page) {
+		return false;
+	}
+	searchForm.find("[name=page]").val(page);
+	searchForm.submit();
+	return false;
+});
+
+let makeTrTag = function(lectBoard, index) {
+
+	/* 날짜 format */
+	let wrDate = lectBoard.wrDate;
+	console.log("wrDate", wrDate);
+	let day = wrDate.split(' ');
+	// 	console.log("day", day);
+	// 	let time = day[1];
+	// 	console.log(time);
+	// 	time = day[1].split('.');
+	// 	console.log(time[0]);
+
+	let aTag = $("<a>").attr({
+		"href":"${pageContext.request.contextPath}/prof/lectBoard/" + lectBoard.lectId + "/" + lectBoard.lectBoardId
+	}).html(lectBoard.tit);
+
+	let checkBoxInput = $("<input>").attr({
+		type : "checkbox",
+		id : "check_" + index,
+		name : "lectBoardCheck",
+		value : lectBoard.lectBoardId
+	});
+	let checkBoxLabel = $("<label>")
+			.append($("<span>").addClass("sr-only")).attr('for',
+					"check_" + index)
+	let f_attach = function() {
+		if (lectBoard.attaCount >= 1) {
+			let attaTag = $("<span>").addClass('material-symbols-outlined')
+					.css('font-size', '15px').html('attach_file')
+			return attaTag;
+		}
+	}
+
+	return $("<tr>").append($("<td>").append(checkBoxInput, checkBoxLabel),
+			$("<td>").html(lectBoard.rnum),
+			$("<td>").html(aTag).css('text-align', 'left'),
+			$("<td>").html(f_attach()), $("<td>").html(lectBoard.userNm),
+			$("<td>").html(day[0]), $("<td>").html(lectBoard.hit))
+}
+
+let searchForm = $('#searchForm').on(
+		'submit',
+		function(event) {
+			event.preventDefault();
+
+			let url = this.action;
+			let method = this.method;
+			let queryString = $(this).serialize();
+
+			//아작스 보내는 방식이 다양한데, 확장성 좋은 요걸 외움(파일 전송빼고 모든 곳에 사용가능)
+			$.ajax({
+				url : url,
+				method : method,
+				data : queryString,
+				dataType : "json",
+				success : function(resp) {
+					listBody.empty();
+					pagingArea.empty();
+					searchForm[0].page.value = "";
+
+					let pagingVO = resp.pagingVO;
+					let dataList = pagingVO.dataList;
+					let trTags = [];
+
+					if (dataList) {
+						$.each(dataList, function(index, lectBoard) {
+							trTags.push(makeTrTag(lectBoard, index));
+						});
+					} else {
+						let tr = $("<tr>").html(
+								$("<td>").attr("colspan", "6").html(
+										"조건에 맞는 게시글이 없습니다."));
+						trTags.push(tr);
+					}
+					listBody.html(trTags);
+					pagingArea.html(resp.pagingHTML)
+				},
+				error : function(jqXHR, status, error) {
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
+				}
+			});
+			return false;
+		}).submit();
+
+let searchUI = $("#searchUI").on('click', "#searchBtn", function() {
+	let inputs = searchUI.find(":input[name]");
+	$.each(inputs, function(index, input) {
+		let name = this.name;
+		let value = $(this).val();
+		console.log(name, value);
+		searchForm.find("[name=" + name + "]").val(value);
+	});
+	searchForm.submit();
+});
+
+$(".insertBtn").on('click', function(event){
+	event.preventDefault();
+	let url = "${pageContext.request.contextPath}/prof/lectBoard/${lectInfo.lectId}/form";
+	location.href = url;
+});
+</script>
+

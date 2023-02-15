@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.test.dao.TestDAO">
+
+	<!-- 목록 전체 게시글 개수 조회  -->
+	<select id="selectTotalRecord" parameterType="PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM TEST_INFO
+	</select>
+	
+	
+	<!--  시험 목록 조회  -->
+	<select id="selectTestList" parameterType="PagingVO"  resultType="TestVO">
+		WITH ORDEREDTEST AS (
+		    SELECT TEST_NM, 
+		           TEST_RDATE,
+		           TEST_STIME,
+		           TEST_ETIME,
+		           TEST_MEET
+		    FROM TEST_INFO
+		)
+		SELECT A.*
+		FROM (
+		    SELECT ROWNUM RNUM, ORDEREDTEST.*
+		    FROM ORDEREDTEST
+		    ORDER BY RNUM DESC
+		) A
+	</select>
+
+
+
+
+</mapper>

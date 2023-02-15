@@ -1,0 +1,44 @@
+package kr.or.ddit.vo;
+
+import java.io.Serializable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+/**
+ * 사용자 객체
+ * @author 장은호
+ * @Since 2023. 2. 3.
+ * <pre>
+ *
+ * ======[[개정이력(Modification Information)]]======
+ *   수정일                    수정자                        수정내용
+ * --------          --------    -----------------------
+ * 2023. 2. 3.       장은호        		생성
+ *
+ * Copyright (c) 2023 by DDIT All right reserved
+ * </pre>
+ */
+@Data
+@EqualsAndHashCode(of="userId")
+@ToString(exclude= {"userPass", "userRrn1", "userRrn2"})
+public class UsrVO implements Serializable {
+	private Integer userId;
+	private String userNm;
+	private String userNmEn;
+	private String userPass;
+	private String userRrn1;
+	private String userRrn2;
+	private String userPhone;
+	private String userPost;
+	private String userAddr;
+	private String userDetailAddr;
+	private String userEmail;
+	private String userBank;
+	private String userAcctHd;
+	private String userAcctNo;
+	private String userGender;
+	private String userNtl;
+	private String userBir;
+}

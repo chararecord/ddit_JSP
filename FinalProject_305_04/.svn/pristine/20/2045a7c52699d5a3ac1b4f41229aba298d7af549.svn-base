@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.lectList.dao.LectListDAO">
+
+<select id="selectLectList" parameterType="StudentVO"  resultType="LectureVO">
+SELECT 
+    (
+        SELECT COMM_DESC
+        FROM COMM
+        WHERE COMM.COMM_ID = A.ESTA_SUB
+    )  AS COMM_DESC,
+	C.MAJOR_NM AS MAJOR_NM,
+	E.LECT_NM AS LECT_NM, 
+	G.USER_NM AS USER_NM, 
+	E.CREDIT AS CREDIT,
+	D.SEME_YEAR AS SEME_YEAR,
+	D.SEME AS SEME 
+FROM SUB_MAJOR A INNER JOIN SYLLABUS B ON A.SEME_ID = B.SEME_ID
+INNER JOIN MAJOR C ON A.MAJOR_ID = C.MAJOR_ID
+INNER JOIN SEMESTER D ON A.SEME_ID = D.SEME_ID
+INNER JOIN LECTURE E ON D.SEME_ID = D.SEME_ID
+INNER JOIN STUDENT F ON F.MAJOR_ID = C.MAJOR_ID
+INNER JOIN USR G ON G.USER_ID = B.PROF_ID
+WHERE F.STD_ID=#{stdId}
+AND D.SEME_YEAR=#{SEME_YEAR}
+AND D.SEME = #{SEME}
+</select>
+
+
+
+</mapper>

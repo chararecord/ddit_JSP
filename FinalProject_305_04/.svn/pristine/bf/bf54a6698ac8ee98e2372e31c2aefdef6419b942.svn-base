@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.test.dao.TestDAO">
+
+	<!-- 목록 전체 게시글 개수 조회  -->
+	<select id="selectTotalRecord" parameterType="PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM TEST_INFO
+	</select>
+	
+	
+	<!--  시험 목록 조회  -->
+	<select id="selectTestList" parameterType="PagingVO"  resultType="TestVO">
+		WITH ORDEREDTEST AS (
+
+		    SELECT B.*
+			FROM CURR_LECT A INNER JOIN TEST_INFO B ON A.LECT_ID = B.LECT_ID 
+
+		    
+		)
+		SELECT A.*
+		FROM (
+		    SELECT ROWNUM RNUM, ORDEREDTEST.*
+		    FROM ORDEREDTEST
+		    ORDER BY RNUM DESC
+		) A
+	</select>
+
+
+
+	<!-- 시험상세조회  -->
+<!-- 	<resultMap type="TestVO" id="testMap" autoMapping="true"> -->
+<!-- 		<id property="testId" column="TEST_ID" />		 -->
+<!-- 		<collection property="queList" ofType="TestQueVO" autoMapping="true">   -->
+<!-- 			<id property="testQueId" column="TEST_QUE_ID" /> -->
+			
+<!-- 			<collection property="pasgList" ofType="TestPasgVO" autoMapping="true"> -->
+<!-- 				<id property="testPasgId" column="TEST_PASG_ID" /> -->
+<!-- 			</collection> -->
+<!-- 		</collection> -->
+<!-- 	</resultMap>  -->
+	<resultMap type="TestVO" id="testMap">
+		<result property="testId" column="TEST_ID" /> 
+		<result property="examId" column="EXAM_ID" /> 
+		<result property="lectId" column="LECT_ID" /> 
+		<result property="testNm" column="TEST_NM" /> 
+		<result property="testRdate" column="TEST_RDATE" /> 
+		<result property="testStime" column="TEST_STIME" /> 
+		<result property="testEtime" column="TEST_ETIME" /> 
+		<result property="testMeet" column="TEST_MEET" /> 
+		<result property="testDate" column="TEST_DATE" /> 
+		<collection property="queList" resultMap="queMap"></collection>
+	</resultMap>
+	
+	<resultMap type="TestQueVO" id="queMap">
+		<result property="testQueId" column="TEST_QUE_ID" /> 
+		<result property="testId" column="TEST_ID" /> 
+		<result property="testNum" column="TEST_NUM" /> 
+		<result property="testQue" column="TEST_QUE" />
+		<collection property="pasgList" resultMap="pasgMap"></collection> 
+	</resultMap>
+	
+	<resultMap type="TestPasgVO" id="pasgMap">
+		<result property="testPasgId" column="TEST_PASG_ID" /> 
+		<result property="testQueId" column="TEST_QUE_ID" /> 
+		<result property="testPasg" column="TEST_PASG" /> 
+		<result property="answState" column="ANSW_STATE" /> 
+		<result property="note" column="NOTE" /> 
+		<result property="queType" column="QUE_TYPE" /> 
+	</resultMap>
+	
+	<select id="selectTest" parameterType="string" resultMap="testMap">
+      
+        SELECT A.TEST_QUE_ID, A.TEST_ID, A.TEST_NUM, A.TEST_QUE
+		     , B.TEST_PASG_ID, B.TEST_QUE_ID, B.TEST_PASG, B.ANSW_STATE, B.NOTE, B.QUE_TYPE
+		     , C.TEST_ID, C.EXAM_ID, C.LECT_ID, C.TEST_NM, C.TEST_RDATE, C.TEST_STIME, C.TEST_ETIME, C.TEST_MEET, C.TEST_DATE
+		FROM TEST_QUE A INNER JOIN TEST_PASG B ON A.TEST_QUE_ID = B.TEST_QUE_ID
+		INNER JOIN TEST_INFO C ON C.TEST_ID = A.TEST_ID
+		WHERE A.TEST_ID = #{testId} 
+		ORDER BY TEST_NUM
+	
+		
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,60 @@
+package kr.or.ddit.vo;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
+import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import kr.or.ddit.validate.DeleteGroup;
+import kr.or.ddit.validate.UpdateGroup;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@EqualsAndHashCode(of="attaId")
+@NoArgsConstructor
+@ToString(exclude="realFile")
+public class AttaFileVO {
+	
+	@JsonIgnore
+	private transient MultipartFile realFile;
+
+	public AttaFileVO(MultipartFile realFile) {
+		super();
+		this.realFile = realFile;
+		this.attaFilenm = realFile.getOriginalFilename();
+		this.attaSavenm = UUID.randomUUID().toString();
+		this.attaMime = realFile.getContentType();
+		this.attaFilesize = realFile.getSize();
+		this.attaFancysize = FileUtils.byteCountToDisplaySize(attaFilesize);
+	}
+	
+	private String attaId;
+	private String attaSn;
+	private String attaPath;
+	private String attaFilenm;
+	private String attaSavenm;
+	private String attaMime;
+	private Long attaFilesize;
+	private String attaFancysize;
+	private Integer attaDownload;
+	
+	public void saveTo(File saveFolder) throws IOException {
+		if(realFile==null || realFile.isEmpty()) {return;}
+		realFile.transferTo(new File(saveFolder, attaSavenm));
+	}
+	
+	public void setImageFolder(String imageFolder) {
+		this.attaPath = imageFolder;
+	}
+}

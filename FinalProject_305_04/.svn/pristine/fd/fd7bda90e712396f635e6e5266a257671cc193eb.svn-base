@@ -1,0 +1,2125 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+
+
+<div class="cont">
+
+	<!-- cont-title -->
+	<div class="cont-title">
+		<h2>
+			Basic Table
+			<button type="button" class="star">
+				<span class="sr-only">즐겨찾기</span>
+			</button>
+		</h2>
+		<!--cont-navi-->
+		<div class="cont-navi">
+			<span>home</span> <i class="bi bi-house-door-fill"></i> <strong>path1</strong>
+			<strong>path2</strong> <strong>path3</strong> <strong>path4</strong>
+		</div>
+		<!--end cont-navi-->
+	</div>
+	<!-- end cont-title -->
+
+
+
+	<div class="white-box">
+
+
+
+
+		<!-- styletab  -->
+		<div class="tab-wrap">
+			<!-- tablist  -->
+			<ul class="tab tab-1dep" role="tablist">
+				<li class="on"><a class="active tab1"
+					href="${pageContext.request.contextPath}/style/cmpt.do" id="">테이블</a></li>
+				<li><a class="nav-link"
+					href="${pageContext.request.contextPath}/style/tab.do">탭</a></li>
+			</ul>
+			<!--  // tablist  -->
+		</div>
+		<!--  // styletab  -->
+
+
+
+
+
+		<div class="search-form">
+			<select>
+				<option>전체</option>
+				<option>전체</option>
+				<option>전체</option>
+			</select>
+			<div class="input-group">
+				<label for="searchTxt" class="sr-only">검색어를 입력하세요</label> <input
+					type="text" class="form-control text input with dropdown button"
+					id="searchTxt" name="searchTxt" value="" placeholder="검색어를 입력하세요.">
+				<button class="btn btn-search primary" type="button">검색</button>
+			</div>
+		</div>
+
+
+
+
+		<!-- tob-box -->
+		<div class="tob-box">
+			<strong class="tit">시험 응시자 안내 사항 </strong>
+			<p>시험은 수업 담당교수님이 직접 출제합니다.</p>
+			<p>수강생들은 시험 시작시간과 종료시간을 엄수하여주시길 바랍니다.</p>
+			<br>
+			<p>(1) 시험은 한 문제당 5점씩 채점되며, 제출을 완료하면 자동 채점됩니다. 총점은 백분율로 계산하여
+				보여집니다.</p>
+			<p>(2) 한 시험당 문항은 최대 10개로 제한되어 있습니다.</p>
+			<p>(3) 풀지 않은 문항이 있을 경우 시험 제출 할 수 없습니다. 응시자는 이를 확인하여 모든 답을 체크할 수
+				있도록 해야합니다.</p>
+			<p>(4) 응시 한 후 제출한 퀴즈의 답을 확인할 수 있습니다.</p>
+			<br> <strong class="red-txt">제출 마감시간이 되면 문제 풀이 유무와 상관없이
+				제출되며, 풀지 않은 문항은 자동으로 0점 처리됩니다. </strong>
+		</div>
+		<!-- // tob-box -->
+
+
+
+
+
+		<!-- cont-box-inner -->
+		<div class="cont-box-inner">
+
+			<div class="title">
+				<h3>scrollbar - x, y</h3>
+				<p class="highlight red-txt">
+					<em class="red-txt">*</em>는 필수입력사항입니다.
+				</p>
+				<div class="box-btn">
+					<button type="button" class="btn default">삭제</button>
+					<button type="button" class="btn default">수정</button>
+					<button type="button" class="btn purple">등록</button>
+				</div>
+			</div>
+
+			<div class="table-scrollable">
+				<div class="table-responsive">
+					<table class="tbl">
+						<thead class="">
+							<tr class="table-scrollable__fixed-y">
+								<th>Habemus ratio</th>
+								<th>Interdictum metrodorus</th>
+								<th>Diligi fames</th>
+								<th>Successionem corrupti</th>
+								<th>Tractat inertissimae</th>
+								<th>Civitatis inani</th>
+								<th>Nascuntur animadvertat</th>
+								<th>Quanto praeterierunt</th>
+								<th>Temperantiam antipatrum</th>
+								<th>Habemus ratio</th>
+								<th>Interdictum metrodorus</th>
+								<th>Diligi fames</th>
+								<th>Successionem corrupti</th>
+								<th>Tractat inertissimae</th>
+								<th>Civitatis inani</th>
+								<th>Nascuntur animadvertat</th>
+								<th>Quanto praeterierunt</th>
+								<th>Temperantiam antipatrum</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								<th class=" " scope="row">Quanta
+									ceterorum</th>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<!-- // cont-box-inner -->
+
+
+
+		<!-- cont-box-inner -->
+		<div class="cont-box-inner">
+
+			<div class="title">
+				<h3>scrollbar - y</h3>
+				<p class="highlight red-txt">
+					<em class="red-txt">*</em>는 필수입력사항입니다.
+				</p>
+				<div class="box-btn">
+					<button type="button" class="btn default">삭제</button>
+					<button type="button" class="btn default">수정</button>
+					<button type="button" class="btn purple">등록</button>
+				</div>
+			</div>
+
+			<div class="table-scrollable">
+				<div class="table-responsive">
+					<table class="tbl">
+						<thead class="">
+							<tr class="table-scrollable__fixed-y">
+								<th>Habemus ratio</th>
+								<th>Interdictum metrodorus</th>
+								<th>Diligi fames</th>
+								<th>Successionem corrupti</th>
+								<th>Tractat inertissimae</th>
+								<th>Civitatis inani</th>
+								<th>Nascuntur animadvertat</th>
+								<th>Nascuntur animadvertat</th>
+								<th>Nascuntur animadvertat</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+								
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+							<tr>
+								<td>Quanta
+									ceterorum</td>
+								<td>Opera hae aetatis</td>
+								<td>Futuros brute quicquid</td>
+								<td>Insitam conversam</td>
+								<td>Stoici vituperatum</td>
+								<td>Populo reliquerunt</td>
+								<td>Efficeretur difficile</td>
+								<td>Feramus turpius</td>
+								<td>Nos scribi</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+
+
+		</div>
+		<!-- // cont-box-inner -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!-- cont-box-inner -->
+		<div class="cont-box-inner">
+
+			<div class="title">
+				<h3>프로필사진</h3>
+				<p class="highlight red-txt">
+					<em class="red-txt">*</em>는 필수입력사항입니다.
+				</p>
+				<div class="box-btn">
+					<button type="button" class="btn default">삭제</button>
+					<button type="button" class="btn default">수정</button>
+					<button type="button" class="btn purple">등록</button>
+				</div>
+			</div>
+
+
+			<!--  "photo-wrap"-->
+			<div class="photo-wrap">
+				<div class="photo">
+					<img src="/resources/images/star.png" alt="프로필사진" />
+				</div>
+
+				<div class="tbl-wrap">
+					<table class="tbl">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 150px;">
+							<col style="width: 150px;">
+							<col style="width: auto;">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">기준일자<em class="red-txt asterisk">*</em></th>
+								<td colspan="3">
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row" rowspan="2">제목1<em class="red-txt asterisk">*</em></th>
+								<th scope="row">제목2-1<em class="red-txt asterisk">*</em></th>
+								<td colspan="2">
+									<div class="display-tbl">
+										<div class="display-tblCell">내용</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">제목2-1<em class="red-txt asterisk">*</em></th>
+								<td colspan="2">
+									<div class="display-tbl">
+										<div class="display-tblCell">내용</div>
+									</div>
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!--   // "photo-wrap"-->
+
+		</div>
+		<!--  // cont-box-inner -->
+
+
+
+
+		<!-- cont-box-inner-->
+		<div class="cont-box-inner">
+
+			<div class="title">
+				<h3>가로테이블</h3>
+				<p class="highlight red-txt">
+					<em class="red-txt">*</em>는 필수입력사항입니다.
+				</p>
+				<div class="box-btn">
+					<button type="button" class="btn default">삭제</button>
+					<button type="button" class="btn default">수정</button>
+					<button type="button" class="btn purple">등록</button>
+				</div>
+			</div>
+
+			<div class="tbl-wrap">
+				<table class="tbl">
+					<caption>description about table</caption>
+					<colgroup>
+						<col style="width: 7%;">
+						<col style="width: 20%;">
+						<col style="width: 7%;">
+						<col style="width: 20%;">
+						<col style="width: 7%;">
+						<col style="width: 20%;">
+						<col style="width: 7%;">
+						<col style="width: 20%;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>라디오버튼<em class="red-txt">*</em></th>
+							<td>
+								<!-- 라디오버튼 -->
+								<div class="rc-wrap">
+									<div class="rc-inner">
+										<input type="radio" id="radio1" name="radio-group" checked=""><label
+											for="radio1">전체</label>
+									</div>
+									<div class="rc-inner">
+										<input type="radio" id="radio2" name="radio-group" checked=""><label
+											for="radio2">세금계산서</label>
+									</div>
+									<div class="rc-inner">
+										<input type="radio" id="radio3" name="radio-group" checked=""><label
+											for="radio3">계산서</label>
+									</div>
+								</div> <!-- // 라디오버튼 -->
+							</td>
+							<th>SELECT박스<em class="red-txt">*</em></th>
+							<td>
+								<!-- SELECT --> <select id="select2">
+									<option>sss</option>
+									<option>sss</option>
+							</select> <!-- // SELECT -->
+							</td>
+							<th>INPUT<em class="red-txt">*</em></th>
+							<td><input type="text"></td>
+							<th>체크박스<em class="red-txt">*</em></th>
+							<td>
+								<!-- 체크박스  -->
+								<div class="rc-wrap">
+									<div class="rc-inner">
+										<input type="checkbox" id="checkbox44444" name="radio-group">
+										<label for="checkbox44444">선택1</label>
+									</div>
+									<div class="rc-inner">
+										<input type="checkbox" id="checkbox4" name="radio-group">
+										<label for="checkbox4">선택2</label>
+									</div>
+								</div> <!-- // 체크박스   -->
+
+
+							</td>
+						</tr>
+						<tr>
+							<th>spinner<em class="red-txt">*</em></th>
+							<td>
+								<!--spinner-->
+								<div class="tbl-basic-td spinner-inner">
+									<label class="sr-only">year</label> <input type="number"
+										pattern="[0-9]*" class="spinner" name="value" value="2020"
+										min="1" max="" step="1" oninput="maxLengthCheck(this)"
+										maxlength="4">
+								</div> <!--end spinner-->
+							</td>
+							<th>달력<em class="red-txt">*</em></th>
+							<td>
+								<!--달력-->
+								<div class="flex">
+									<div class=" calendar-wrap">
+										<label class="calendar" for="dateFrom" title="from"><i
+											class="icon material-icons">calendar_today</i><span
+											class="sr-only">날짜선택(시작)</span></label> <input type="text"
+											id="dateFrom" class="datepicker" value="" autocomplete="off">
+									</div>
+									<span class="cal-dash"></span>
+									<div class=" calendar-wrap">
+										<label class="calendar" for="dateTo" title="to"><i
+											class="icon material-icons">calendar_today</i><span
+											class="sr-only">날짜선택(끝)</span></label> <input type="text" id="dateTo"
+											class="datepicker" value="" autocomplete="off">
+									</div>
+								</div> <!-- //달력-->
+
+							</td>
+							<th>tit<em class="red-txt">*</em></th>
+							<td colspan="3">우편번호 정보 업데이트</td>
+						</tr>
+						<tr>
+							<th>tit<em class="red-txt">*</em></th>
+							<td>우편번호 정보 업데이트</td>
+							<th>tit<em class="red-txt">*</em></th>
+							<td colspan="5">우편번호 정보 업데이트</td>
+						</tr>
+						<tr>
+							<th>tit<em class="red-txt">*</em></th>
+							<td colspan="7">우편번호 정보 업데이트</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- end cont-box-inner-->
+
+
+
+			<!--  cont-box-inner -->
+			<div class="cont-box-inner">
+
+				<div class="title">
+					<p class="highlight-txt">
+						총<em class="red-txt">26</em>건의 게시물이 있습니다
+					</p>
+					<div class="right-part">
+						<div class="search-form">
+							<select>
+								<option>전체</option>
+								<option>전체</option>
+								<option>전체</option>
+							</select>
+							<div class="input-group">
+								<label for="searchTxt" class="sr-only">검색어를 입력하세요</label> <input
+									type="text"
+									class="form-control text input with dropdown button"
+									id="searchTxt" name="searchTxt" value=""
+									placeholder="검색어를 입력하세요.">
+								<button class="btn btn-search primary" type="button">검색</button>
+							</div>
+						</div>
+						<div class="box-btn">
+							<button type="button" class="btn purple">등록</button>
+						</div>
+					</div>
+				</div>
+				<!--tbl-->
+				<div class="tbl-wrap">
+					<table class="tbl center">
+						<caption>description about table</caption>
+						<colgroup>
+							<col style="width: 10%">
+							<col style="width: 20%">
+							<col style="width: 10%">
+							<col style="width: 20%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">기안자 소속</th>
+								<th scope="col">기안자</th>
+								<th scope="col">신청일자</th>
+								<th scope="col">강의실 배정 완료 여부</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox5" name="radio-group">
+										<label for="checkbox5"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td>컴퓨터 융합학과</td>
+								<td>이규철</td>
+								<td>
+									<button type="button" class="btn btn-s primary">삭제</button>
+									<button type="button" class="btn btn-s purple">수정</button>
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox6" name="radio-group">
+										<label for="checkbox6"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td class="left">우편번호 정보 업데이트</td>
+								<td>정회성</td>
+								<td>2014-10-30</td>
+
+							</tr>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox7" name="radio-group">
+										<label for="checkbox7"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td class="left">우편번호 정보 업데이트</td>
+								<td>정회성</td>
+								<td>2014-10-30</td>
+							</tr>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox8" name="radio-group">
+										<label for="checkbox8"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td class="left">우편번호 정보 업데이트</td>
+								<td>정회성</td>
+								<td>2014-10-30</td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+				<!--end tbl-->
+
+
+				<!-- 페이지 네비게이션 -->
+				<div class="pagination_block">
+					<ul class="pagination">
+						<li class="page-item"><a class="page-link"
+							href="javascript:void(0);" aria-label="처음"> <span
+								aria-hidden="true">«</span><span class="sr-only">처음</span>
+						</a></li>
+						<li class="page-item"><a class="page-link"
+							href="javascript:void(0);" title="1 페이지로 이동">1</a></li>
+						<li class="page-item"><a class="page-link"
+							href="javascript:void(0);" title="2 페이지로 이동">2</a></li>
+						<li class="page-item"><a class="page-link"
+							href="javascript:void(0);" title="3 페이지로 이동">3</a></li>
+						<li class="page-item active"><a class="page-link" href="#"
+							title="현재 페이지">4</a></li>
+						<li class="page-item"><a class="page-link"
+							href="javascript:void(0);" title="5 페이지로 이동">5</a></li>
+						<li class="page-item"><a class="page-link"
+							href="javascript:void(0);" aria-label="다음"> <span
+								aria-hidden="true">&gt;</span><span class="sr-only">다음</span></a></li>
+						<li class="page-item"><a class="page-link"
+							href="javascript:void(0);" aria-label="마지막"> <span
+								aria-hidden="true">»</span><span class="sr-only">마지막</span></a></li>
+					</ul>
+				</div>
+				<!-- //페이지 네비게이션 -->
+			</div>
+			<!-- //  cont-box-inner -->
+
+
+
+
+
+
+
+			<!-- cont-box-inner -->
+			<div class="cont-box-inner">
+
+				<div class="title">
+					<h3>가로테이블</h3>
+					<p class="highlight red-txt">
+						<em class="red-txt">*</em>는 필수입력사항입니다.
+					</p>
+					<div class="box-btn">
+						<button type="button" class="btn default">삭제</button>
+						<button type="button" class="btn default">수정</button>
+						<button type="button" class="btn purple">등록</button>
+					</div>
+				</div>
+
+				<div class="tbl-wrap">
+					<table class="tbl">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 150px;">
+							<col style="width: 150px;">
+							<col style="width: auto;">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">기준일자<em class="red-txt asterisk">*</em></th>
+								<td colspan="3">
+									<div class="display-tbl">
+										<div class="display-tblCell"></div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row" rowspan="2">제목1<em class="red-txt asterisk">*</em></th>
+								<th scope="row">제목2-1<em class="red-txt asterisk">*</em></th>
+								<td colspan="2">
+									<div class="display-tbl">
+										<div class="display-tblCell">내용</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">제목2-1<em class="red-txt asterisk">*</em></th>
+								<td colspan="2">
+									<div class="display-tbl">
+										<div class="display-tblCell">내용</div>
+									</div>
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- //cont-box-inner -->
+
+
+
+			<!-- cont-box-inner -->
+			<div class="cont-box-inner">
+
+				<div class="title">
+					<h3>가로테이블</h3>
+					<p class="highlight red-txt">
+						<em class="red-txt">*</em>는 필수입력사항입니다.
+					</p>
+					<div class="box-btn">
+						<button type="button" class="btn default">삭제</button>
+						<button type="button" class="btn default">수정</button>
+						<button type="button" class="btn purple">등록</button>
+					</div>
+				</div>
+
+				<div class="tbl-wrap">
+					<table class="tbl">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 150px;">
+							<col style="width: auto;">
+							<col style="width: 150px;">
+							<col style="width: auto;">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">기준일자<em class="red-txt asterisk">*</em></th>
+								<td>
+									sdf
+								</td>
+								<th scope="row">기준일자<em class="red-txt asterisk">*</em></th>
+								<td>
+									sdf
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">기준일자<em class="red-txt asterisk">*</em></th>
+								<td>
+									sdf
+								</td>
+								<th scope="row">기준일자<em class="red-txt asterisk">*</em></th>
+								<td>
+									sdf
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!--// cont-box-inner -->
+
+
+
+			<!-- cont-box-inner -->
+			<div class="cont-box-inner">
+				<div class="title">
+					<h3>Title</h3>
+					<span class="total"><em>1</em>건</span>
+					<div class="box-btn">
+						<button type="button" class="btn default">수정</button>
+						<button type="button" class="btn default">삭제</button>
+						<button type="button" class="btn purple">등록</button>
+					</div>
+				</div>
+				<!--tbl-->
+				<div class="tbl-wrap">
+					<table class="tbl center">
+						<caption>description about table</caption>
+						<colgroup>
+							<col style="width: 10%" />
+							<col style="width: 20%" />
+							<col style="width: 10%" />
+							<col style="width: 20%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">기안자 소속</th>
+								<th scope="col">기안자</th>
+								<th scope="col">신청일자</th>
+								<th scope="col">강의실 배정 완료 여부</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox5" name="radio-group">
+										<label for="checkbox5"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td>컴퓨터 융합학과</td>
+								<td>이규철</td>
+								<td>
+									<button type="button" class="btn btn-s primary">삭제</button>
+									<button type="button" class="btn btn-s purple">수정</button>
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox6" name="radio-group">
+										<label for="checkbox6"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td class="left">우편번호 정보 업데이트</td>
+								<td>정회성</td>
+								<td>2014-10-30</td>
+
+							</tr>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox7" name="radio-group">
+										<label for="checkbox7"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td class="left">우편번호 정보 업데이트</td>
+								<td>정회성</td>
+								<td>2014-10-30</td>
+							</tr>
+							<tr>
+								<td>
+									<!-- 체크박스 -->
+									<div class="rc-wrap">
+										<input type="checkbox" id="checkbox8" name="radio-group">
+										<label for="checkbox8"><span class="sr-only">선택</span></label>
+									</div> <!-- // 체크박스 -->
+								</td>
+								<td class="left">우편번호 정보 업데이트</td>
+								<td>정회성</td>
+								<td>2014-10-30</td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+				<!--end tbl-->
+
+
+				<!-- 페이지 네비게이션 -->
+				<div class="pagination_block">
+					<ul class='pagination'>
+						<li class='page-item'><a class='page-link'
+							href="javascript:void(0);" aria-label='처음'> <span
+								aria-hidden='true'>&laquo;</span><span class='sr-only'>처음</span>
+						</a></li>
+						<li class='page-item'><a class='page-link'
+							href="javascript:void(0);" title='1 페이지로 이동'>1</a></li>
+						<li class='page-item'><a class='page-link'
+							href="javascript:void(0);" title='2 페이지로 이동'>2</a></li>
+						<li class='page-item'><a class='page-link'
+							href="javascript:void(0);" title='3 페이지로 이동'>3</a></li>
+						<li class='page-item active'><a class='page-link' href='#'
+							title='현재 페이지'>4</a></li>
+						<li class='page-item'><a class='page-link'
+							href="javascript:void(0);" title='5 페이지로 이동'>5</a></li>
+						<li class='page-item'><a class='page-link'
+							href="javascript:void(0);" aria-label='다음'> <span
+								aria-hidden='true'>&gt;</span><span class='sr-only'>다음</span></a></li>
+						<li class='page-item'><a class='page-link'
+							href="javascript:void(0);" aria-label='마지막'> <span
+								aria-hidden='true'>&raquo;</span><span class='sr-only'>마지막</span></a>
+						</li>
+					</ul>
+				</div>
+				<!-- //페이지 네비게이션 -->
+
+
+
+
+			</div>
+			<!-- end cont-box-inner -->
+
+
+
+
+			<!-- cont-box-inner  -->
+			<div class="cont-box-inner">
+				<div class="title ">
+					<h3>Button</h3>
+				</div>
+				<div>
+					<button type="button" class="btn default">default</button>
+					<button type="button" class="btn primary">primary</button>
+					<button type="button" class="btn purple">purple</button>
+					<button type="button" class="btn success">success</button>
+					<button type="button" class="btn info">info</button>
+					<button type="button" class="btn orange">orange</button>
+					<button type="button" class="btn red">red</button>
+					<button type="button" class="btn disable">disable</button>
+					<button type="button" class="btn disable">disable</button>
+					<button type="button" class="btn default btn-pd">
+						<i class="excel-icon"></i>excel
+					</button>
+					<button type="button" class="btn default btn-pd">
+						<i class="pdf-icon"></i>PDF
+					</button>
+				</div>
+				<div style="margin-top: 5px;">
+					<button type="button" class="btn btn-s default">default</button>
+					<button type="button" class="btn btn-s primary">primary</button>
+					<button type="button" class="btn btn-s purple">purple</button>
+					<button type="button" class="btn btn-s success">success</button>
+					<button type="button" class="btn btn-s info">info</button>
+					<button type="button" class="btn btn-s orange">orange</button>
+					<button type="button" class="btn btn-s red">red</button>
+					<button type="button" class="btn btn-s disable">disable</button>
+					<button type="button" class="btn default btn-s btn-pd">
+						<i class="excel-icon"></i>excel
+					</button>
+					<button type="button" class="btn default btn-s btn-pd">
+						<i class="pdf-icon"></i>PDF
+					</button>
+				</div>
+			</div>
+			<!--  // cont-box-inner  -->
+
+
+
+
+
+
+
+			<div class="cont-box-inner">
+				<div class="title">
+					<h3>강제로 width값 조절해야할 경우</h3>
+				</div>
+				<div class="tbl-wrap">
+					<table class="tbl tbl-rowGrid">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 127px">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">class="w100"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w100">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w95"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w95">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w90"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w90">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w85"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w85">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w80"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w80">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w75"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w75">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w70"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w70">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w65"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w65">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w60"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w60">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w55"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w55">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w50"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w50">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w45"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w45">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w40"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w40">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w35"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w35">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w30"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w30">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w25"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w25">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w20"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w20">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w15"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w15">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w10"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w10">
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">class="w5"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">
+											<input type="text" id="input1" class="w5">
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+
+
+			<div class="cont-box-inner">
+				<div class="title">
+					<h3>강제로 상단여백 조정해야 할 경우 (margin-top)</h3>
+				</div>
+				<div class="tbl-wrap">
+					<table class="tbl tbl-rowGrid">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">class="mt1"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 1px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt2"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 2px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt3"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 3px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt4"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 4px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt5"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 5px</div>
+									</div>
+								</td>
+							</tr>
+
+
+							<tr>
+								<th scope="row">class="mt6"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 6px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt7"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 7px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt8"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 8px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt9"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 9px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt10"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 10px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="mt11"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 11px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt12"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 12px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt13"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 13px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt14"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 14px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt15"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 15px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="mt16"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 16px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt17"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 17px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt18"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 18px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt19"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 19px</div>
+									</div>
+								</td>
+								<th scope="row">class="mt20"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-top: 20px</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+
+
+
+			<div class="cont-box-inner">
+				<div class="title">
+					<h3>강제로 하단여백 조정해야 할 경우 (margin-bottom)</h3>
+				</div>
+				<div class="tbl-wrap">
+					<table class="tbl tbl-rowGrid">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">class="mb1"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 1px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb2"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 2px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb3"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 3px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb4"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 4px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb5"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 5px</div>
+									</div>
+								</td>
+							</tr>
+
+
+							<tr>
+								<th scope="row">class="mb6"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 6px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb7"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 7px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb8"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 8px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb9"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 9px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb10"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 10px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="mb11"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 11px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb12"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 12px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb13"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 13px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb14"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 14px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb15"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 15px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="mb16"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 16px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb17"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 17px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb18"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 18px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb19"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 19px</div>
+									</div>
+								</td>
+								<th scope="row">class="mb20"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-bottom: 20px</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+
+
+			<div class="cont-box-inner">
+				<div class="title">
+					<h3>강제로 왼쪽여백 조정해야 할 경우 (margin-left)</h3>
+				</div>
+				<div class="tbl-wrap">
+					<table class="tbl tbl-rowGrid">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">class="ml1"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 1px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml2"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 2px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml3"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 3px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml4"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 4px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml5"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 5px</div>
+									</div>
+								</td>
+							</tr>
+
+
+							<tr>
+								<th scope="row">class="ml6"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 6px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml7"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 7px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml8"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 8px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml9"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 9px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml10"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 10px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="ml11"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 11px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml12"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 12px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml13"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 13px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml14"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 14px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml15"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 15px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="ml16"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 16px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml17"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 17px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml18"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 18px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml19"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 19px</div>
+									</div>
+								</td>
+								<th scope="row">class="ml20"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-left: 20px</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+
+			<div class="cont-box-inner">
+				<div class="title">
+					<h3>강제로 오른쪽여백 조정해야 할 경우 (margin-right)</h3>
+				</div>
+				<div class="tbl-wrap">
+					<table class="tbl tbl-rowGrid">
+						<caption></caption>
+						<colgroup>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+							<col style="width: 127px">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">class="mr1"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 1px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr2"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 2px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr3"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 3px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr4"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 4px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr5"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 5px</div>
+									</div>
+								</td>
+							</tr>
+
+
+							<tr>
+								<th scope="row">class="mr6"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 6px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr7"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 7px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr8"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 8px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr9"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 9px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr10"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 10px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="mr11"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 11px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr12"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 12px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr13"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 13px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr14"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 14px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr15"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 15px</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">class="mr16"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 16px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr17"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 17px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr18"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 18px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr19"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 19px</div>
+									</div>
+								</td>
+								<th scope="row">class="mr20"</th>
+								<td>
+									<div class="display-tbl">
+										<div class="display-tblCell">margin-right: 20px</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+
+
+	</div>
+
+</div>
+

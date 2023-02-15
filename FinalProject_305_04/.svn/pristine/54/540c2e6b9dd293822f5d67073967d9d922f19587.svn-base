@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.record.dao.RecordDAO">
+	
+<!-- 	<select id="selectStudentTotalResults" parameterType="int" resultType="int"> -->
+<!-- 		SELECT COUNT(*) -->
+<!-- 		FROM V_RECORD -->
+<!-- 		WHERE STD_ID = #{stdId} -->
+<!-- 	</select> -->
+	
+	<resultMap type="StudentVO" id="studentMap" autoMapping="true">
+		<id property="stdId" column="STD_ID" />
+		<collection property="recordList" ofType="RecordVO" autoMapping="true">
+			<association property="semester" javaType="SemesterVO" autoMapping="true" />
+		</collection>
+		<collection property="usrVO" ofType="UsrVO" autoMapping="true" />
+		<collection property="collVO" javaType="CollVO" autoMapping="true" />
+		<collection property="majorVO" javaType="MajorVO" autoMapping="true" />
+	</resultMap>
+	
+	
+<!-- 	<select id="selectStudent" parameterType="int" resultType="StudentVO"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM STUDENT -->
+<!-- 		WHERE STD_ID = #{stdId} -->
+<!-- 	</select> -->
+	
+	<select id="selectRecordList" parameterType="int" resultMap="studentMap">
+		SELECT 
+			ROWNUM RNUM
+		    , A.STD_ID
+		    , A.MAJOR_ID
+		    , A.PROF_ID
+		    , A.ENT_DATE
+		    , A.USER_NM
+		    , A.USER_NM_EN
+		    , A.USER_PHONE
+		    , A.USER_POST
+		    , A.USER_ADDR
+		    , A.USER_DETAIL_ADDR
+		    , A.USER_EMAIL
+		    , A.USER_BANK
+		    , A.USER_ACCT_HD
+		    , A.USER_ACCT_NO
+		    , A.USER_GENDER
+		    , A.USER_NTL
+		    , A.USER_BIR
+		    , A.USER_ROLE
+		    , A.PROF_NM
+		    , A.MAJOR_NM
+		    , A.COLL_NM
+		    , A.RECO_ID
+		    , A.CAM_YEAR
+		    , A.REC_NM
+		    , A.REC_UPDATE
+		    , A.REC_REASON
+		    , A.REC_DATE
+<!-- 		    , A.REC_STATUS -->
+		    , A.REJ_REASON
+		    , A.SEME_YEAR
+		    , A.SEME
+		    , (	SELECT COMM_DESC
+			    FROM COMM
+			    WHERE COMM.COMM_ID = A.REC_STATUS
+			    ) AS REC_STATUS
+		  FROM (
+				SELECT *
+				  FROM V_RECORD
+				 WHERE STD_ID = #{stdId}
+				 ORDER BY REC_UPDATE) A
+		ORDER BY RNUM DESC
+	</select>	
+	
+	<insert id="insertRecord" parameterType="RecordVO">
+		<selectKey order="BEFORE" resultType="String" keyProperty="recoId">
+			SELECT 
+				'FO' || TO_CHAR(SUBSTR(MAX(RECO_ID), 3)+1)
+			FROM RECORD
+		</selectKey>
+		INSERT INTO record (
+		    RECO_ID
+		    , STD_ID
+		    , SEME_ID
+		    , CAM_YEAR
+		    , REC_NM
+		    , REC_UPDATE
+		    , REC_REASON
+		    , REC_DATE
+		    , REC_STATUS
+		    , REJ_REASON
+		) VALUES (
+		    #{recoId}
+			, #{stdId,jdbcType=NUMERIC}
+			, #{semeId,jdbcType=VARCHAR}
+			, #{camYear,jdbcType=NUMERIC}
+			, #{recNm,jdbcType=VARCHAR}
+			<choose>
+				<when test="recNm.equals('휴학') or recNm.equals('복학')">
+					, (SELECT SOLAR_DATE
+						FROM CALENDAR
+						WHERE DATEVALUE = TO_CHAR(SYSDATE, 'YYYY/MM/DD')
+						)
+				</when>
+				<otherwise>
+					, #{recUpdate,jdbcType=VARCHAR}
+				</otherwise>
+			</choose>
+			
+			, #{recReason,jdbcType=VARCHAR}
+			, (SELECT SOLAR_DATE
+				FROM CALENDAR
+				WHERE DATEVALUE = TO_CHAR(SYSDATE, 'YYYY/MM/DD')
+				)
+			, #{recStatus,jdbcType=VARCHAR}
+			, #{rejReason,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 전체 단과대학 목록 조회 -->
+	<select id="selectCollegeList" resultType="CollVO">
+		SELECT 
+			COLL_ID
+			, COLL_NM
+			, COLL_INTRO
+		FROM COLL
+	</select>
+	
+	<!-- 선택 단과대학의 학과 목록 조회 -->
+	<select id="selectMajorList" parameterType="CollVO" resultType="MajorVO">
+		SELECT 
+			MAJOR_ID
+			, COLL_ID
+			, MAJOR_NM
+			, MAJOR_TEL
+			, DEAN
+			, MAJOR_INFO
+			, LIC_INFO_ID
+		FROM MAJOR
+		WHERE COLL_ID = #{collId}
+	</select>
+	
+	<select id="selectSemester" resultType="SemesterVO">
+		WITH SEME AS
+		(
+			SELECT A.SEME_ID
+			FROM (
+			    SELECT ROWNUM RNUM, CAM_CAL.*
+			    FROM CAM_CAL
+			    WHERE TITLE = '개강'
+			    AND SRT_DATE > TO_CHAR(SYSDATE, 'YYYYMMDD')
+			    ORDER BY SRT_DATE
+			) A
+			WHERE RNUM = 1
+		)
+		SELECT B.SEME_ID, B.SEME_YEAR, B.SEME
+		FROM SEME, SEMESTER B
+		WHERE B.SEME_ID = SEME.SEME_ID
+	</select>
+	
+	<select id="selectNextSemester" parameterType="SemesterVO" resultType="SemesterVO">
+		WITH NOWSEME AS
+		(
+			SELECT 'DA' || TO_CHAR(SUBSTR(SEME_ID, 3)+1) AS NOWID, SEME_ID, SEME_YEAR, SEME
+			FROM SEMESTER
+			WHERE SEME_ID = #{semeId}
+		)
+		SELECT A.SEME_ID, A.SEME_YEAR, A.SEME
+		FROM SEMESTER A, NOWSEME
+		WHERE A.SEME_ID = NOWSEME.NOWID
+	</select>
+</mapper>

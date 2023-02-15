@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.scholarship.dao.ScholarshipDAO">
+
+
+<!--전체 목록 개수 조회하는 SELECT문 -->
+	<select id="selectTotalRecord" parameterType="PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM SCH_HIST
+	</select>
+	
+<!-- 장학금 수혜 내역 조회하는 SELECT문 -->
+	<select id="selectScholarshipList" parameterType="PagingVO" resultType="SchHistVO">
+	SELECT
+		A.SCHS_NM AS 장학명,
+		TO_CHAR(A.SCHS_AMOUNT, 'FM999,999,999,999') AS 장학금액,
+		C.FIN_SCORE AS 최종성적,
+		E.SEME_YEAR AS 학사연도,
+		E.SEME AS 학기
+	FROM SCHOLARSHIP A INNER JOIN SCH_HIST B ON A.SCHOLARSHIP_ID = B.SCHOLARSHIP_ID
+						INNER JOIN CURR_LECT C ON B.STD_ID = C.STD_ID
+						INNER JOIN LECTURE D ON C.LECT_ID = D.LECT_ID
+						INNER JOIN SEMESTER E ON D.SEME_ID = E.SEME_ID
+<!-- WHERE B.STD_ID =  -->
+	</select>
+
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.student.test.dao.TestDAO">
+
+	<!-- 목록 전체 게시글 개수 조회  -->
+	<select id="selectTotalRecord" parameterType="PagingVO" resultType="int">
+		SELECT COUNT(*)
+		FROM TEST_INFO
+	</select>
+	
+	
+<!-- <resultMap type="TestVO" id="testMap" autoMapping="true"> -->
+<!-- 		<id property="testId" column="TEST_ID" />		 -->
+<!-- 		<collection property="queList" ofType="TestQueVO" autoMapping="true">   -->
+<!-- 			<id property="testQueId" column="TEST_QUE_ID" /> -->
+			
+<!-- 			<collection property="pasgList" ofType="TestPasgVO" autoMapping="true"> -->
+<!-- 				<id property="testPasgId" column="TEST_PASG_ID" /> -->
+<!-- 			</collection> -->
+<!-- 		</collection> -->
+<!-- </resultMap>  -->
+
+	<resultMap type="TestVO" id="testMap" autoMapping="true">
+		<id property="testId" column="TEST_ID" />
+		<association property="testAllow" javaType="TestAllowVO" autoMapping="true" /> 
+		<collection property="queList" ofType="TestQueVO" autoMapping="true">
+			<id property="testQueId" column="TEST_QUE_ID" />
+			<collection property="pasgList" ofType="TestPasgVO" autoMapping="true"  /> 
+		</collection>
+	</resultMap>
+
+	
+
+	<!--  시험 목록 조회  -->
+	<!-- 현재 수강중인 강의 : 시험응시  => 1:n  -->
+	<select id="selectTestList" parameterType="PagingVO"  resultMap="testMap">
+		   
+  		 WITH ORDEREDTEST AS (
+
+		        SELECT A.CURLECT_ID, A.STD_ID, A.LECT_ID, A.FIN_SCORE
+				      , B.TEST_ID, B.EXAM_ID, B.TEST_NM, B.TEST_RDATE, B.TEST_STIME, B.TEST_ETIME, B.TEST_MEET, B.TEST_DATE
+		              , C.LECT_NM
+		              , D.TEST_ALLOW_ID, D.TEST_SCORE
+				    FROM CURR_LECT A LEFT OUTER JOIN TEST_INFO B ON A.LECT_ID = B.LECT_ID
+                    LEFT OUTER JOIN TEST_ALLOW D ON D.TEST_ID = B.TEST_ID
+		            LEFT OUTER JOIN LECTURE C ON A.LECT_ID = C.LECT_ID
+		           
+				    
+		)
+		SELECT A.*
+		FROM (
+		    SELECT ROWNUM RNUM, ORDEREDTEST.*
+		    FROM ORDEREDTEST
+		    WHERE ORDEREDTEST.STD_ID = '65778452'
+		    ORDER BY RNUM DESC
+		) A
+     
+	</select>
+	
+	
+	<!-- 시험상세조회  -->
+	<select id="selectTest" parameterType="string" resultMap="testMap">
+		
+ 
+		SELECT A.TEST_QUE_ID, A.TEST_ID, A.TEST_NUM, A.TEST_QUE , B.TEST_PASG_ID, B.TEST_PASG, B.ANSW_STATE, 
+		B.NOTE, B.QUE_TYPE , C.EXAM_ID, C.LECT_ID, C.TEST_NM, C.TEST_RDATE, C.TEST_STIME, C.TEST_ETIME, 
+		C.TEST_MEET, C.TEST_DATE , D.TEST_ALLOW_ID, D.CURLECT_ID, D.TEST_SCORE FROM TEST_QUE A LEFT 
+		OUTER JOIN TEST_PASG B ON A.TEST_QUE_ID = B.TEST_QUE_ID LEFT OUTER JOIN TEST_INFO C ON C.TEST_ID 
+		= A.TEST_ID LEFT OUTER JOIN TEST_ALLOW D ON D.TEST_ID = A.TEST_ID 
+		WHERE D.TEST_ALLOW_ID = #{testAllowId} 
+		ORDER BY TEST_NUM
+     
+		
+
+	</select>
+	
+	<!-- 시험상세 2번째 정보 
+		학번, 학생명, 강의코드, 강의명, 중간기말구분
+		1행 리턴
+	-->
+	<select id="selectTest2" parameterType="string" resultType="hashMap">
+		SELECT A.TEST_ALLOW_ID, A.CURLECT_ID, A.TEST_ID, A.TEST_SCORE
+		     , B.EXAM_ID, B.LECT_ID, B.TEST_NM, B.TEST_RDATE, B.TEST_STIME, B.TEST_ETIME, B.TEST_MEET, B.TEST_DATE
+		     , (SELECT C.LECT_NM FROM LECTURE C WHERE C.LECT_ID = B.LECT_ID) LECT_NM
+		     , D.STD_ID, D.FIN_SCORE, (SELECT E.USER_NM FROM USR E WHERE E.USER_ID = D.STD_ID) USER_NM
+		     , F.SEME_ID, F.EXAM_TYPE
+		FROM   TEST_ALLOW A, TEST_INFO B, CURR_LECT D, EXAM_CAL F
+		WHERE  A.TEST_ID = B.TEST_ID
+		AND    A.CURLECT_ID = D.CURLECT_ID
+		AND    B.EXAM_ID = F.EXAM_ID
+		AND    A.TEST_ALLOW_ID = #{testAllowId} 
+	</select>
+	
+	<!--  시험응시  insert -->
+	<insert id="insertTestAllow" parameterType="TestVO">
+		<selectKey  order="BEFORE" resultType="String" keyProperty="testAllowId">
+			SELECT 'FK1'||LPAD(TEST_SEQ.NEXTVAL, 4, '0')
+			FROM DUAL   	
+		</selectKey>
+
+		INSERT INTO TEST_ALLOW (
+		    test_allow_id,
+		    curlect_id,
+		    test_id,
+		    test_score
+		) VALUES (
+		    #{testAllowId}
+			, #{curlectId,jdbcType=VARCHAR}
+			, #{testId,jdbcType=VARCHAR}
+			, #{testScore,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	
+	
+	<!--  답안제출   -->
+	<!-- <insert id="insertTestAns" parameterType="TestAnsVO">
+		INSERT INTO TEST_ANS (
+		    TEST_ALLOW_ID, 
+		    TEST_PASG_ID,
+		    TEST_QUE_ID, 
+		    TEST_ANSW
+		)VALUES(
+		    #{testAllowId,jdbcType=VARCHAR}
+			, #{testPasgId,jdbcType=VARCHAR}
+			, #{testQueId,jdbcType=VARCHAR}
+			, #{testAnsw,jdbcType=VARCHAR}
+		) 
+	</insert> -->
+	
+
+
+</mapper>

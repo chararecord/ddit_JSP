@@ -1,0 +1,37 @@
+package kr.or.ddit.vo;
+
+import java.io.Serializable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * 학생의 학적 내역 정보 한 건을 담기 위한 객체
+ * @author 장은호
+ * @Since 2023. 2. 2.
+ * <pre>
+ *
+ * ======[[개정이력(Modification Information)]]======
+ *   수정일                    수정자                        수정내용
+ * --------          --------    -----------------------
+ * 2023. 2. 2.       장은호        	  VO생성
+ *
+ * Copyright (c) 2023 by DDIT All right reserved
+ * </pre>
+ */
+@Data
+@EqualsAndHashCode(of="recoId")
+public class RecordVO implements Serializable {
+	private String recoId;		// 학적아이디
+	private Integer stdId;		// 아이디(학번)
+	private String semeId;		// 학사연도아이디
+	private Integer camYear;	// 학년
+	private String recNm;		// 학적구분
+	private String recUpdate;	// 학적변경일
+	private String recYear;		// 신청연도
+	private String recSeme;		// 신청학기
+	private String recPeriod;	// 기간
+	private String recReason;	// 사유
+	private String recDate;		// 신청일
+	private String recStatus;	// 신청상태
+}
